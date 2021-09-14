@@ -34,6 +34,8 @@
    - Others  (Theoretical Courses or only including a few Projects)
    
      - [_CMPSC 465 Data Structures and Algorithms_](PSU%20Courses/CMPSC%20465)
+
+     - [_CMPSC 464 Introduction to the Theory of Computation_](PSU%20Courses/CMPSC%20464)
      
      - [_CMPSC 461 Programming Language Concepts_](PSU%20Courses/CMPSC%20461)
      
