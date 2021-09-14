@@ -1,0 +1,2 @@
+"0","beans=read.table(""Beans.csv"",header=TRUE)"
+"0","beans"

@@ -1,0 +1,3 @@
+"0","## type ""cars"" into R to see the full data"
+"0","cars$am = as.factor(cars$am)"
+"0","cars"

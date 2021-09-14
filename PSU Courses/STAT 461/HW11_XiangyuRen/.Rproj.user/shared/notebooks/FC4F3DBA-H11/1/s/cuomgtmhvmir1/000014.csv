@@ -1,0 +1,3 @@
+"0","## type ""hsb2"" into R to see the full data"
+"0","hsb2$ses = as.factor(hsb2$ses); hsb2$schtyp = as.factor(hsb2$schtyp)"
+"0","hsb2"

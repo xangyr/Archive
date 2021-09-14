@@ -1,0 +1,5 @@
+"0","```r
+library(MASS)
+stud.residuals = studres(model1)
+shortleaf[abs(stud.residuals) == max(abs(stud.residuals)),]
+```"

@@ -1,0 +1,1 @@
+"0","plot(log(shortleaf$Diam), log(shortleaf$Vol), main = """", xlab = ""log diameter"", ylab = ""log volume"", pch = 16)"

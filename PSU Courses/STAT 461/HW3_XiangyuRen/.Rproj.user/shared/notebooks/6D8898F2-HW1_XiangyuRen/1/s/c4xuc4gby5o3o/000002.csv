@@ -1,0 +1,4 @@
+"0","```r
+house = read.csv(\"kc_house_data.csv\")
+house
+```"

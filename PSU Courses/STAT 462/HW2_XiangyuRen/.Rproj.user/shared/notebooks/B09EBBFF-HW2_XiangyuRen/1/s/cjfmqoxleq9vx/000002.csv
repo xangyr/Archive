@@ -1,0 +1,2 @@
+"0","irisPetals = read.csv(""irisPetals.csv"")"
+"0","colnames(irisPetals) = c(""petallength"",""petalwidth"")"

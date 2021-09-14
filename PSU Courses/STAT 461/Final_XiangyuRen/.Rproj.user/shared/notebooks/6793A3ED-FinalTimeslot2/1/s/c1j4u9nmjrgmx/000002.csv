@@ -1,0 +1,3 @@
+"0",""
+"0","df<-read.table(""fishing.txt"", header=TRUE)"
+"0","df"

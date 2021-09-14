@@ -1,0 +1,15 @@
+Variable(s), R2, Adj. R2
+RottenTomatoes,0.024,0.015
+AudienceScore,0.01,0.001
+TheatersOpenWeek,0.006,-0.002
+BOAverageOpenWeek,0.008,-0.001
+DomesticGross,0.036,0.028
+DomesticGross RottenTomatoes,0.049,0.033
+DomesticGross AudienceScore,0.037,0.021
+DomesticGross TheatersOpenWeek,0.038,0.021
+DomesticGross BOAverageOpenWeek,0.036,0.021
+DomesticGross RottenTomatoes AudienceScore,0.061,0.037
+DomesticGross RottenTomatoes TheatersOpenWeek,0.05,0.025
+DomesticGross RottenTomatoes BOAverageOpenWeek,0.05,0.025
+DomesticGross RottenTomatoes AudienceScore TheatersOpenWeek,0.063,0.029
+DomesticGross RottenTomatoes AudienceScore BOAverageOpenWeek,0.062,0.028

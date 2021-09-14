@@ -1,0 +1,2 @@
+"0","sat = read.csv(""GDP_vs_Satisfaction.csv"")"
+"0","head(sat)"

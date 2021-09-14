@@ -1,0 +1,7 @@
+"0","# Yit=mu+ti+eit"
+"0","# i=0,1,2,3"
+"0","# for i=0, t=[1,7]; for i=1, t=[1,10]; for i=2, t=[1,10]; for i=3, t=[1,5];"
+"0","# eit~N(0,s^2)"
+"0","# Yit->observation corresponding to i_th push and t_th observation"
+"0","# mu->general effect"
+"0","# ti-> additional effect due to i_th push"

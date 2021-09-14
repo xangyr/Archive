@@ -1,0 +1,3 @@
+"0","library(car)"
+"0","df3=data.frame(Type=wood$Type,Species=wood$Species,Nconc=wood$Nconc)"
+"0","df3"

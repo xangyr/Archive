@@ -1,0 +1,5 @@
+"0","```r
+soapsuds = read.csv(\"SoapSuds.csv\")
+colnames(soapsuds)[1] = \"HeightofSuds\"
+head(soapsuds)
+```"

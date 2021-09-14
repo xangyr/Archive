@@ -1,0 +1,23 @@
+"0","```r
+model3 = lm(Price ~ PPM, data = InkjetPrinters)
+summary(model3)
+```"
+"1","
+Call:
+lm(formula = Price ~ PPM, data = InkjetPrinters)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-79.38 -51.40  -3.49  43.85  87.76 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -94.22      56.40  -1.671 0.112086    
+PPM            90.88      19.49   4.663 0.000193 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 58.55 on 18 degrees of freedom
+Multiple R-squared:  0.5471,	Adjusted R-squared:  0.522 
+F-statistic: 21.75 on 1 and 18 DF,  p-value: 0.0001934
+"

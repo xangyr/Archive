@@ -1,0 +1,21 @@
+---
+title: "Lesson 0"
+author: "Priyangi Bulathsinhala"
+output: html_notebook
+---
+
+```{r}
+#If you create a project you do not have to give the entire path where dataset is saved
+housep=read.table("index.txt",header=T)
+hist(housep$Price,xlab="Price (in $1000)",main="") #Make a histogram of the price
+mean(housep$Price)
+sd(housep$Price)
+summary(housep$Price)
+
+#If the house prices are normally distributed with a mean $280,000 and standard deviation $100 find the probability of finding a house within the price range of $150,000 to $250,000
+pnorm(250000,mean=280000,sd=50000)-pnorm(150000,mean=280000,sd=50000)
+
+#Find the probability sample average is between 150000 and 250000
+pnorm(250000,mean=280000,sd=50000/4)-pnorm(150000,mean=280000,sd=50000/4)
+```
+

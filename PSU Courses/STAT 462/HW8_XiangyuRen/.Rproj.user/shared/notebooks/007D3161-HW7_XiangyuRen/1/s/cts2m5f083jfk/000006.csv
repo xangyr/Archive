@@ -1,0 +1,25 @@
+"0","```r
+qqnorm(stud.res)
+abline(a = 0, b = 1, col = \"coral\")
+```"
+"0","```r
+library(nortest)
+ad.test(stud.res)
+```"
+"1","
+	Anderson-Darling normality test
+
+data:  stud.res
+A = 0.29295, p-value = 0.5832
+"
+"0","```r
+library(lmtest)
+```"
+"1","package ã¤¼ã¸±lmtestã¤¼ã¸² was built under R version 4.0.3Loading required package: zoo
+package ã¤¼ã¸±zooã¤¼ã¸² was built under R version 4.0.3
+Attaching package: ã¤¼ã¸±zooã¤¼ã¸²
+
+The following objects are masked from ã¤¼ã¸±package:baseã¤¼ã¸²:
+
+    as.Date, as.Date.numeric
+"

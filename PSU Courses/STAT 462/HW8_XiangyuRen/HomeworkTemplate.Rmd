@@ -1,0 +1,76 @@
+---
+title: "Homework X"
+author: "Put your name here"
+output: html_notebook
+---
+
+### Question 1: Cars is an in-built dataset in R. Print the first couple of observations in the dataset
+
+```{r}
+#R code for the question 1 goes here
+head(cars) #head() function print the first couple of rows of a dataset
+```
+
+### Question 2: What is the dimension of the dataset? 
+```{r}
+dim(cars)
+```
+### Question 3: How many observations and how many variables are there in the Cars dataset? 
+There are two variables: Speed and Distance and 50 observations in the *cars* dataset.
+
+### Question 4: Make a scatter plot of the data and comment on your observations
+
+```{r}
+plot(cars$speed,cars$dist,xlab="Speed", ylab= "Stopping Distance")
+```
+From the above plot we can see that there is a positive relationship between the speed and the stopping distance, perhaps the relationship is somewhat non-linear. 
+
+### Question 5: Obtain the least squares regression line for predicting stopping distance from speed. 
+
+```{r}
+carsFit=lm(dist~speed, data=cars)
+summary(carsFit)
+```
+### Question 6: Write the equation of the least squares regression line. 
+When you type up an equation you can your equation within double dollar signs like 
+$$\hat{y}=\hat{\beta}_0+\hat{\beta}_1x$$
+For this particular example, equation of the least squares regression line is
+$$\hat{y}=-17.58+3.93x$$
+
+### Question 7: Say you want to type up the equation of a confidence interval. Then the general equation for the confidence interval for mean is
+$$\bar{x}\pm t_{\frac{\alpha}{2},(n-1)}\frac{s}{\sqrt{n}}$$
+Suppose for a particular example the sample average is 278.6, sample standard deviation is 53.9, sample size is 30 and t-multiplier is 2.045. Then you can plug-in the values to the formula as below to show your work:
+$$278.6\pm2.045\times\frac{53.9}{\sqrt{30}}=(258.5,298.7)$$
+
+### Question 8: Let's take the hypothesis testing question we did in lesson 0: "Suppose the faculty member has a realtor and he cliams average house price is \$ 225,000. Faculty member wants to see if it is plausible. This is how you would show the 6-steps:
+
+1. Step 1: $H_0:\mu \geq 35$ Vs. $H_1: \mu \neq 35$
+2. Step 2: We already plot the data in class. Histogram of the data looked roughly symmetric. No evidnce of violations in normality. Choose$\alpha = 5\% $
+3. Step 3: $t=\frac{(278.6-255)}{53.9/\sqrt{30}}=2.398$
+4. Step 4:P value or the rejection region. I will show both here:
+  + P value approach:$2P(T>2.398)=0.02314389$. If you bracket the p value using the t-table, it would be between 0.02 and 0.05
+  + Rejection Region approach: Reject if $t\leq -2.045$ or $t\geq 2.045$
+5. Step 5: Reject H0 as P value is less than 0.05 (test statistic falls in the rejection region)
+6. Step 6: At 5% significance level, we have sufficient evidence to conclude that realtors'claim about average house price in State College is wrong. 
+
+
+### Question 9: Follow the below syntax to create a table to show your work for variable selection. 
+
+Variable(s) | $R^2$ | Adj. $R^2$
+------------------------------------------------------------------------------ | ------------- | -------------
+RottenTomatoes | "include the R2value" | "include the adj R2value" 
+AudienceScore |  | 
+TheatersOpenWeek |  | 
+BOAverageOpenWeek |  | 
+DomesticGross |  | 
+DomesticGross, RottenTomatoes |  | 
+DomesticGross, AudienceScore | | 
+DomesticGross, TheatersOpenWeek |  | 
+DomesticGross, BOAverageOpenWeek |  | 
+DomesticGross, RottenTomatoes, AudienceScore |  | 
+DomesticGross, RottenTomatoes, TheatersOpenWeek |  | 
+DomesticGross, RottenTomatoes, BOAverageOpenWeek |  | 
+DomesticGross, RottenTomatoes, AudienceScore, TheatersOpenWeek |  | 
+DomesticGross, RottenTomatoes, AudienceScore, BOAverageOpenWeek |  | 
+
+

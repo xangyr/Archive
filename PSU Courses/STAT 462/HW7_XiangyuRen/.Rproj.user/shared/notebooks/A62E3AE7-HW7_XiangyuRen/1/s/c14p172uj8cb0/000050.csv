@@ -1,0 +1,5 @@
+"0","model1 = lm(y ~ x1+x2, data = aphid)"
+"0","library(MASS)"
+"0","stud.res = studres(model1)"
+"0","fitted.values = fitted.values(model1)"
+"0","plot(fitted.values, stud.res, xlab = ""Fitted values"", ylab = ""Studentized residuals"", cex.lab = 1.3)"

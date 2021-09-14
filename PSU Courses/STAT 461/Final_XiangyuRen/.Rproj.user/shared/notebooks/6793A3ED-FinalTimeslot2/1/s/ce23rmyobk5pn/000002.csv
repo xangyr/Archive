@@ -1,0 +1,4 @@
+"0",""
+"0","df<-read.table(""cigarette.txt"", header=TRUE)"
+"0","df=df[1:12,-c(1,2)]"
+"0","df"

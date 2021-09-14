@@ -1,0 +1,4 @@
+"0","```r
+plot(cooks.distance(model1), ylab = \"Cooks distance\", type = \"h\")
+abline(h = 1, col = \"coral\")
+```"

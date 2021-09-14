@@ -1,0 +1,3 @@
+"0","spider = read.csv(""Spiders.csv"", stringsAsFactors = T)"
+"0","colnames(spider) = c(""GrainSize"", ""Spiders"")"
+"0","head(spider)"

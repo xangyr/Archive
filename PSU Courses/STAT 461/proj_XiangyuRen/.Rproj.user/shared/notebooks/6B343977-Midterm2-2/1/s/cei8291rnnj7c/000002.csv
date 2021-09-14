@@ -1,0 +1,2 @@
+"0","wood=read.table(""wood.csv"",header=TRUE)"
+"0","wood"

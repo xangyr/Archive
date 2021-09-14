@@ -1,0 +1,2 @@
+"0","model1 = aov(life ~ type, data = batt)"
+"0","plot(model1, which = c(1, 2))"

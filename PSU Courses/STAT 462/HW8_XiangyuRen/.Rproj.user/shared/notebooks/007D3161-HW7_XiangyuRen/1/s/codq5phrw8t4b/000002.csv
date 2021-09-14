@@ -1,0 +1,13 @@
+"0","```r
+anova(model1)
+```"
+"1","Analysis of Variance Table
+
+Response: y
+          Df  Sum Sq Mean Sq F value    Pr(>F)    
+x1         1 14643.0 14643.0  27.410 1.002e-05 ***
+x2         1  6109.7  6109.7  11.437  0.001914 ** 
+Residuals 32 17094.9   534.2                      
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+"

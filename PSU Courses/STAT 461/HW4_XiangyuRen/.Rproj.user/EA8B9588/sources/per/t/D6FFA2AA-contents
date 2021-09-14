@@ -1,0 +1,128 @@
+---
+title: "STAT461 HW4"
+author: "Xiangyu Ren"
+date: "9/25/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Problem 1. Consider a completely randomized design with observations on three treatments coded 1,2,3. For the one-way ANOVA model, determine which of the following are estimable. For those that are estimable, write out the estimable function as $\sum_{i=1}^3 bi(μ + τ_i)$ and clearly state b1, b2, b3. Finally, for those that are estimable, state the least squares estimator.
+
+(a) $τ_1+τ_2-2τ_3$
+$$τ_1+τ_2-2τ_3 = 1*\bar Y_1+1*\bar Y_2-2*Y_3 = \sum_{i=1}^3 b_i(μ+τ_i)$$
+$$where\;\;b_1=1,b_2=1,b_3=-2$$
+(b) $μ+τ_3$
+$$μ+τ_3=1*\bar Y_3=\sum_{i=1}^3b_i(μ+τ_i)\;\;where\;\;b_1=0,b_2=0,b_3=1$$
+(c) $τ_1−τ_2−τ_3$
+This can't be estimated.
+
+(d) $\frac{μ+(τ_1+τ_2+τ_3)}3$
+$$\frac{μ+(τ_1+τ_2+τ_3)}3=\frac13*\bar Y_1+\frac13*\bar Y_2-\frac13*\bar Y_3=\sum_{i=1}^3 b_i(μ+τ_i)$$
+$$where\;\;b_1=\frac13,b_2=\frac13,b_3=\frac13$$
+
+#### Problem 2. Recall the soap experiment from Homework 1. Look back at Homework 1 for an explanation of the experiment. The data are the weight lost over 24 hours by different types of soap.
+##### (a) Write out the one-way ANOVA model for this experiment.
+```{r}
+# Yit = mu + ti + eit
+# i = regular,deodorant,moisturizing
+# t = 1,2,3,4
+# eit~N(0,s^2)
+# Yit -> observation corresponding to i_th soap_type and t_th cube
+# mu -> general effect
+# ti -> additional effect due to i_th soap_type
+```
+
+##### (b) By hand or calculator (without using R), obtain the LS estimate for the mean weight lost by acube of deodorant soap. Show all calculations.
+```{r}
+# Y_bar_deodorant = (2.63+2.61+2.41+3.15)/4 = 2.7
+# Y_bar = (-0.3-0.1-0.14+0.4+2.63+2.61+2.41+3.15+1.86+2.03+2.26+1.82)/12 = 1.5525
+# LS estimate for the mean weight lost by acube of deodorant soap = 2.7-1.5525 = 1.1475
+```
+
+##### (c) Consider estimating the difference in weight loss between regular soap and any other type of soap.That is, consider estimatingτregular−(τdeodorant+τmoisturizing)/2. Show that this is estimable,and find the LS estimate by hand or calculator. Show all calculations.
+```{r}
+# τr-(τd+τm)/2 = 1*Y_bar_r-1/2*Y_bar_d-1/2*Y_bar_m = ∑_i=1^3 bi(μ+τi) where b1=1,b2=-1/2,b3=-1/2, therefore, it can be estimated 
+# Y_bar_r = (-0.3-0.1-0.14+0.4)/4 = -0.035
+# Y_bar_m = (1.86+2.03+2.26+1.82)/4 = 1.9925
+# Y_bar_d = 2.7
+# τ_regular−(τ_deodorant+τ_moisturizing)/2=-0.035-(2.7+1.9925)/2-=2.38125
+```
+
+##### (d) Now use R to obtain the LS estimates in parts (b) and (c). Include your R code and the relevant output in your homework.
+```{r}
+type = c(rep("Regular", 4), rep("Deodorant", 4), rep("Moisturizing", 4))
+lost = c(-0.3, -0.1, -0.14, 0.4, 2.63, 2.61, 2.41, 3.15, 1.86, 2.03, 2.26, 1.82)
+soap = data.frame(type, lost)
+soap
+aov.soap = aov(lost~type)
+print(aov.soap)
+lsm.soap = lsmeans::lsmeans(aov.soap, "type")
+lsm.soap
+mean_r = mean(soap$lost[soap$type=="Regular"])
+mean_d = mean(soap$lost[soap$type=="Deodorant"])
+mean_m = mean(soap$lost[soap$type=="Moisturizing"])
+mean_all = mean(lost)
+
+# question b
+LS_d = mean_d-mean_all
+LS_d
+# question c
+LS = mean_r - 1 / 2 * (mean_d + mean_m)
+LS
+```
+
+#### Problem 3. Pedestrian light experiment (Larry Lesher, 1985) This experiment questions whether pushing a certain pedestrian light button had an effect on the wait time before the pedestrian light showed “walk.” The treatment factor of interest was the number of pushes of the button, and 32 observations were taken with a mix of 0, 1, 2, and 3 pushes of the button. The waiting times for the “walk” sign are shown in the following table, with r0 = 7, r1 = r2 = 10, r3 = 5 (where the levels of the treatment factor are coded as 0, 1, 2, 3 for simplicity).
+
+##### (a) Plot the waiting times against the number of pushes of the button. What does the plot show?
+```{r}
+p0 = c(38.14, 38.2, 38.31, 38.14, 38.29, 38.17, 38.2)
+p1 = c(38.28, 38.17, 38.08, 38.25, 38.18, 38.03, 37.95, 38.26, 38.3, 38.21)
+p2 = c(38.17, 38.13, 38.16, 38.3, 38.34, 38.34, 38.17, 38.18, 38.09, 38.06)
+p3 = c(38.14, 38.3, 38.21, 38.04, 38.37)
+push = c(rep(0, 7), rep(1, 10), rep(2, 10), rep(3, 5))
+time = c(p0, p1, p2, p3)
+exp = data.frame(push,time)
+plot(x = push,y = time)
+# No significant difference in the plot
+```
+
+##### (b) Write out the one-way ANOVA model for this experiment.
+```{r}
+# Yit = mu+ti+eit
+# i = 0,1,2,3
+# for i=0, t=[1,7]; for i=1, t=[1,10]; for i=2, t=[1,10]; for i=3, t=[1,5];
+# eit~N(0,s^2)
+# Yit -> observation corresponding to i_th push and t_th observation
+# mu -> general effect
+# ti -> additional effect due to i_th push
+```
+
+##### (c) Use R to estimate the mean waiting time for each number of pushes.
+```{r}
+m0 = mean(p0)
+m1 = mean(p1)
+m2 = mean(p2)
+m3 = mean(p3)
+m0
+m1
+m2
+m3
+```
+
+##### (d) Show that the contrast $τ1−τ0$ is estimable, and use R to find it’s LS estimate. This contrast compares the effect of no pushes of the button with the effect of pushing the button once.
+```{r}
+LS = m1 - m0
+LS
+```
+
+##### (e) Show that the contrast(τ1+τ2+τ3)/3−τ0is estimable, and use R to find it’s LS estimate. This contrast compares the effect of no pushes of the button with the effect of pushing the button at least once.
+```{r}
+LS = -1 * m0 + 1 / 3 * (m1 + m2 + m3)
+LS
+```
+

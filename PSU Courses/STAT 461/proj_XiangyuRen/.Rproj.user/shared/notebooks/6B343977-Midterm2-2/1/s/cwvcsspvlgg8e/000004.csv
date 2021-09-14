@@ -1,0 +1,1 @@
+"0","interaction.plot(x.factor= df$dose, trace.factor = df$bact, response = df$glucose.level, type = ""b"", col = 2:3,xlab = ""Dose"", ylab = ""Glucose level"",trace.label = ""Bact"" )"

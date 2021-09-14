@@ -1,0 +1,23 @@
+"0","```r
+model1 = lm(Vol ~ Diam, data = shortleaf)
+summary(model1)
+```"
+"1","
+Call:
+lm(formula = Vol ~ Diam, data = shortleaf)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.899  -4.768  -1.438   6.740  45.089 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -41.5681     3.4269  -12.13   <2e-16 ***
+Diam          6.8367     0.2877   23.77   <2e-16 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 9.875 on 68 degrees of freedom
+Multiple R-squared:  0.8926,	Adjusted R-squared:  0.891 
+F-statistic: 564.9 on 1 and 68 DF,  p-value: < 2.2e-16
+"

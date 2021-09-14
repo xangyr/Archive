@@ -1,0 +1,26 @@
+"0","```r
+bestModel = lm(Profitability ~ RottenTomatoes + DomesticGross + AudienceScore, data = hollywoodData)
+summary(bestModel)
+```"
+"1","
+Call:
+lm(formula = Profitability ~ RottenTomatoes + DomesticGross + 
+    AudienceScore, data = hollywoodData)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-4.787 -2.001 -0.882  0.380 60.655 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)  
+(Intercept)     3.526278   2.674968   1.318   0.1901  
+RottenTomatoes  0.072362   0.042431   1.705   0.0908 .
+DomesticGross   0.020227   0.009795   2.065   0.0412 *
+AudienceScore  -0.083831   0.070200  -1.194   0.2349  
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 6.84 on 114 degrees of freedom
+Multiple R-squared:  0.06121,	Adjusted R-squared:  0.0365 
+F-statistic: 2.477 on 3 and 114 DF,  p-value: 0.06487
+"

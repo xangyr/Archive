@@ -1,0 +1,19 @@
+"0","```r
+plot(x = aphid$x1, y = stud.res, xlab = \"x1\", ylab = \"Studentized Residuals\", pch = 20)
+abline(h = 0, col = \"coral\",lty = 2)
+```"
+"0","```r
+abline(h = 3,col = \"blue\",lty = 3)
+abline(h = -3,col = \"blue\",lty = 3)
+```"
+"0","```r
+plot(x = aphid$x2, y = stud.res, xlab = \"x2\", ylab = \"Studentized Residuals\", pch = 20)
+abline(h = 0, col = \"coral\",lty = 2)
+```"
+"0","```r
+abline(h = 3,col = \"blue\",lty = 3)
+abline(h = -3,col = \"blue\",lty = 3)
+```"
+"0","```r
+par(mfrow = c(1, 1)) 
+```"

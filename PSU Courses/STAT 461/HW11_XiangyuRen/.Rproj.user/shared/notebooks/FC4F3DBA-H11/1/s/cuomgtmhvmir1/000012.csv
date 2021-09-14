@@ -1,0 +1,2 @@
+"0","hsb2= read.table(""hsb2.csv"")## from https://stats.idre.ucla.edu/stat/data/hsb2.csv"
+"0","head(hsb2)"

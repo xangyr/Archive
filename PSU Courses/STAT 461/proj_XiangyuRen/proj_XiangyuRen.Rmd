@@ -1,0 +1,34 @@
+---
+title: "STAT461 Project"
+author: "Xiangyu Ren"
+date: "11/23/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_{ij}+\epsilon_{ijt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+$$i=played,paused\quad j=highResolution,lowResolution\quad t=1,2,3,4,5$$
+
+```{r}
+situ = c(rep("play", 10), rep("pause", 10))
+res = c(rep(c(rep("high-res", 5), rep("low-res", 5)), 2))
+time = c(156.27, 148.30, 163.58, 160.04, 152.93, 168.07, 170.32, 172.27, 163.49, 180.94, 190.87, 184.55, 183.73, 179.88, 191.01, 193.60, 190.56, 187.73, 184.35, 199.33)
+df = data.frame(situation = situ, resolution = res, time = time)
+model1 = aov(time ~ situation + resolution + situation:resolution, data = df)
+anova(model1)
+plot(model1, which=c(1,2))
+interaction.plot(x.factor = df$situation, trace.factor = df$resolution,response = df$time, type ="b",col =c("coral", "blue"),xlab ="Situation", ylab ="Mean", trace.label ="Resolution")
+
+library(emmeans)
+library(lsmeans)
+library(multcompView)
+library(multcomp)
+
+lsminter=lsmeans(model1,~situation:resolution)
+cld(lsminter, alpha=0.05)
+```
+
+$$H_0:(\alpha\beta)_{ij} = 0\text{ for all }i,j\;\;vs.\;\;H_a:\text{at least one treatment is different}$$

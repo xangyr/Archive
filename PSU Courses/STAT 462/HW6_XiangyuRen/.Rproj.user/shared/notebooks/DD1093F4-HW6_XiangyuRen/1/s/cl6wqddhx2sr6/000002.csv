@@ -1,0 +1,3 @@
+"0","library(MASS)"
+"0","stud.residuals = studres(model1)"
+"0","shortleaf[abs(stud.residuals) == max(abs(stud.residuals)),]"

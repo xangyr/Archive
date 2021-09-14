@@ -1,0 +1,113 @@
+---
+title: "Stat462 Homework 5"
+author: "Xiaoqing Ye"
+output:
+  html_document:
+    df_print: paged
+---
+
+Question 1
+(a) response variable: volume of a tree; explantory variable: diameter of a tree.
+```{r}
+df=read.table("shortleaf.txt", header = T)
+df
+```
+
+(b) Comment: There is a positve linear relation between diameters and volumes of trees, where larger the diameter of a tree, larger the volume of a tree.
+```{r}
+plot(df$Diam, df$Vol, xlab="diameter", ylab="volume")
+```
+(c)$$\hat{Volume}=-41.568+6.837Diameter$$
+The intercept is -41.57, which has no physical meaning because there is not negative value of volume when the diameter is 0. The slope is 6.837, which means for every 1 unit of diameter increases, the volume increases 6.837 units.
+```{r}
+leaffit=lm(Vol~Diam, data=df)
+summary(leaffit)
+```
+```{r}
+plot(df$Diam, df$Vol, xlab="diameter", ylab="volume")
+abline(leaffit, col="blue")
+```
+(d) Comment: From residual vs. fitted values, no evidence of departure from linearity. However, as suspected, variance of the residuals seems to be increasing with the predicted values (around from 85 to 120). Also, there might be an outlier.
+```{r}
+library(MASS)
+leaf_ri=studres(leaffit)
+leaf_yihat=leaffit$fitted.values
+plot(leaf_yihat,leaf_ri,ylab="Studentized Residuals",xlab="Fitted Values")
+abline(h=0,col=2,lty=2)
+```
+Comment: From Normal Q-Q plot, it looks like the data is approximataly normally distributed. Also, it looks like the ditrubution of residuals has a little bit thicker tails than what we would expect in a normal distribution. And also the middle part of the distribtution is a little off the normal distribution.
+```{r}
+qqnorm(leaf_ri)
+qqline(leaf_ri)
+```
+
+Comment: From the Leverage plot, there are two points with leverage values higher than the expected cut-off. However, there is one point that has outstandingly large leverage value.
+```{r}
+plot(hatvalues(leaffit), type="h", ylab="Leverage")
+n=nrow(df)
+p=length(coefficients(leaffit))
+cutLev=2*p/n
+abline(h=cutLev, col="red", lty=2)
+```
+
+(e) (i)(ii)(iii)Comment: The point with highest residual, with highest leverage and highest Cook’s distance is when "Diameter = 23.4 and Volume = 163.5". I agree that this point has the potential to become an influential point becuase it is an outlier and it has high leverage point.
+```{r}
+df[abs(leaf_ri)==max(abs(leaf_ri)),]
+```
+```{r}
+df[hatvalues(leaffit)==max(hatvalues(leaffit)),]
+```
+```{r}
+plot(cooks.distance(leaffit), ylab="Cook's Distance", type="h")
+abline(h=1, col="red", lty=2)
+```
+
+
+Question 2
+(a) response variable: height of the detergent suds; explantory variable: the amount of detergent added to the washing cycle.
+```{r}
+soap=read.csv("SoapSuds.csv")
+soap
+```
+
+(b) Comment: There is a general positive linear trend that higher the ammount of detergent added, higher the height of the detergent suds.
+```{r}
+plot(soap$DetAmount, soap$HeightofSuds, xlab="the amount of detergent added", ylab="height of the detergent suds")
+```
+
+(c) 
+```{r}
+soapfit=lm(HeightofSuds~DetAmount, data=soap)
+summary(soapfit)
+```
+```{r}
+plot(soap$DetAmount, soap$HeightofSuds, xlab="the amount of detergent added", ylab="height of the detergent suds")
+abline(soapfit, col="red")
+```
+(d) $$\hat{HeightofSuds}=3.37+4.065*DetAmount$$
+
+(e)
+1. H0: Relationship assumed in the moedel is reasonable. vs. H1: Relationship assumed in the moedel is NOT reasonable.
+2. Choose alpha = 5%
+3. According to the anova lack of fit test, F=2.2113, and p-value = 0.2049
+```{r}
+library(EnvStats)
+anovaPE(soapfit)
+```
+4. Rejection Region approach: p-value=0.2409 > 0.05
+5. Fail to reject H0. At 5% significance level, we have sufficient evidence to say that assumed model fits the data well.
+
+(f) Comment: From residual vs. fitted values, no evidence of departure from linearity.
+```{r}
+library(MASS)
+soap_ri=studres(soapfit)
+soap_yihat=soapfit$fitted.values
+plot(soap_yihat,soap_ri,ylab="Studentized Residuals",xlab="Fitted Values")
+abline(h=0,col=2,lty=2)
+```
+Comment: From Normal Q-Q plot, it looks like the data is approximataly normally distributed. Also, it looks like the ditrubution of residuals has a little bit thicker right tail than what we would expect in a normal distribution. It also indicates a possible one outlier.
+```{r}
+qqnorm(soap_ri)
+qqline(soap_ri)
+```
+

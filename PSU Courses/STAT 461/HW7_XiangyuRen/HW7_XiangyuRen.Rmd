@@ -1,0 +1,211 @@
+---
+title: "STAT461 HW7"
+author: "Xiangyu Ren"
+date: "10/23/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Problem 1. Your homework will consider an experiment on battery life for different types and brands of battery. Two brands (a name brand and a generic brand) of two types (Alkaline and “Heavy Duty”) of batteries were tested to see how long they could run continuously. This results in four categories, AlkName is for name-brand alkaline batteries, AlkGen is for generic alkaline batteries, HDName is for heavy duty name-brand batteries, and HDGen is for generic heavy duty batteries. Four batteries of each type were tested and the times to battery failure are recorded as below. Use the code below to read in the data:
+
+```{r}
+type<-c("AlkName","AlkName","AlkName","AlkName","AlkGen","AlkGen","AlkGen","AlkGen",
+"HDName","HDName","HDName","HDName","HDGen","HDGen","HDGen","HDGen")
+life<-c(100.668, 77.734,79.210,95.063,206.880,153.347,165.980,196.000,
+14.951,18.063,11.111,12.840,15.340,22.090,15.734, 14.440)
+batt<-data.frame(type=type, life=life)
+```
+
+#### 1. Plot the data.
+
+```{r}
+boxplot(life ~ type, data = batt)
+```
+
+#### 2. For the battery data, do the following:
+
+#### (a) Write out the one-way ANOVA model for this data.
+
+$Y_{it}=µ+τ_{i}+\epsilon_{it}$, $i=AN,AG,HN,HG$ $t=1,2,3,4$
+
+$$\epsilon_{it}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+
+#### Show residual plots for this model. Are the residuals approximately normal? Justify your answer.
+
+```{r}
+model1 = aov(life ~ type, data = batt)
+plot(model1, which = c(1, 2))
+```
+
+In the first plot, it seems like the abline is a straight line, and in the QQ plot, all the observations are like having linear relation, thus we say the residuals are approximately normal. 
+
+#### (c) Is the assumption of constant error variance among treatments justified? Explain your answer.
+
+```{r}
+v1 = var(batt$life[batt$type == "AlkName"])
+v2 = var(batt$life[batt$type == "AlkGen"])
+v3 = var(batt$life[batt$type == "HDName"])
+v4 = var(batt$life[batt$type == "HDGen"])
+v1;v2;v3;v4
+v2/v3
+```
+
+The assumption of constant error variance among treatment is not justified. Because the largest variance is much larger than the smallest one, $\frac{var_2}{var_3}=70.12$.
+
+#### 3. Now consider using the square-root of the battery life as a response variable. Repeat (a)-(c) above for this transformation.
+
+```{r}
+batt$SqrtLife = sqrt(life)
+batt$LogLife = log(life)
+batt$SqrLife = (life)^2
+```
+
+$\sqrt{Y_{it}}=µ+τ_{i}+\epsilon_{it}$, $i=AN,AG,HN,HG$ $t=1,2,3,4$
+
+$$\epsilon_{it}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+
+```{r}
+model.sqrt = aov(SqrtLife ~ type, data = batt)
+plot(model.sqrt, which = c(1, 2))
+```
+
+In the first plot, it seems like the abline is a straight line, and in the QQ plot, all the observations are like having linear relation, thus we say the residuals are approximately normal. 
+
+```{r}
+v1 = var(batt$SqrtLife[batt$type == "AlkName"])
+v2 = var(batt$SqrtLife[batt$type == "AlkGen"])
+v3 = var(batt$SqrtLife[batt$type == "HDName"])
+v4 = var(batt$SqrtLife[batt$type == "HDGen"])
+v1;v2;v3;v4
+v2/v3
+```
+
+The assumption of constant error variance among treatment is not justified. Because the largest variance is much larger than the smallest one, $\frac{var_2}{var_3}=5.65$.
+
+#### 4. Now consider using the log of the battery life as a response variable. Repeat (a)-(c) above for this transformation.
+
+$log(Y_{it})=µ+τ_{i}+\epsilon_{it}$, $i=AN,AG,HN,HG$ $t=1,2,3,4$
+
+$$\epsilon_{it}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+```{r}
+model.log = aov(LogLife ~ type,data = batt)
+plot(model.log, which = c(1,2))
+```
+
+In the first plot, it seems like the abline is a straight line, and in the QQ plot, all the observations are like having linear relation, thus we say the residuals are approximately normal. 
+
+```{r}
+v1 = var(batt$LogLife[batt$type == "AlkName"])
+v2 = var(batt$LogLife[batt$type == "AlkGen"])
+v3 = var(batt$LogLife[batt$type == "HDName"])
+v4 = var(batt$LogLife[batt$type == "HDGen"])
+v1;v2;v3;v4
+v3/v1
+```
+
+The assumption of constant error variance among treatment is justified. Because the largest variance is not much larger than the smallest one, $\frac{var_3}{var_1}=2.58$.
+
+#### 5. Now consider using the square of the battery life as a response variable. Repeat (a)-(c) above for this transformation.
+
+```{r}
+model.sqr = aov(SqrLife ~ type, data = batt)
+plot(model.sqr, which = c(1, 2))
+```
+
+We can see clearly that in the QQ plot, the dots are not one a straight line, so the residuals are not normal distributed.
+
+```{r}
+v1 = var(batt$SqrLife[batt$type == "AlkName"])
+v2 = var(batt$SqrLife[batt$type == "AlkGen"])
+v3 = var(batt$SqrLife[batt$type == "HDName"])
+v4 = var(batt$SqrLife[batt$type == "HDGen"])
+v1;v2;v3;v4
+v2/v3
+```
+
+The assumption of constant error variance among treatment is not justified. Because the largest variance is much larger than the smallest one, $\frac{var_2}{var_3}=10547.71$.
+
+#### 6. Which of the four models you have fit has residuals that best satisfy the assumptions of the ANOVA model? Explain your choice.
+
+```{r}
+summary(model1)
+summary(model.sqrt)
+summary(model.log)
+summary(model.sqr)
+```
+
+I think the log transformation best fit the residuals to satisfy teh assumptions of the anova model, because, we can see from the outputs taht the log model has the lowest Mean Sq, and also, log model is the only model that justified the assumption of constant error variance among treatment.
+
+#### 7. For the model you chose in question 6 above, are there any significant pairwise differences in mean lifetime of different battery types? If so, state which are different, and provide p-values, test statistics, and null hypotheses for the hypothesis tests used.
+
+We give the hypothesis test with following $\alpha=0.05$
+
+$$H_0:\;τ_{AN}−τ_{AG}=τ_{AN}−τ_{HN}=τ_{AN}−τ_{HG}=τ_{AG}−τ_{HN}=τ_{AG}−τ_{HG}=τ_{HN}−τ_{HG}\;\;vs.\;\;H_1:\;There\;is\;at\;least\;one\;different\;subtraction\;output$$
+
+```{r}
+library(lsmeans)
+lsm.batt = lsmeans(model.log, "type")
+library(knitr)
+summary(contrast(lsm.batt, method = "pairwise", adjust = "tukey"), infer = c(T, T), level = 0.95, side = "two-sided")
+```
+
+We can see that the t ratio for AG-AN is 5.931, for AG-HG is 19.688, for AG-HN is 21.122, for AN-HG is 13.757, for AN-HN is 15.191, for HG-HN is 1.434. 
+
+Since the p-value we get is all less than $\alpha$, except for $HDGen-HDName$. We can reject the null hypothesis, and conclude that there is at least one different subtraction output. 
+
+#### Problem 2. A study was conducted to compare the calories and sodium in hot dogs made with different types of meat. Read the data into R using the following commands:
+
+```{r}
+hotdog = read.table("hotdogs.txt", header = TRUE)
+hotdog
+```
+
+#### and plot calories as a response variable with the type of meat on the x-axis. Your plot could be either a boxplot or a plot with one dot for each hot dog.
+
+#### Answer the following question: “Are there differences in the average calories of hot dogs made with different kinds of meat?”. To answer this question, write down a statistical model (clearly state the response variable, treatment levels, number of replicates, . . . ), express the above question as a testable null hypothesis, and report the p-value of the test statistic under the null hypothesis. Conduct an analysis of pairwise differences if it helps you clarify where there are differences in mean calories. Your answer should include all R code used, and the important R output. If you need to transform the response variable, do so, but you do NOT need to provide details of the transformations that you tried, but did not ultimately select. Only report the best transformation, and only show residual plots, ANOVA tables, and any other results for this transformation.
+
+```{r}
+boxplot(hotdog$Calories ~ hotdog$Type, main = "")
+```
+
+$Y_{it}=µ+τ_{i}+\epsilon_{it}$, $i=B,P,C$ $t=1,2,3,...,r_i\;\;r_B=20\;\;r_P=17\;\;r_C=17$
+
+$$\epsilon_{it}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+
+We give the hypothesis with following $\alpha=0.05$
+
+$$H_0:\;τ_B−τ_P=τ_B−τ_C=τ_P−τ_C\;\;vs.\;\;H_1:\;At\;\;least\;\;1\;\;different\;\;subtraction\;\;output$$
+```{r}
+model2 = aov(Calories ~ Type, data = hotdog)
+plot(model2, which = c(1, 2))
+v1 = var(hotdog$Calories[hotdog$Type == "Beef"])
+v2 = var(hotdog$Calories[hotdog$Type == "Pork"])
+v3 = var(hotdog$Calories[hotdog$Type == "Chicken"])
+v1;v2;v3
+v2/v3
+
+hotdog$InvCalories = 1/hotdog$Calories
+model.inv = aov(InvCalories ~ Type, data = hotdog)
+plot(model.inv, which = c(1, 2))
+v1 = var(hotdog$InvCalories[hotdog$Type=="Beef"])
+v2 = var(hotdog$InvCalories[hotdog$Type=="Pork"])
+v3 = var(hotdog$InvCalories[hotdog$Type=="Chicken"])
+v1;v2;v3
+v3/v1
+
+library(lsmeans)
+lsm.Inv=lsmeans(model.inv, "Type")
+library(knitr)
+summary(contrast(lsm.Inv, method = "pairwise", adjust = "tukey"), infer=c(T, T), level = 0.95, side = "two-sided")
+
+```
+
+Therefore, as we can get from the outputs by inverse transformation, since all the p-value is smaller than $\alpha$ except $Beef-Pork$, we can reject the null hypothesis, and conclude that there is at least 1 different subtraction output. 
+
+
+

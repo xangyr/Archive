@@ -1,0 +1,2 @@
+"0","cars <- mtcars[,c(""am"",""mpg"",""hp"")]"
+"0","head(cars)"

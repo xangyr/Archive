@@ -1,0 +1,2 @@
+"0","Yi = rnorm(1000, mean = 3, sd = 1)"
+"0","hist(Yi)"

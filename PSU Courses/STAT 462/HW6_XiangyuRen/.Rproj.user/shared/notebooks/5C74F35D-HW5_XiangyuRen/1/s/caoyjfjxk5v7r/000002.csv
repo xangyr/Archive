@@ -1,0 +1,4 @@
+"0","```r
+leverage = hatvalues(model1)
+shortleaf[leverage == max(leverage),]
+```"

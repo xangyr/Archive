@@ -1,0 +1,227 @@
+---
+title: "STAT 461: Midterm 2 (Take-Home)"
+author: "Xiangyu Ren"
+date: "Oct 14, 2020"
+output: pdf_document
+---
+
+
+This is a take-home exam.  You are allowed to use any non-human sources (internet, books, notes, etc), but you are NOT allowed to receive help from or work with any other person.  If the instructor feels that cheating may have happened, an oral component will be added to the exam, with students each individually explaining their work.  Any cheating will be addressed in accordance with Penn State's Academic Integrity policies.
+
+For each experiment below, conduct a full analysis of the experimental data, and answer any additional questions as stated in each problem. \textbf{In all cases, you should check model assumptions and make transformations to the response variable as needed.} You must present your answers in a clear manner. That is, only show R code for your final model selection (that is you do not need to show all transformations you try). The answers to the question should be cleanly typed up and easy to read. Your answer should contain all R code used, and you should describe the results of all important hypothesis tests you conduct. You must provide your raw .Rmd code otherwise your exam will not be graded! You must submit the output as a HTML, PDF (preferred) or Word Document file.
+
+This exam is due by 8:59 November 14th, 2020 EST.
+
+## Question 1 (25 points)
+
+An experiment was run in order to compare the effects of different microbes on the production of healthy gut factors. Host lower intestine biopsies were
+studied in test subjects with inflammatory bowel disease. These cells were provided different bacterial supplements via capsule. One week after taking a
+supplement, the subjects were called back in order to measure host glucose levels. Subjects were given one of two different supplements "Sutterella" and
+"Akkermansia" at varying levels. The quantity of the respective supplement was varied at three levels: "low", "medium", and "heavy" dosages. Thus, there were two different treatments. "bact" indicates which bacterial supplement a patient was provivded. "dosage level" measures the amount of supplement they were given.
+The scientists are interested in determining the effects of bacterial supplement and dosage on glucose levels.
+The data are as follows:
+
+```{r, warning=F, message=F}
+bact=c(rep("Sutterella",9),rep("Akkermansia",9))
+dose=rep(rep(1:3,each=3),2)
+glucose.level = c(204,170,181,167,182,187,202,198,236,257,279,269,283,235,260,256,281,258)
+```
+
+1.1 Give a plot of either the response variable (glucose.level), or the mean response variable, versus the two treatment factors: bacteria and dose Your plot or plots should make it clear which treatments correspond to which response variables.
+
+```{r, warning=F, message=F}
+df = data.frame(bact = as.factor(bact), dose = as.factor(dose), glucose.level)
+df
+interaction.plot(x.factor = df$dose, trace.factor = df$bact, response = df$glucose.level,
+                 type = "b", col = 2:3, xlab = "Dose", ylab = "Glucose level",
+                 trace.label = "Bacteria" )
+```
+
+1.2 Give a complete analysis of this experimental data. You should show all R code used, write out the model, and explain all important choices and results in your analysis. Interpret the results in the context of the experiment, including pairwise differences if required.
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_{j(i)}+\epsilon_{ijt},\;\;\epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+$$i=Ak,Su\;\;j=1,2,3\;\;t=1,2,3$$
+```{r, warning=F, message=F}
+library(car)
+model1 = aov(glucose.level ~ bact + dose + bact:dose, data = df)
+Anova(model1, type = "III")
+plot(model1, which = c(1,2))
+```
+
+The residuals are approximately normal because the line of QQ-plot is nearly a straight line.
+
+The assumption of constant error variance among treatments is close to justified, since the residuals are about separated in a square shape.
+
+```{r, warning=F, message=F}
+modelnint = aov(glucose.level ~ bact + dose, data = df)
+anova(modelnint)
+```
+Transformation seems doesn't make a significant difference.
+
+Give hypothesis test with following $\alpha=0.05$
+$$H_0: (\alpha\beta)_{ij}=0\;\;\text{for all}\; i,j\;\;vs\;\;H_a:\text{at least one treatment is different.}$$
+```{r, message=F, warning=F}
+library(lsmeans)
+library(multcompView)
+library(multcomp)
+library(knitr)
+lsm.d = lsmeans(model1, ~ dose)
+contrast(lsm.d, method = "pairwise")
+lsm.b = lsmeans(model1, ~ bact)
+contrast(lsm.b, method = "pairwise")
+lsm.inter = lsmeans(model1, ~ bact:dose)
+cld(lsm.inter)
+```
+
+Since bact:dose is larger than $\alpha$, therefore we say we fail to reject the null and we can conclude that there are not significant interactions.
+
+There is no significant difference between Elapsed Times since the p-value is greater than $\alpha$, but there are significant differences between bacterial supplements since p-value is smaller than $\alpha$.
+
+## Question 2 (25 pts)
+
+A scientist wishes to study the boiling time of three polymers (coded P1–P3) and the industrial standard (coded P4). Thus, one can view the industrial standard as the control. These were boiled one by one with the system being reset each time before a new polymer was tested.
+
+```{r, warning=F, message=F}
+
+poly <- c(rep("P1",10), rep("P2", 10), rep("P3",10), rep("P4", 10))
+boiling <- c(167, 171, 178, 175, 184, 176, 185, 172, 178, 178, 
+         231, 233, 236, 252, 233, 225, 241, 248, 239, 248,
+         176, 168, 171, 172, 178, 176, 169, 164, 169, 171,
+         201, 199, 196, 211, 209, 223, 209, 219, 212, 210)
+```
+
+Give a complete analysis of this experimental data and answer if the type of polymer affects boiling time. You should show all R code used, and explain all important choices and results in your analysis. Interpret the results in the context of the experiment, including pairwise differences if required.
+
+
+$$Y_{it}=\mu+\tau_i+\epsilon_{it},\;\;i=P_1,P_2,P_3,P_4\;\;t=1,2,...,10$$
+$$\epsilon_{it}\stackrel{iid}{\sim} N(0,\sigma^2)$$ 
+Give hypothesis test with following $\alpha=0.05$
+$$H_0:\tau_1=\tau_2=\tau_3=\tau_4\;\;vs.\;\;H_a: \text{At least one type of polymer is different from others}$$
+```{r, warning=F, message=F}
+df = data.frame(poly, boiling)
+df
+model2 = aov(boiling ~ poly, data = df)
+anova(model2)
+plot(model2, which = c(1, 2))
+```
+
+The residuals are normal because the line in QQ-plot is nearly a straight line.
+
+The assumption of constant error variance among treatments is justified, since the residuals are about separated in a square shape.
+
+```{r, warning=F, message=F}
+lsm.model2 = lsmeans(model2, "poly")
+kable(summary(contrast(lsm.model2, method = "pairwise", adjust = "tukey"), infer = c(T, T),
+              level = 0.95, side = "two-sided"))
+lsm.inter = lsmeans(model2, ~ poly)
+cld(lsm.inter)
+```
+Since only the p-value of P1-P3 is great than $\alpha$, we reject the null, therefore  all contrasts except of P1-P3 are significant and there is at least one of the polymer that is different from others.
+
+## Question 3 (25 points)
+
+An analysis is conducted to determine if different species and types of wood influence the nitrogen content in specific trees.  Trees are divided into two kinds of wood: hard wood (oak, ash, and maple), and soft  (pine, spruce, and fir).  A random selection of 4 trees of each kind (24 trees total) was chosen from all trees in the State Game Lands, and the nitrogen content was measured.
+
+```{r, warning=F, message=F}
+wood=read.table("wood.csv",header=TRUE)
+wood
+```
+
+3.1 Is this experiment a completely randomized design?  Why or why not?
+
+No, this is not a completely randomized design, because all the trees are been selected from the same state, also the types and species are fixed.
+
+3.2 Give a complete analysis of this data. Show all R code used, and explain all important choices and results in your analysis.  Interpret the results in the context of the experiment, including pairwise differences if required.
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_{j(i)}+\epsilon_{ijt},\;\; \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+$$i=SW,HW\;\; j=P,S,F,M,O,A \;\; t=1,2,3,4$$
+```{r, warning=F, message=F}
+library(car)
+df = data.frame(Type = wood$Type, Species = wood$Species, Nconc = wood$Nconc)
+df
+model3 = aov(Nconc ~ Type / Species, data = df)
+Anova(model3)
+plot(model3, which = c(1,2))
+```
+
+The residuals are normal because the line in QQ-plot is nearly a straight line.
+
+The assumption of constant error variance among treatments is close to justified, since the residuals are about closed in a square shape.
+
+Transformation is not necessary since all transformations seems close to original model.
+
+Give hypothesis test with following $\alpha=0.05$
+$$H_0:\alpha_{Softwood}=\alpha_{Hardwood}\;\;vs.\;\;H_a:\alpha_{Softwood}\ne\alpha_{Hardwood}$$
+
+```{r,warning=F, message=F}
+lsm.t = lsmeans(model3, ~ Type)
+cld(lsm.t, alpha = 0.05)
+```
+
+looking at the output, we see softwood is significant different from hardwood.
+
+Since, the p-value is less than 0.05, thus we reject the null and we can conclude that there are significant differences between different types. 
+
+
+$$H_0:\left\{ \begin{array}{c} \beta_{1(softwood)}=\beta_{2(softwood)}=\beta_{3(softwood)}=\beta_{4(softwood)}=\beta_{5(softwood)}=\beta_{6(softwood)}\\ 
+\vdots \end{array}\right\}$$
+$$vs.\;\;H_a\text{: The null is not true}$$
+
+```{r, warning=F, message=F}
+lsm.s = lsmeans(model3, ~ Type:Species)
+cld(lsm.s, alpha = 0.05)
+```
+
+looking at the output, we can see pine is significant different from spruce, maple and ash
+
+Since, the p-value is less than 0.05, thus we reject the null and we can conclude that there are significant differences between different species from same type. 
+
+## Question 4 (25 points)
+
+An experiment was conducted to determine the best recipe for different kinds of canned beans.  Beans are divided into four different crocks (i=1,2,3,4).  The beans are soaked before cooking for either a long or a short time (j=short,long).  Two of the crocks are randomly chosen to soak for a short time, and the other two crocks are allowed to soak for a long time.  After soaking, the beans from each crock are divided into three jars, and are used to make baked beans using one of three recipes (k=Original, Barbecue, or Refried).  Finally, beans from each jar are fed to people, and the average taste rating of for each jar is recorded.
+
+
+```{r, warning=F, message=F}
+beans=read.table("Beans.csv",header=TRUE)
+beans
+```
+4.1 Explain why Jar is not treated as a factor in this experiment.
+
+Because Jar is not either crossed or nested with any other factors, instead it is only a counting figure.
+
+4.2 Nested models can be combined with complete models in order to yield more complex models. In these cases, 
+one can add multiple treatments in order to build a more complex model. Thus, a two-way model can be extended further into a more general "k"-factor model.
+
+Give a complete analysis of this data, under the following model.
+$$Y_{ijk}=\mu+\alpha_j+\beta_{i(j)} + \gamma_k + (\alpha \gamma)_{jk} + \epsilon_{ijk},\;\; \epsilon_{ijk}\sim N(0,\sigma^2)$$
+$$\beta_{i(j)} \sim N(0,\sigma^2_{crock})$$
+Show all R code used, and explain all important choices and results in your analysis.  Interpret the results in the context of the experiment.
+
+Hint: You should be able to do this by extending the code for the different two-way models we have learned in class. As noted in class, reading the output of ANOVA models remain similar regardless of how many treatments you add. First, given the model shown above and the notation written in the question description, figure out what treatments correspond to $\alpha$, $\beta$ and $\gamma$.
+```{r, warning=F, message=F}
+library(lme4)
+library(lmerTest)
+library(car)
+library(multcompView)
+
+df = data.frame(crock = beans$Crock, soaktime = beans$SoakTim, recipe = beans$Recipe,
+                rating = beans$Rating)
+df
+model4 = lmer(log(rating) ~ + soaktime + (1 | crock:soaktime) + recipe + soaktime:recipe,
+              data = df)
+```
+
+I picked log transformation because the residual seems more likely to be normal, and assumption of constant error variance among treatments looks like it's closer to be justified.
+
+```{r, warning=F, message=F}
+anova(model4, which = "3")
+rand(model4)
+lsm.r = lsmeans(model4, ~ soaktime:recipe)
+cld(lsm.r, alpha = 0.05)
+```
+We give a hypothesis test with following $\alpha=0.05$
+$$H_0:\sigma^2_{crock}=0\;\;vs.\;\;H_a:\sigma^2_{crock}\ne0$$
+Since the p-value for randomness is greater than $\alpha$, we fail to reject the null, therefore we can conclude that beans are same with different crocks and the same soak time.
+
+We then reject the null for everything else since the p-value for other variables with the same recipe is smaller than 0.05, therefore we can conclude that beans with different other variables with same recipes have different contributions.
+

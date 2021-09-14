@@ -1,0 +1,30 @@
+"0","```r
+# I named the original dataset \"happy\" and
+# below line removed the ovservation number 21 and save it as a new data frame named \"newhappy\"
+happynew = sat[-21,]
+model3 = lm(Satisfaction ~ GDP, data = happynew)
+summary(model3)
+```"
+"1","
+Call:
+lm(formula = Satisfaction ~ GDP, data = happynew)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.89679 -0.37085  0.09562  0.38158  0.82560 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.487e+00  1.806e-01  30.387  < 2e-16 ***
+GDP         3.188e-05  4.657e-06   6.845 9.64e-08 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 0.4882 on 32 degrees of freedom
+Multiple R-squared:  0.5942,	Adjusted R-squared:  0.5815 
+F-statistic: 46.85 on 1 and 32 DF,  p-value: 9.643e-08
+"
+"0","```r
+plot(happynew$GDP, happynew$Satisfaction, main = \"\", xlab = \"GDP\", ylab = \"Satisfaction\", pch = 16)
+abline(model3, col = 'coral')
+```"

@@ -1,0 +1,2 @@
+"0","fit.ancova = aov(mpg ~ am + hp + am : hp, data = cars)"
+"0","plot(fit.ancova)"

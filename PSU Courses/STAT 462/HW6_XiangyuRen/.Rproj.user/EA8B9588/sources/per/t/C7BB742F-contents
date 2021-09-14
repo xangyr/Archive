@@ -1,0 +1,136 @@
+---
+title: "R Notebook"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### Problem 1. Many different interest groups such as the lumber industry, ecologists, and foresters benefit from being able to predict the volume of a tree just by knowing its diameter. One classic data set (shortleaf.txt) reported by C. Bruce and F. X. Schumacher in 1935 concerned the diameter (in inches) and volume (in cubic feet) of 70 shortleaf pines. A researcher is interested in learning about the relationship between the diameter and volume of shortleaf pines.
+```{r}
+shortleaf = read.delim("shortleaf.txt")
+head(shortleaf)
+```
+
+#### (i). Identify the response variable and explanatory variable for the problem
+Diameter is the explanatory variable, volume is the response variable.
+
+#### (ii). Draw a scatter plot to show how volume of a tree and its diameter are associated. Comment on your observations. Provide any outputs you might have used.
+
+```{r}
+plot(shortleaf$Diam, shortleaf$Vol, main = "", xlab = "diameter", ylab = "volume", pch = 16)
+```
+It seems like there is a positive association between diameter and volume. The association might not be linear and the point, locates up-right, might be an outlier.
+
+#### (iii). Fit a regression line for the problem, write down the estimated equation (define any terms you might have used), and mark the estimated line on the scatter plot in part (2). Provide all outputs. Interpret the estimated parameters clearly in the problem context.
+```{r}
+model1 = lm(Vol ~ Diam, data = shortleaf)
+summary(model1)
+```
+The regression line is: $Volume=-41.5681+6.8367*Diameter$
+```{r}
+plot(shortleaf$Diam, shortleaf$Vol, main = "", xlab = "diameter", ylab = "volume", pch = 16)
+abline(model1, col = "coral", lwd = 2)
+```
+Interpretation of the intercept: The average volume of a tree when the diameter is 0 is -41.5681. This interpretation of intercept doesn't make sense in real world: a tree with 0 diameter is not a tree, and statistically $diameter=0$ is out of the range of observation.
+
+Interpretation of the slope: For each unit of diameter increasing, we are expecting the average change in volume increase by 6.8367.
+
+#### (iv). Obtain suitable diagnostics for the estimated model in part (iii). Clearly state your observations. Provide any outputs you might have used.
+```{r}
+plot(model1, which = c(1, 2))
+plot(hatvalues(model1))
+plot(cooks.distance(model1))
+```
+From the residuals vs. fitted plot, we can see there is a u shaped line, which indicate that a non-linear model might be more appropriate to the problem. Also, it seems like the constant error variance assumption does not meet. 
+
+From both diagnostic plots, we can see that observation 70 appears to be an outlier, without the outlier, from the QQ plot, we can see that the residuals follow normal distribution. Also, from the third plot, we can the observation 70 has much higher leverage than others, and from the fourth plot, observation 70 appears to be an influential point.
+
+#### (v). Identify (a) the point with highest residual, (b) the point with highest leverage, and (c) the point with highest cook’s distance. Suppose a friend of the researcher suggested that there is an influential point in the data, and should be investigated. Do you agree with this comment? Explain your reasoning.
+
+#### (a)
+```{r}
+library(MASS)
+stud.residuals = studres(model1)
+shortleaf[abs(stud.residuals) == max(abs(stud.residuals)),]
+stud.residuals[70]
+```
+The point with highest studentized residual is observation 70, with a studentized residual of 6.0976. Outside the usual cut-off bands $(-3,3)$, which indicating this is most likely a potential influential point. 
+
+#### (b)
+```{r}
+leverage = hatvalues(model1)
+shortleaf[leverage == max(leverage),]
+leverage[70]
+```
+The point with highest leverage is observation 70, with leverage as 0.1409. A point is a high leverage point if $leverage>\frac{2p}n$, where p is 2 here, the number of regression coefficients for SLR is 2, and n is 70, the index. $0.1409>\frac4{70}=0.057$, which indicating this is most likely a potential influential point. 
+
+#### (c)
+```{r}
+cooksdistance = cooks.distance(model1)
+shortleaf[cooksdistance == max(cooksdistance),]
+cooksdistance[70]
+```
+The point with highest Cook's distance is observation 70, with a Cook's distance of 1.99. This is higher than the usual cut-off point, which indicating this is most likely a potential influential point. 
+
+Therefore, we conclude that we agree with the researcher's friend, since all 3 measures indicate that observation 70 is most likely a potential influential point. 
+
+#### (vi). Another friend of the researcher suggested, perhaps the diagnostics observed in part (iv) is an artifact of lack of linearity between the two variables of interest. He proposed the researcher should transform the variable(s) and re-fit the model. Using the discussions we had in the class about possible starting points for transformations, how would you proceed (i.e. would you transform the response variable, explanatory variable or both? What transformations would you use?)? Clearly explain.
+If there is a lack of linearity in the data, tn we may want to first start with transforming the explanatory variable, which is diameter in this dataset. And, We would use natural log function as our transformation.
+
+#### (vii). Use log transformation on the explanatory variable, and re-draw the scatter plot in part (i). Refit the regression model using the transformed data, and mark the estimated line on the scatter plot. Comment on your observations. Provide any outputs you might have used. Does the transformation appear to have improve the linearity?
+```{r}
+model2 = lm(Vol ~ log(Diam), data = shortleaf)
+summary(model2)
+```
+The regression line is $Volume=-116.16+64.54*log(Diameter)$
+```{r}
+plot(log(shortleaf$Diam), shortleaf$Vol, main = "", xlab = "log diameter", ylab = "volume", pch = 16)
+abline(model2, col = "coral", lwd = 2)
+```
+Looking at this scatterplot and comparing it the previous one, it does not seem like the log transformation of the explanatory variable improve linearity.
+
+#### (viii). Use log transformation on the response variable as well. Obtain a scatter plot between the two transformed variables. Refit the regression model using the transformed data, and mark the estimated line on the scatter plot. Comment on your observations. Provide any outputs you might have used. Does the transformation appear have to improve the linearity?
+```{r}
+model3 = lm(log(Vol) ~ log(Diam), data = shortleaf)
+summary(model3)
+```
+The regression line is $log(Volume)=-2.87+2.56*log(Diameter)$
+```{r}
+plot(log(shortleaf$Diam), log(shortleaf$Vol), main = "", xlab = "log diameter", ylab = "log volume", pch = 16)
+abline(model3, col = "coral", lwd = 2)
+```
+Log tranformation of both the explanatory and response variable seems improve linearity a lot. 
+
+#### (ix). Obtain suitable diagnostics for the estimated model in part (viii). Clearly state your observations. Provide any outputs you might have used.
+```{r}
+plot(model3, which = c(1, 2))
+```
+From the residual plot we can say that the linearity assumption seems to be met. The constant variance is improved, since the residuals vary even around 0 instead of fanning out like they did in previous plot. Also, the QQ plot seems acceptable, thus the normality assumption has met.
+
+#### (x). Identify the point with highest cook’s distance (using results in part ix). Refit the model in part (viii) excluding the identified point. Obtain suitable diagnostics and comment on your observations. Provide any outputs you might have used.
+```{r}
+cooksdistance = cooks.distance(model3)
+shortleaf[cooksdistance == max(cooksdistance),]
+cooksdistance[10]
+shortleaf.new = shortleaf[-10,]
+model4 = lm(log(Vol) ~ log(Diam), data = shortleaf.new)
+plot(model4, which = c(1, 2))
+```
+Same as the comment in question (ix), all the assumptions: linearity, constant and normality, still seem to be met by the new model.
+
+#### (xi). The researcher decided to proceed with the model obtained in part (x). Write down the estimated regression line (define all your terms), interpret the estimated parameters. Provide any outputs.
+```{r}
+summary(model4)
+```
+The regression line is $log(Volume)=-2.94+2.59*log(Diameter)$
+
+Interpretation of the Intercept: We expect average volume of a tree with diameter 0 to be $exp(-2.94)=0.053$, and just like question (iii), this interpretation doesn't make sense. 
+
+Interpretation of the slope: For each unit increase in $log(diameter)$, we expect $log(volume)$ to increase by 2.59.
+
+#### (xii). Test the for the strength of the linear relationship between two variables.
+We give a hypothesis test with $\alpha=0.05$ and, 
+$$H_0:\;\beta_1=0\;\;vs.\;\;H_1:\;\beta_1\ne0$$
+We can get the test statistic from the table, $T=51.92$. This follows t-distribution with $df=67$, and the p-value is less than $2\times10^{-16}$.
+
+This p-value is extremely small, less than the $\alpha=0.05$, therefore, we reject the null hypothesis and conclude that there is a linear relationship between $log(diameter)$ and $log(volume)$.
+

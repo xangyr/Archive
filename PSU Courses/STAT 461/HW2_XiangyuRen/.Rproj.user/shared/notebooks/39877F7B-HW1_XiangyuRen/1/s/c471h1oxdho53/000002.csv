@@ -1,0 +1,4 @@
+"0","```r
+boxplot(mpg~am, data = mtcars, xlab = \"Transmission\", ylab = \"mpg\", col = c(\"deepskyblue4\", \"deepskyblue\"))
+legend(\"topright\", legend = c(\"0 - Auto\", \"1 - Manual\"))
+```"

@@ -1,0 +1,31 @@
+"0","library(lme4)"
+"2","package ‘lme4’ was built under R version 4.0.3"
+"2","Loading required package: Matrix
+"
+"2","Registered S3 methods overwritten by 'lme4':
+  method                          from
+  cooks.distance.influence.merMod car 
+  influence.merMod                car 
+  dfbeta.influence.merMod         car 
+  dfbetas.influence.merMod        car 
+"
+"0","library(lmerTest)"
+"2","package ‘lmerTest’ was built under R version 4.0.3"
+"2","
+Attaching package: ‘lmerTest’
+
+"
+"2","The following object is masked from ‘package:lme4’:
+
+    lmer
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    step
+
+"
+"0","library(car)"
+"0","library(multcompView)"
+"0","df4=data.frame(crock=beans$Crock,ST=beans$SoakTim,recipe=beans$Recipe,rating=beans$Rating)"
+"0","df4"

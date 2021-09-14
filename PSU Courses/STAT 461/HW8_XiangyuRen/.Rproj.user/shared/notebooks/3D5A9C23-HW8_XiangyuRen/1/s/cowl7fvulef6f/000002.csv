@@ -1,0 +1,3 @@
+"0","interaction.plot(x.factor= df$Fert, trace.factor = df$Species, response = df$invHeight,"
+"0","                 type = ""b"", col = 2:3, xlab = ""Fert"", ylab = ""Height"", "
+"0","                 trace.label = ""Species"" )"

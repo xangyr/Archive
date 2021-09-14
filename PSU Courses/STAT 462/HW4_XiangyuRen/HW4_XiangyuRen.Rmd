@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### Problem 1. Suburban towns often spend a large fraction of their municipal budgets on public safety (police, fire, and ambulance) services. A taxpayers’ group felt that very small towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per capita expenditure for public safety of 29 suburban towns in a metropolitan area, as well as the population of each town in units of 10,000 people. The data are given in expenditure.csv.
+```{r}
+expenditure = read.csv("expenditure.csv")
+colnames(expenditure) = c("TownPop", "Expend")
+expenditure
+```
+
+#### (a) Identify the explanatory and response variable in the problem.
+The explanatory variable is Townpop, and the response variable is Expend.
+
+#### (b) Identify the explanatory and response variable in the problem.
+The taxpayer hypothesis that small towns spend larger amounts per capita than large towns. Thus, we can get the slope is negative, this is an one tailed test. Hence, the corresponding hypothesis is
+$$H_0:\beta_1=0,\;\;H_1:\beta_1<0$$
+
+#### (c) Fit a regression line for the problem. Does the slope in the output confirms the opinion of the group? Explain.
+```{r}
+model1 = lm(Expend ~ TownPop, data = expenditure)
+summary(model1)
+```
+The slope is 0.6584 and it's not statistically significant, since the corresponding p-value is $1-\frac{0.236}2=0.882$. Therefore, the result does not confirm the opinion of the group.
+
+#### (d) Obtain a scatter plot for the problem, and comment on your observations.
+```{r}
+plot(expenditure$TownPop, expenditure$Expend, xlab = "Town Population", ylab = "Expenditure per capita", main = "", pch = 16)
+```
+The dataset includes one obvious outlier at top right of the graph. Without this outlier, the group's claim, which small towns would spend more per capita than big towns, might be a valid claim. 
+
+#### (e) Does the scatter plot in part (d) suggest that the regression line estimated in part (c) is misleading? Explain.
+The outlier is an influential point that most likely has a strong impact on the estimates slope. So, it is possible that without the outlier the estimates slope is negative and statistically significant.
+
+#### (f) There seems to be an unusual observation (town) in upper right corner of the scatter plot. Remove that unusual observation from the dataset.
+```{r}
+new.expenditure = expenditure[-29, ]
+```
+
+#### (g) Quantify the percent of per capita expenditure variation explained by town population, without fitting the regression line. Show your work.
+In a SLR model, the coefficient of determination equals the square of the correlation. 
+```{r}
+cor(new.expenditure$TownPop, new.expenditure$Expend)^2
+```
+
+#### (h) Obtain the least squares regression line with the unusual town removed. Write down the equation of the fitted line, define any terms you might have used.
+```{r}
+model2 = lm(Expend ~ TownPop, data = new.expenditure)
+summary(model2)
+```
+The fitted line is 
+$$Expend = 180.38-1.3531*TownPop$$
+where, Expend is expenditure per capita, and TownPop is population of town.
+
+#### (i) Interpret the slope of the regression line in part (h)
+For any increase by one unit in town's population, which is 10000 people, we expect the expenditure per capita to decrease by 1.3531.
+
+#### (j) Test if there is supporting evidence towards taxpayers’ group belief (use the data without the unusual point)
+To test if there is supporting evidence towards taxpayers' group belief, we need to test whether the estimate for the slope is significantly smaller than 0, thus
+$$H_0:\beta_1=0,\;\;H_1:\beta_1<0$$
+and the test statistic is
+$$T=\frac{\hat \beta}{\sqrt{\frac{MSE}{\sum_i(x_i-\bar x)^2}}}=\frac{-1.3531}{0.2388}=-5.667$$
+This is a t-distribution with $n-2$ as degree of freedom, which $df=26$. Also, since this is an one tailed test, p-value can be obtained as
+```{r}
+pt(-5.667, df = 26)
+```
+Therefore, since the p-value is extremely small, we have a supporting evidence for the taxpayers' group belief. (This p-value is acctually half of p-value from r output)
+
+#### (k) Test if the slope is significantly different from 1. Show all your work. Use the data without the unusual point.
+To test if the slope is significantly different from 1, we has
+$$H_0:\beta_1=1,\;\;H_1:\beta_1\ne1$$
+and the test statistic is 
+$$T=\frac{\hat \beta-1}{\sqrt{\frac{MSE}{\sum_i(x_i-\bar x)^2}}}=\frac{-1.3531-1}{0.2388}=-9.854$$
+Since, this is a two tailed test, we multiply the result of pt() by 2
+```{r}
+pt(-9.854, df = 26)*2
+```
+Therefore, since the p-value we get is extremely small, smaller than the significance level, we reject the Null hypothesis and we can say that the slope is significantly different from 1. 
+
+#### Problem 2. Do a quick Google search on “extrapolation in regression”. Write what is extrapolation in your words and explain the consequences.
+Extrapolation is a prediction of data that is estimated out of the range of the dataset, which is beyond the scope of the models. It is dangerous to have extrapolation because the estimates might be incorrect and untrustful if the model doesn't continue. 
+
+#### Proplem 3. Suppose we are interested in purchasing a multifunctioning inkjet printer. We want to see how the performance factors related to the price of the printer. To understand the relationship data has been collected from 20 printers. Corresponding data is available in the R package Lock5Data. Use the below code lines to install and load the package, and to load the InkjetPrinters dataset.
+```{r}
+# install.packages("Lock5Data")
+library(Lock5Data)
+data(InkjetPrinters)
+InkjetPrinters
+```
+#### Suppose we are interested in predicting the price of a printer from the printing rate.
+#### PPM: Printing rate (pages per minutes) for a set of print jobs
+#### Price: Typical retail price (in dollars) at the time of the review.
+
+#### (a) Make a scatterplot of the data and comment on your observations.
+```{r}
+plot(InkjetPrinters$PPM, InkjetPrinters$Price, main = "", xlab = "PPM", ylab = "Price", pch = 16)
+```
+By just looking at the scatterplot of PMM vs. Price, it's likely there is a positive association between PPM and Price. 
+
+#### (b) Obtain the least squares regression line for predicting the price using printing rate. Define any terms you used when writing the least squares regression line.
+```{r}
+model3 = lm(Price ~ PPM, data = InkjetPrinters)
+summary(model3)
+```
+The least square regression line is 
+$$Price=-94.22+90.88*PPM$$
+
+#### (c) Interpret the slope parameter in the context of this problem?
+For every one unit increasing in PPM, we expect the price to increase by $90.88.
+
+#### (d) We want to test if printers with higher printing rate are more expensive. Write the appropriate null and alternative hypothesis you would formulate to test this, calculate the test statistic and the p value. Based on the p value you obtained, what can you say about the relationship?
+To test if printers with higher printing rate are more expensive, we have 
+$$H_0:\beta_1=0,\;\;H_1:\beta_1>0$$
+and the test statistic is 
+$$T=\frac{\hat \beta}{\sqrt{\frac{MSE}{\sum_i(x_i-\bar x)^2}}}=\frac{90.88}{19.49}=4.663$$
+This is a t-distribution with $df=n-2=20-2=18$, we can get p-value by pt() since this is a one tailed test
+```{r}
+1 - pt(4.663, df = 18)
+```
+Since p-value is extremely small, we can say we have evidence that support the claim which printers with higher PPM are more expensive.
+
+#### (e) Suppose you found an inkjet printer with a printing speed of 3 pages per minute for a sale price of $129. Is this a deal that should not be missed? To answer this question, should you be using 95% confidence interval or a prediction interval? Explain the reason for your choice of interval to answer the above question. Based on the interval you used, what is your decision about the deal?
+Since this is a single observation and we are trying to predict the value for a printer with $PPM=3$, so we should use a prediction interval here. 
+```{r}
+new.InkjetPrinters = data.frame(PPM = 3)
+predict(model3, new.InkjetPrinters, interval = "predict", level = 0.95)
+```
+Although it seems like it's a decent deal comparing to the average price of printers with $PPM=3$, $129 falls within the 95% prediction interval, which means that we can't conclude that the price of the printer is unusually cheap. So this is not a deal that should not be missed. 

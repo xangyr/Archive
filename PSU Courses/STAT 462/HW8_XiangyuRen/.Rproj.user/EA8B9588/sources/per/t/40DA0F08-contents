@@ -1,0 +1,194 @@
+---
+title: "R Notebook"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### The cotton aphid is pale to dark green in cool seasons and yellow in hot, dry summers. Generally distributedthroughout temperate, subtropic, and tropic zones, the cotton aphid occurs in all cotton-producing areas of the world. These insects congregate on lower leaf surfaces and on terminal buds, extracting plant sap.
+
+#### If weather is cool during the spring, populations of natural enemies will be slow in building up, and heavy infestations of aphids may result. When this occurs, leaves begin to curl and pucker; seedling plants become stunted and may die. Most aphid damage is of this type. If honeydew resulting from late-season aphid infestations falls onto open cotton, it can act as a growing medium for sooty mold. Cotton stained by this black fungus is reduced in quality and brings a low price for the grower.
+
+#### Entomologists studied the aphids to determine weather conditions that may result in increased aphid density on cotton plants. The data were reported in Statistics and Data Analysis (Peck, Olson, and Devore, 2005 ) and come from an extensive study as reported in the article “Estimation of the Economic Threshold of Infestation for Cotton Aphid” [Mesopotamia Journal of Agriculture (1982): 10, 71–75].
+
+#### The data are given in the file aphideData.csv. In the data file,
+
+#### y = infestation rate (aphids/100 leaves)
+#### x1 = mean temperature (°C)
+#### x2 = mean relative humidity
+```{r}
+aphid = read.csv("aphideData.csv")
+colnames(aphid) = c("y", "x1", "x2")
+```
+
+#### (1). Draw a scatter plot matrix and comment on your observations
+```{r}
+plot(aphid, pch = 20)
+```
+The y and x1 appear to be negatively correlated, and y and x2 appear to be positively correlated. x1 and x2 appear to be strongly correlated, which might violate the model assumptions. 
+
+#### (2). Obtain a correlation plot for your data and comment on your observations.
+```{r}
+library(corrplot)
+aphid.cor = cor(aphid)
+corrplot(aphid.cor, method = "number")
+```
+Just like what we observed in part (1), there is a negative correlation between y and x1, a positive correlation between y and x2, and x1 and x2 are highly correlated. 
+
+#### (3). Fit the first order full model for this data (here after will be referred to as model 1). Discuss the validity of the models assumptions. Provide R outputs for all the tools you may have used.
+```{r}
+model1 = lm(y ~ x1+x2, data = aphid)
+library(MASS)
+stud.res = studres(model1)
+fitted.values = fitted.values(model1)
+plot(fitted.values, stud.res, xlab = "Fitted values", ylab = "Studentized residuals", cex.lab = 1.3)
+abline(h = 0, col = "coral", lty = 2)
+abline(h = 3, col = "blue", lty = 3)
+abline(h = -3, col = "blue", lty = 3)
+par(mfrow = c(1, 2))
+plot(x = aphid$x1, y = stud.res, xlab = "x1", ylab = "Studentized Residuals", pch = 20)
+abline(h = 0, col = "coral",lty = 2)
+abline(h = 3,col = "blue",lty = 3)
+abline(h = -3,col = "blue",lty = 3)
+plot(x = aphid$x2, y = stud.res, xlab = "x2", ylab = "Studentized Residuals", pch = 20)
+abline(h = 0, col = "coral",lty = 2)
+abline(h = 3,col = "blue",lty = 3)
+abline(h = -3,col = "blue",lty = 3)
+par(mfrow = c(1, 1)) 
+qqnorm(stud.res)
+abline(a = 0, b = 1, col = "coral")
+library(nortest)
+ad.test(stud.res)
+library(lmtest)
+bptest(model1)
+library(car)
+vif(model1)
+plot(fitted.values, aphid$y, xlab = "Fitted Response", ylab = "Observed Response")
+abline(a = 0, b = 1, col = 2)
+plot(hatvalues(model1), type = "h", ylab = "leverage")
+n = nrow(aphid)
+p = length(coefficients(model1))
+cutLev = 2*p/n
+abline(h = cutLev, col = "coral")
+plot(cooks.distance(model1), ylab = "Cooks distance", type = "h")
+abline(h = 1, col = "coral")
+```
+Linearity and Constant Variance: since all the points in the residual plots: Studentized residual Vs. Fitted and Studentized residual Vs. each predictor variable are within (-3, 3) limits randomly scattered around zero horizontal line without any particular pattern, we don’t have any concerns of possible violations of linearity. They do not suggest any departure from homogeneity either. Breush-Pagan test also support the homogeneity of the errors since the p-value=0.8299 is >0.05.
+
+Normality: Points in the normal QQ plot stay close to the reference line supporting the normality of the errors. This can be further confirmed by looking at the p-value for the Anderson-Darling test (p-value 0.5832>0.05)
+
+Multicolinearity might be an issue since the VIF is close to 3. However, it still would not be an serious issue since it is less than 10.
+
+Outliers: From the plot of fitted and observed values, we can see they agree with each other most the time.
+
+High-leverage: There is one observation that seems to have relatively large leverage value.
+
+Although, there seems to be some observations with high-leverage value, none of the observations seems to be influential.
+
+#### (4). Write down the estimated first order full model, and interpret the parameters in the context of the problem. Provide any R outputs you might have used.
+```{r}
+summary(model1)
+```
+The estimated model,$$\hat y=20.0026-0.2902x_1+1.4010x_2$$
+
+Interpretation of intercept $\beta_0$: If the mean temperature (x1) is 0 and the mean relative humidity is 0, we expect the infestation rate to be 20 aphids/100 leaves.
+
+Interpretation of $\beta_1$: The expected change in the infestation rate for a one unit increase in x1, when the x2-value is being held constant, is -0.29.
+
+Interpretation of $\beta_2$: The expected change in the infestation rate for a one unit increase in x2, when the x1-value is being held constant, is 1.40.
+
+#### (5). Ignore the validity of the model assumptions, and test the overall fit of model at 5% level. Clearly write down the all the steps. Provide any R outputs you might have used.
+```{r}
+anova(model1)
+```
+We are giving the hypothesis test with following with $\alpha=0.05$,
+$$H_0:\;\beta_1=\beta_2=0\;\;vs.\;\;H_1:\;at\;least\;one\;of\;\beta_1\;or\;\beta_2\;is\;\ne0$$
+First, we construct an anova table:
+
+| Source     | df | SS       | MS       | F        |
+|------------|----|----------|----------|----------|
+| Regression | 2  | 20752.7  | 10376.35 | 19.42352 |
+| Error      | 32 | 170.94.9 | 534.22   |          |
+| Total      | 34 | 37847.6  |          |          |
+
+and we compute the p-value
+```{r}
+1-pf(19.42352, df1 = 2, df2 = 32)
+```
+The p-value is less than $\alpha$. Thus, we reject null hypothesis and conclude that this model fits the data better than the model with no predictor variables, meaning that there is a significant linear relationship between the response and the explanatory variables.
+
+#### (6). What is the proportion of variability explained by model 1.
+```{r}
+20752.7/37847.6
+```
+$$R^2=\frac{SSR}{SST}=\frac{20752.7}{37847.6}=0.5483$$
+
+#### (7). Test the partial slope of x2 at 5% level. Clearly write down the all the steps. Provide any R outputs you might have used.
+
+We give the hypothesis test $\alpha=0.05$, $$H_0:\;\beta_2=0\;\;vs.\;\;H_1:\;\beta_2\ne0$$
+and we compute the test statistic $t=\frac{\hat \beta_2-\beta_2}{SE(\hat \beta_2)}=\frac{1.4}{0.41}=3.38$,
+
+and find the p-value with,
+```{r}
+2*(1-pt(3.38, df = 32))
+```
+The p-value is smaller than $\alpha$. Thus, we can reject the null and conclude that x2 is a significant explanatory variable.
+
+#### (8). Test whether x1 has any additional predictive power above contributed x2. Clearly write down the all the steps. Provide any R outputs you might have used.
+We give the hypothesis test with following $\alpha=0.05$,
+$$H_0:\;\beta_1=0\;\;vs.\;\;H_1:\;\beta_1\ne0$$
+and we compute the test statistic $t=\frac{\hat \beta_1-\beta_1}{SE(\hat \beta_1)}=\frac{-0.29}{1.41}=-0.206$, 
+
+and find the p-value with,
+```{r}
+2*(pt(-0.206, df = 32))
+```
+The p-value is larger than 0.05. Thus, we fail to reject the null and conclude that x1 is not a significant explanatory variable.
+
+#### (9). Based on your conclusion for part (8), what would be your next step.
+
+Since x1 turns out that is not significant, we should remove this variable from the model.
+
+#### (10). Run a SLR model with x2 as the predictor. Hereafter refer to this model, as model 2. Write down the estimated SLR model.
+```{r}
+model2 = lm(y ~ x2, data = aphid)
+summary(model2)
+```
+The SLR model is, $$y=9.4132+1.4712x_2$$
+
+#### (11). Compare model 1 with model 2 at 5% significant level. Clearly write down the all the steps. Provide any R outputs you might have used.
+
+We first give the hypothesis test,
+$$H_0:\;\beta_1=0\;\;vs.\;\;H_1:\;\beta_1\ne0$$
+```{r}
+anova(model2, model1)
+```
+By comparing, we can see the F is 0.0426 and the p-value is 0.8378 larger than $\alpha$, thus we fail to reject the null hypothesis. 
+
+#### (12). Based on your comparison at part (11), which model (model 1 or model 2) would you choose for this data. Explain reasons for your choice.
+
+We would choose model 2, since adding x1 does not significantly improve our model.
+
+#### (13). Run a SLR model with x1 as the predictor. Hereafter refer to this model, as model 3. Based on the R2 values for models 2 & 3, which model would you choose? Explain your reasons.
+```{r}
+model3 = lm(y ~ x1, data = aphid)
+summary(model3)
+```
+Model 2 has a $R^2=0.55$, while model 3 has a $R^2=0.39$. Based on $R^2$ I would
+choose model 2, since variable x2 explains more of the variability in y than x1.
+
+#### (14). Would you recommend using model 2 to predict the average infestation rate when x2 = 115? Explain your answer.
+```{r}
+max(aphid$x2)
+min(aphid$x2)
+```
+115 is outside the range of observed values for x2 and would result in extrapolation. Therefore, I would not recommend use model 2 to predict the average infestation rate at x2 = 115.
+
+#### (15). Using model 2, find an interval estimate of the infestation rate for a cotton plant with mean relative humidity of 65.
+```{r}
+pre.aphid = data.frame(x2 = 65)
+predict(model2, pre.aphid, interval = "confidence", level = 0.95)
+```
+Thus we get the confidence interval is $(88.79,\;121.29)$.
+
+
+

@@ -1,0 +1,7 @@
+"0","```r
+plot(hatvalues(model1), type = \"h\", ylab = \"leverage\")
+n = nrow(aphid)
+p = length(coefficients(model1))
+cutLev = 2*p/n
+abline(h = cutLev, col = \"coral\")
+```"

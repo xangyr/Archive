@@ -1,0 +1,4 @@
+"0","n = nrow(aphid)"
+"0","p = length(coefficients(model1))"
+"0","cutLev = 2*p/n"
+"0","abline(h = cutLev, col = ""coral"")"

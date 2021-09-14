@@ -1,0 +1,500 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={STAT461 HW2},
+  pdfauthor={Xiangyu Ren},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{STAT461 HW2}
+\author{Xiangyu Ren}
+\date{9/11/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{suppose-that-you-are-planning-to-run-an-experiment-with-one-treatment-factor-having-four-levels-none-low-medium-and-high-and-you-have-the-resources-to-conduct-the-experiment-on-20-experimental-units.-assign-at-random-20-experimental-units-to-the-4-levels-of-the-treatment-so-that-each-treatment-is-assigned-5-units.-your-answer-should-include-your-r-code-used.}{%
+\subsection{1.Suppose that you are planning to run an experiment with
+one treatment factor having four levels: ``none'', ``low'', ``medium'',
+and ``high'', and you have the resources to conduct the experiment on 20
+experimental units. Assign at random 20 experimental units to the 4
+levels of the treatment, so that each treatment is assigned 5 units.
+Your answer should include your R code
+used.}\label{suppose-that-you-are-planning-to-run-an-experiment-with-one-treatment-factor-having-four-levels-none-low-medium-and-high-and-you-have-the-resources-to-conduct-the-experiment-on-20-experimental-units.-assign-at-random-20-experimental-units-to-the-4-levels-of-the-treatment-so-that-each-treatment-is-assigned-5-units.-your-answer-should-include-your-r-code-used.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{01109}\NormalTok{)}
+
+\NormalTok{exp.unit =}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{20}
+\NormalTok{treat.nr =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{'none'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'low'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'medium'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'high'}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\NormalTok{treat =}\StringTok{ }\KeywordTok{sample}\NormalTok{(treat.nr, }\DataTypeTok{replace =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{CRD.table =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(exp.unit, treat)}
+\KeywordTok{print}\NormalTok{(CRD.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    exp.unit  treat
+## 1         1 medium
+## 2         2   none
+## 3         3 medium
+## 4         4   none
+## 5         5    low
+## 6         6    low
+## 7         7    low
+## 8         8 medium
+## 9         9    low
+## 10       10   none
+## 11       11   high
+## 12       12   none
+## 13       13 medium
+## 14       14   high
+## 15       15   high
+## 16       16    low
+## 17       17 medium
+## 18       18   high
+## 19       19   high
+## 20       20   none
+\end{verbatim}
+
+\hypertarget{repeat-question-1-to-obtain-a-second-experimental-design-assigning-the-20-units-to-the-4-levels-of-the-treatment.}{%
+\subsection{2.Repeat question 1 to obtain a second experimental design
+assigning the 20 units to the 4 levels of the
+treatment.}\label{repeat-question-1-to-obtain-a-second-experimental-design-assigning-the-20-units-to-the-4-levels-of-the-treatment.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{01109}\NormalTok{)}
+\NormalTok{exp.unit =}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{20}
+\NormalTok{treat.nr =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{'none'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'low'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'medium'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'high'}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\NormalTok{treat =}\StringTok{ }\KeywordTok{sample}\NormalTok{(treat.nr, }\DataTypeTok{replace =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{CRD.table =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(exp.unit, treat)}
+\KeywordTok{print}\NormalTok{(CRD.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    exp.unit  treat
+## 1         1 medium
+## 2         2   none
+## 3         3 medium
+## 4         4   none
+## 5         5    low
+## 6         6    low
+## 7         7    low
+## 8         8 medium
+## 9         9    low
+## 10       10   none
+## 11       11   high
+## 12       12   none
+## 13       13 medium
+## 14       14   high
+## 15       15   high
+## 16       16    low
+## 17       17 medium
+## 18       18   high
+## 19       19   high
+## 20       20   none
+\end{verbatim}
+
+\hypertarget{suppose-that-you-are-planning-to-run-an-experiment-with-one-treatment-factor-having-three-levels.-it-has-been-determined-that-r1-3r2r3-5.-assign-at-random-13-experimental-units-to-the-3-treatments-so-that-the-first-treatment-is-assigned-3-units-and-the-other-two-treatments-are-each-assigned-5-units.}{%
+\subsection{\texorpdfstring{3.Suppose that you are planning to run an
+experiment with one treatment factor having three levels. It has been
+determined that \(r1= 3,r2=r3= 5\). Assign at random 13 experimental
+units to the 3 treatments so that the first treatment is assigned 3
+units and the other two treatments are each assigned 5
+units.}{3.Suppose that you are planning to run an experiment with one treatment factor having three levels. It has been determined that r1= 3,r2=r3= 5. Assign at random 13 experimental units to the 3 treatments so that the first treatment is assigned 3 units and the other two treatments are each assigned 5 units.}}\label{suppose-that-you-are-planning-to-run-an-experiment-with-one-treatment-factor-having-three-levels.-it-has-been-determined-that-r1-3r2r3-5.-assign-at-random-13-experimental-units-to-the-3-treatments-so-that-the-first-treatment-is-assigned-3-units-and-the-other-two-treatments-are-each-assigned-5-units.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r_exp.unit =}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{13}
+\NormalTok{r_treat.nr =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{'r1'}\NormalTok{,}\DecValTok{3}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'r2'}\NormalTok{,}\DecValTok{5}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\StringTok{'r3'}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\NormalTok{r_treat =}\StringTok{ }\KeywordTok{sample}\NormalTok{(r_treat.nr, }\DataTypeTok{replace =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{r_CRD.table =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(r_exp.unit, r_treat)}
+\KeywordTok{print}\NormalTok{(r_CRD.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    r_exp.unit r_treat
+## 1           1      r2
+## 2           2      r3
+## 3           3      r3
+## 4           4      r2
+## 5           5      r3
+## 6           6      r2
+## 7           7      r1
+## 8           8      r3
+## 9           9      r3
+## 10         10      r1
+## 11         11      r1
+## 12         12      r2
+## 13         13      r2
+\end{verbatim}
+
+\hypertarget{visit-httpwww.tylervigen.comspurious-correlations-or-some-other-website-of-your-choosing-and-find-an-example-of-two-observed-quantities-that-are-correlated-but-you-think-are-not-causally-related.-clearly-show-the-data-you-could-download-an-image-and-describe-why-you-think-the-two-quantities-are-not-causally-related.-give-an-example-of-another-factor-not-measured-which-you-think-could-have-a-causative-link-with-one-or-both-of-the-quantities-shown.-give-some-explanation-for-why-this-not-measured-factor-could-be-causally-linked-to-one-or-both-of-the-quantities.}{%
+\subsection{\texorpdfstring{4.Visit
+\url{http://www.tylervigen.com/spurious-correlations} (or some other
+website of your choosing) and find an example of two observed quantities
+that are correlated, but you think are not causally related. Clearly
+show the data (you could download an image), and describe why you think
+the two quantities are not causally related. Give an example of another
+factor (not measured) which you think could have a causative link with
+one or both of the quantities shown. Give some explanation for why this
+not measured factor could be causally linked to one or both of the
+quantities.}{4.Visit http://www.tylervigen.com/spurious-correlations (or some other website of your choosing) and find an example of two observed quantities that are correlated, but you think are not causally related. Clearly show the data (you could download an image), and describe why you think the two quantities are not causally related. Give an example of another factor (not measured) which you think could have a causative link with one or both of the quantities shown. Give some explanation for why this not measured factor could be causally linked to one or both of the quantities.}}\label{visit-httpwww.tylervigen.comspurious-correlations-or-some-other-website-of-your-choosing-and-find-an-example-of-two-observed-quantities-that-are-correlated-but-you-think-are-not-causally-related.-clearly-show-the-data-you-could-download-an-image-and-describe-why-you-think-the-two-quantities-are-not-causally-related.-give-an-example-of-another-factor-not-measured-which-you-think-could-have-a-causative-link-with-one-or-both-of-the-quantities-shown.-give-some-explanation-for-why-this-not-measured-factor-could-be-causally-linked-to-one-or-both-of-the-quantities.}}
+
+I picked this one, US spending on science, space, and technology
+correlates with Suicides by hanging, strangulation and suffocation.
+
+\begin{figure}
+\centering
+\includegraphics{"chart.png"}
+\caption{Weird Correlation}
+\end{figure}
+
+I think these two quantities are not causally related because I think
+the amount of suicide cases is not a response variable nor an
+explanatory variable to the amount of money US spent on science. People
+might suicide because of working stresses or other reasons, but I can't
+see any direct relations to do with science, space, or technology, it's
+too far.
+
+An example of another factor which I think could have a causative link
+with US spending on science, space, and technology is populations living
+on Earth. I think there is a link because with increasing populations,
+we might run into short of food, water, or even living spaces, therefore
+when we have more people, we would spend more on technology, science and
+space to handle these problems or find a new planet to live.
+
+\hypertarget{let-xn26and-yn32and-zn01.-all-three-random-variables-are-independent-of-each-other.-do-the-following.-show-all-work.}{%
+\subsection{5.Let X∼N(2,6)and Y∼N(−3,2)and Z∼N(0,1). All three random
+variables are independent of each other. Do the following. Show all
+work.}\label{let-xn26and-yn32and-zn01.-all-three-random-variables-are-independent-of-each-other.-do-the-following.-show-all-work.}}
+
+\hypertarget{a-what-is-the-distribution-of-wxyz-what-are-ew-and-varw}{%
+\subsubsection{(a) What is the distribution of W=X+Y+Z? What are E(W)
+and
+Var(W)?}\label{a-what-is-the-distribution-of-wxyz-what-are-ew-and-varw}}
+
+Since X,Y,Z are all R.V, and they are all independent, so W is normal
+and E(W) = mean(X)+mean(Y)+mean(Z)=-1, Var(W)=var(X)+var(Y)+var(Z)=9
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{N =}\StringTok{ }\DecValTok{500}
+\NormalTok{X =}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(N, }\DataTypeTok{mean =} \DecValTok{2}\NormalTok{, }\DataTypeTok{sd =} \KeywordTok{sqrt}\NormalTok{(}\DecValTok{6}\NormalTok{))}
+\NormalTok{Y =}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(N, }\DataTypeTok{mean =} \DecValTok{-3}\NormalTok{, }\DataTypeTok{sd =} \KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{))}
+\NormalTok{Z =}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(N, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{W =}\StringTok{ }\NormalTok{X}\OperatorTok{+}\NormalTok{Y}\OperatorTok{+}\NormalTok{Z}
+\NormalTok{alldata =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(X,Y,Z,W)}
+\KeywordTok{hist}\NormalTok{(W)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_XiangyuRen_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{mean}\NormalTok{(W))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.9941789
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{var}\NormalTok{(W))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8.417299
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sd}\NormalTok{(W))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.901258
+\end{verbatim}
+
+\hypertarget{b-what-is-the-distribution-of-q2y}{%
+\subsubsection{(b) What is the distribution of
+Q=2Y?}\label{b-what-is-the-distribution-of-q2y}}
+
+Q is also normal distribution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Q =}\StringTok{ }\DecValTok{2}\OperatorTok{*}\NormalTok{Y}
+\NormalTok{y_data =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(Y,Q)}
+\KeywordTok{hist}\NormalTok{(Q)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_XiangyuRen_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{mean}\NormalTok{(Q))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -6.067319
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{var}\NormalTok{(Q))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.410732
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sd}\NormalTok{(Q))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.722266
+\end{verbatim}
+
+\hypertarget{c-what-is-the-distribution-of-p2x4}{%
+\subsubsection{(c) What is the distribution of
+P=−2X+4?}\label{c-what-is-the-distribution-of-p2x4}}
+
+P is also normal distribution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{P =}\StringTok{ }\DecValTok{-2}\OperatorTok{*}\NormalTok{X}\OperatorTok{+}\DecValTok{4}
+\NormalTok{x_data =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(X,P)}
+\KeywordTok{hist}\NormalTok{(P)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_XiangyuRen_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{mean}\NormalTok{(P))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.1937621
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{var}\NormalTok{(P))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24.00086
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sd}\NormalTok{(P))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.899067
+\end{verbatim}
+
+\hypertarget{d-find-a-and-b-so-that-mabx-is-distributed-as-a-standard-normal-distribution.}{%
+\subsubsection{(d) Find a and b so that M=a+bX is distributed as a
+standard Normal
+distribution.}\label{d-find-a-and-b-so-that-mabx-is-distributed-as-a-standard-normal-distribution.}}
+
+To get a standard Normal distribution, we need E(X)=mean(X)=0, and
+var(X)=1. With scaling, \(6*b^2=1\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b =}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{6}\NormalTok{)}
+\NormalTok{b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4082483
+\end{verbatim}
+
+By shifting, \(2*b+a=0\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a =}\StringTok{ }\DecValTok{-2}\OperatorTok{*}\NormalTok{b}
+\NormalTok{a}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.8164966
+\end{verbatim}
+
+Testing:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{W =}\StringTok{ }\NormalTok{a}\OperatorTok{+}\NormalTok{b}\OperatorTok{*}\NormalTok{X}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{mean}\NormalTok{(W))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03955152
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{var}\NormalTok{(W))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.000036
+\end{verbatim}
+
+So, we get a = -0.8164966, b = 0.4082483.
+
+\hypertarget{do-the-following}{%
+\subsection{6. Do the following}\label{do-the-following}}
+
+\hypertarget{a-use-r-to-simulate-1000-iid-random-variables-xi-with-xin23.-plot-a-histogram-of-your-simulated-values.}{%
+\subsubsection{(a) Use R to simulate 1000 iid random variables \{Xi\}
+with Xi∼N(−2,3). Plot a histogram of your simulated
+values.}\label{a-use-r-to-simulate-1000-iid-random-variables-xi-with-xin23.-plot-a-histogram-of-your-simulated-values.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Xi =}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DataTypeTok{mean =} \DecValTok{-2}\NormalTok{, }\DataTypeTok{sd =} \KeywordTok{sqrt}\NormalTok{(}\DecValTok{3}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(Xi)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_XiangyuRen_files/figure-latex/unnamed-chunk-10-1.pdf}
+\#\#\# (b) Also simulate 1000 iid random variables \{Yi\} with Yi∼(3,1).
+Plot a histogram of your simulated values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Yi =}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DataTypeTok{mean =} \DecValTok{3}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(Yi)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_XiangyuRen_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\end{document}

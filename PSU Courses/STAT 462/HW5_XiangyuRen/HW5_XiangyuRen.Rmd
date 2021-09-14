@@ -1,0 +1,127 @@
+---
+title: "R Notebook"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### Problem 1. Many different interest groups such as the lumber industry, ecologists, and foresters benefit from being able to predict the volume of a tree just by knowing its diameter. One classic data set (shortleaf.txt) reported by C. Bruce and F. X. Schumacher in 1935 concerned the diameter (in inches) and volume (in cubic feet) of 70 shortleaf pines. A researcher is interested in learning about the relationship between the diameter and volume of shortleaf pines.
+```{r}
+shortleaf = read.delim("shortleaf.txt")
+head(shortleaf)
+```
+
+#### (a) Identify the response variable and explanatory variable for the problem
+The diameter is the explanatory variable and the volume is the response variable.
+
+#### (b)  Draw a scatter plot to show how volume of a tree and its diameter are associated. Comment on your observations.
+```{r}
+plot(shortleaf$Diam, shortleaf$Vol, main = "", xlab = "diameter", ylab = "volume", pch = 16)
+```
+It seems like there is a positive association between diameter and volume. The association might not be linear and the point, locates up-right, might be an outlier.
+
+#### (c) Fit a regression line for the problem, write down the estimated equation (define any terms you might have used), and mark the estimated line on the scatter plot in part (b). Provide all outputs. Interpret the estimated parameters clearly in the context of the problem.
+```{r}
+model1 = lm(Vol ~ Diam, data = shortleaf)
+summary(model1)
+```
+The regression line is: $Volume=-41.5681+6.8367*Diameter$
+```{r}
+plot(shortleaf$Diam, shortleaf$Vol, main = "", xlab = "diameter", ylab = "volume", pch = 16)
+abline(model1, col = "coral", lwd = 2)
+```
+Interpretation of the intercept: The average volume of a tree when the diameter is 0 is -41.5681. This interpretation of intercept doesn't make sense in real world: a tree with 0 diameter is not a tree, and statistically $diameter=0$ is out of the range of observation.
+
+Interpretation of the slope: For each unit of diameter increasing, we are expecting the average change in volume increase by 6.8367.
+
+#### (d) Obtain the diagnostics for the fitted model in part (c). Clearly state your observations. Provide all the outputs you used.
+```{r}
+plot(model1, which = c(1, 2))
+plot(hatvalues(model1))
+plot(cooks.distance(model1))
+```
+From the residuals vs. fitted plot, we can see there is a u shaped line, which indicate that a non-linear model might be more appropriate to the problem. Also, it seems like the constant error variance assumption does not meet. 
+
+From both diagnostic plots, we can see that observation 70 appears to be an outlier, without the outlier, from the QQ plot, we can see that the residuals follow normal distribution. Also, from the third plot, we can the observation 70 has much higher leverage than others, and from the fourth plot, observation 70 appears to be an influential point.
+
+#### (e)  Identify (i) the point with highest residual (studentized residual), (ii) the point with highest leverage, and (iii) the point with highest Cook’s distance. Suppose a friend of the researcher suggested that there is an influential point in the data, and should be investigated. Do you agree with this comment? Explain your reasoning.
+
+#### (i)
+```{r}
+library(MASS)
+stud.residuals = studres(model1)
+shortleaf[abs(stud.residuals) == max(abs(stud.residuals)),]
+stud.residuals[70]
+```
+The point with highest studentized residual is observation 70, with a studentized residual of 6.0976. Outside the usual cut-off bands $(-3,3)$, which indicating this is most likely a potential influential point. 
+
+#### (ii)
+```{r}
+leverage = hatvalues(model1)
+shortleaf[leverage == max(leverage),]
+leverage[70]
+```
+The point with highest leverage is observation 70, with leverage as 0.1409. A point is a high leverage point if $leverage>\frac{2p}n$, where p is 2 here, the number of regression coefficients for SLR is 2, and n is 70, the index. $0.1409>\frac4{70}=0.057$, which indicating this is most likely a potential influential point. 
+
+#### (iii)
+```{r}
+cooksdistance = cooks.distance(model1)
+shortleaf[cooksdistance == max(cooksdistance),]
+cooksdistance[70]
+```
+The point with highest Cook's distance is observation 70, with a Cook's distance of 1.99. This is higher than the usual cut-off point, which indicating this is most likely a potential influential point. 
+
+Therefore, we conclude that we agree with the researcher's friend, since all 3 measures indicate that observation 70 is most likely a potential influential point. 
+
+#### Problem 2. Manufacturer of a laundry detergent was interested in testing a new product prior to market release. One concern is the relationship between height of the detergent suds in a washing machine as a function of the amount of detergent added to the washing cycle. In a standard size washing machine with water at full level, the manufacturer makes random assignments of amounts of detergent tested them on the washing machine.Resulting data is in SoapSuds.csv file.
+```{r}
+soapsuds = read.csv("SoapSuds.csv")
+colnames(soapsuds)[1] = "HeightofSuds"
+head(soapsuds)
+```
+
+#### (a) Recognize the response and the explanatory variables in this study.
+The detergent Amount is explanatory variable and the Height of Suds is response variable.
+
+#### (b) Make a scatterplot and comment on your observations.
+```{r}
+plot(soapsuds$DetAmount, soapsuds$HeightofSuds, main = "", xlab = "amount of detergent", ylab = "height of suds", pch = 16)
+```
+It seems like there is a positive association between Amount of Detergent and Height of Suds, also, the association seems to be linear.
+
+#### (c) Obtain the least squares regression line and overlay the line on the scatterplot. 
+```{r}
+model2 = lm(HeightofSuds ~ DetAmount, data = soapsuds)
+plot(soapsuds$DetAmount, soapsuds$HeightofSuds, main = "", xlab = "amount of detergent", ylab = "height of suds", pch = 16)
+abline(model2, col = "coral", lwd = 2)
+```
+
+#### (d) What is the equation of the least squares regression line.
+```{r}
+summary(model2)
+```
+
+The equation fo the least squares regression line is: $\hat{HeightofSuds}=3.37+4.065*DetAmount$
+
+#### (e) Do a lack of fit test for the fitted model. Clearly state all the steps, outputs and conclusion.
+```{r}
+library(EnvStats)
+```
+Doing a lack of fit F-test, we are going to conduct the test below two competing null and alternative hypotheses:
+$$H_0=Relationship\;assumed\;in\;the\;model\;is\;resonable$$
+$$H_1=Relationship\;assumed\;in\;the\;model\;is\;NOT\;resonable$$
+```{r}
+anovaPE(model2)
+```
+From the anova table, we can see the p-value for lack of fit test, is 0.2049, thus we can conclude that at 5% significant level, we don't have enough evidence to reject the null hypothesis, so the assumed model fit the data well. 
+
+#### (f) Obtain the diagnostics for the fitted model. Clearly state your observations. Provide all the outputs you used.
+```{r}
+plot(model2, which = c(1, 2))
+plot(hatvalues(model2))
+plot(cooks.distance(model2))
+```
+From the residuals vs. fitted plot, we can see there is a non-linear line, which indicate that a non-linear model might be more appropriate to the problem.
+
+From both diagnostic plots, we can see that observations $4,10$ appear to be the outlier, without the outlier, from the QQ plot, we can see that the residuals follow normal distribution. 
+
+Also, from the third plot, we can the observations: $1,2,9,10$ have higher leverage than others, and from the fourth plot, observation $10$ appears to be an influential point.

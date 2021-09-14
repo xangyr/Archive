@@ -1,0 +1,6 @@
+"0","```r
+# like question 2, find 1-P(X<6)
+1 - pnorm(6, mean = 5, sd = 2)
+```"
+"1","[1] 0.3085375
+"

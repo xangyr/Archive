@@ -1,0 +1,241 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={STAT461 HW6},
+  pdfauthor={Xiangyu Ren},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{STAT461 HW6}
+\author{Xiangyu Ren}
+\date{10/9/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{problem-1.-define-the-following-terms}{%
+\paragraph{Problem 1. Define the following
+terms:}\label{problem-1.-define-the-following-terms}}
+
+\hypertarget{a.-treatment}{%
+\paragraph{a. treatment}\label{a.-treatment}}
+
+Combinations of factor levels are called treatments, where factor, also
+called an independent variable, is an explanatory variable manipulated
+by the experimenter.
+
+\hypertarget{b.-contrast}{%
+\paragraph{b. contrast}\label{b.-contrast}}
+
+A contrast is a linear combination of variables such that all the
+coefficients add up to zero. One way to think of it is as a set of
+weighted variables.
+
+\hypertarget{c.-replicate}{%
+\paragraph{c.~replicate}\label{c.-replicate}}
+
+Replication is the repetition of an experimental condition so that the
+variability associated with the phenomenon can be estimated.
+
+\hypertarget{d.-confounder}{%
+\paragraph{d.~confounder}\label{d.-confounder}}
+
+A confounder is a variable that influences both the dependent variable
+and independent variable, causing a spurious association.
+
+\hypertarget{e.-response}{%
+\paragraph{e. response}\label{e.-response}}
+
+A response variable, also known as a dependent variable, is a concept,
+idea, or quantity that someone wants to measure.
+
+\hypertarget{f.-generalizability}{%
+\paragraph{f.~generalizability}\label{f.-generalizability}}
+
+Generalizability is a measure of how well a researcher thinks their
+experimental results from a sample can be extended to the population as
+a whole.
+
+\hypertarget{problem-2.}{%
+\paragraph{Problem 2.}\label{problem-2.}}
+
+\hypertarget{a.-enter-the-above-data-into-r.}{%
+\paragraph{a. Enter the above data into
+R.}\label{a.-enter-the-above-data-into-r.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{unit =}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{10}
+\NormalTok{brand =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{) }
+\NormalTok{yield =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{13}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{13}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{15}\NormalTok{)}
+\NormalTok{data =}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(unit, brand, yield)}
+\NormalTok{data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    unit brand yield
+## 1     1     A    13
+## 2     2     B     9
+## 3     3     A    10
+## 4     4     A     8
+## 5     5     B    20
+## 6     6     B    13
+## 7     7     B    11
+## 8     8     A    25
+## 9     9     A     8
+## 10   10     B    15
+\end{verbatim}
+
+\hypertarget{b.-run-the-one-way-anova-model-in-r.}{%
+\paragraph{b. Run the one-way ANOVA model in
+R.}\label{b.-run-the-one-way-anova-model-in-r.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lsmeans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: emmeans
+\end{verbatim}
+
+\begin{verbatim}
+## The 'lsmeans' package is now basically a front end for 'emmeans'.
+## Users are encouraged to switch the rest of the way.
+## See help('transition') for more information, including how to
+## convert old 'lsmeans' objects and scripts to work with 'emmeans'.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model=}\KeywordTok{aov}\NormalTok{(yield}\OperatorTok{~}\NormalTok{brand,}\DataTypeTok{data=}\NormalTok{data)}
+\KeywordTok{anova}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: yield
+##           Df Sum Sq Mean Sq F value Pr(>F)
+## brand      1    1.6    1.60  0.0467 0.8343
+## Residuals  8  274.0   34.25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lsm.data=}\KeywordTok{lsmeans}\NormalTok{(model, }\OperatorTok{~}\NormalTok{brand)}
+\NormalTok{lsm.data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  brand lsmean   SE df lower.CL upper.CL
+##  A       12.8 2.62  8     6.76     18.8
+##  B       13.6 2.62  8     7.56     19.6
+## 
+## Confidence level used: 0.95
+\end{verbatim}
+
+\hypertarget{c.-what-is-the-least-squares-estimate-for-the-contrast-ux3c4_aux3c4_b-compute-the-least-square-estimate-in-r.}{%
+\paragraph{\texorpdfstring{c.~What is the least squares estimate for the
+contrast \(τ_A−τ_B\)? Compute the least square estimate in
+R.}{c.~What is the least squares estimate for the contrast τ\_A−τ\_B? Compute the least square estimate in R.}}\label{c.-what-is-the-least-squares-estimate-for-the-contrast-ux3c4_aux3c4_b-compute-the-least-square-estimate-in-r.}}
+
+\end{document}

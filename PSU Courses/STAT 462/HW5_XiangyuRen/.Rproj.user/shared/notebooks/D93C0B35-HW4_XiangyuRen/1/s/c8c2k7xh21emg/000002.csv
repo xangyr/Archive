@@ -1,0 +1,23 @@
+"0","```r
+model1 = lm(Expend ~ TownPop, data = expenditure)
+summary(model1)
+```"
+"1","
+Call:
+lm(formula = Expend ~ TownPop, data = expenditure)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-81.850 -11.950   0.317   7.792 142.348 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 117.6143    20.3181   5.789  3.7e-06 ***
+TownPop       0.6584     0.5428   1.213    0.236    
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 37.28 on 27 degrees of freedom
+Multiple R-squared:  0.05167,	Adjusted R-squared:  0.01654 
+F-statistic: 1.471 on 1 and 27 DF,  p-value: 0.2357
+"

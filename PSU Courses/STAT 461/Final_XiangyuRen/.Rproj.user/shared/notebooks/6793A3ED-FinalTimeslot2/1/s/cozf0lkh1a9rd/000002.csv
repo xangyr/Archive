@@ -1,0 +1,7 @@
+"0","set.seed(10384)"
+"0","x=rchisq(25,2)+3"
+"0","xbar=mean(x)"
+"0","fitted=rep(rt(5,9),each=5)"
+"0","resid=x-xbar"
+"0","par(mfrow=c(1,2))"
+"0","plot(fitted,resid,main=""Fitted vs. Residuals"")"

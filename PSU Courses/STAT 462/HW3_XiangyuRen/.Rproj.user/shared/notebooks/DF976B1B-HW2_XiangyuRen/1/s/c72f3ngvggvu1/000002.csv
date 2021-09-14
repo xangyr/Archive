@@ -1,0 +1,6 @@
+"0","```r
+tires = read.csv(\"tires.csv\")
+mean(tires$MilesDriven)
+```"
+"1","[1] 31.46667
+"

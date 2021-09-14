@@ -1,0 +1,5 @@
+"0","```r
+cor(sat$GDP, sat$Satisfaction)
+```"
+"1","[1] 0.6873774
+"

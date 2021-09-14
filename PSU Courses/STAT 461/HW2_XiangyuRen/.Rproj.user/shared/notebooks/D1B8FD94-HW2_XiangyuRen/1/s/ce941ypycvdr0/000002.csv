@@ -1,0 +1,15 @@
+"0","```r
+t.test(drug$Dissolution, conf.level = 0.99)
+```"
+"1","
+	One Sample t-test
+
+data:  drug$Dissolution
+t = 224.94, df = 23, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+99 percent confidence interval:
+ 19.58169 20.07664
+sample estimates:
+mean of x 
+ 19.82917 
+"

@@ -1,0 +1,10 @@
+"0","```r
+anovaPE(model2)
+```"
+"1","                     Df Sum Sq Mean Sq  F value    Pr(>F)    
+DetAmount             1 330.48  330.48 246.0793 1.914e-05 ***
+Lack of Fit           3   8.91    2.97   2.2113    0.2049    
+Pure Error            5   6.71    1.34                       
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+"

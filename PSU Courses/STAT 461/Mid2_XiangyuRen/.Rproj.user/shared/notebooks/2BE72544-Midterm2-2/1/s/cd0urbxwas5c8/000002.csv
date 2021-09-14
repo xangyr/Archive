@@ -1,0 +1,7 @@
+"0","library(lme4)"
+"0","library(lmerTest)"
+"0","library(car)"
+"0","library(multcompView)"
+"0",""
+"0","df = data.frame(crock = beans$Crock, soaktime = beans$SoakTim, recipe = beans$Recipe, rating = beans$Rating)"
+"0","df"

@@ -1,0 +1,30 @@
+---
+title: "STAT461 HW10"
+author: "Xiangyu Ren"
+date: "11/27/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1.Write out an appropriate statistical model for the following experiment. Clearly define the response variable, identify all factors, and state the levels of each factor.
+
+## A study is designed to examine the potential effect of agricultural on phosphorous levels in lakes in the northeastern United States. Three states were chosen at random from all northeastern states. The states chosen were New York, Pennsylvania, and Vermont. In each state, 4 lakes were chosen randomly from all lakes that were surrounded by agricultural land, and 4 other lakes were chosen randomly from all lakes surrounded by forest. This resulted in 24 total lakes, 8 from each state. A sample of water was taken from each of the 24 lakes, and the phosphorous level (in mg/l) was measured.
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_{ij}+\epsilon_{ijt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+
+$$i=New\;York,Pennsylvania,Vermont\quad j=Agricultural\;Land,Forest\quad t=1,2,3,4$$
+
+$$\text{Response variable}:Y_{ijt}=\text{phosphorous level of the water sample (in mg/l)}$$
+
+## Problem 2. Write out an appropriate statistical model for the following experiment. Clearly define the response variable, identify all factors, and state the levels of each factor.
+
+## An experiment is conducted to determine whether or not putting reflective paint on roads reduces the rate of crashes on different types of roads. Ten mountainous roads and ten city roads were chosen randomly from all roads in Pennsylvania. Each road was watched for 3 years without reflective paint, and then the road was painted with reflective paint and the road was watched for another three years. This leads to a total of 6*20=120 total years of observation of the 20 roads. Each year the number of crashes on each road is recorded. (In this experiment, you may treat year as a replicate)
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_{ij}+\epsilon_{ijt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+
+$$i=Mountainous,City\quad j=with\;reflective\;paint,without\;reflective\;paint\quad t=1,2,3,...,30$$
+
+$$\text{Response variable}:Y_{ijt}=\text{number of crashes on the road}$$

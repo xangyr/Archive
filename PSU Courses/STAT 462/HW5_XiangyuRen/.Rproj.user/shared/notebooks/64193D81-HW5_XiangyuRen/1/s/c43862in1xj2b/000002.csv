@@ -1,0 +1,20 @@
+"0","library(EnvStats)"
+"2","
+Attaching package: ‘EnvStats’
+
+"
+"2","The following object is masked from ‘package:MASS’:
+
+    boxcox
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    predict, predict.lm
+
+"
+"2","The following object is masked from ‘package:base’:
+
+    print.default
+
+"

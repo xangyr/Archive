@@ -1,0 +1,134 @@
+---
+title: "Homework 1"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+#### (1). In class we discussed about both numerical and graphical summaries to describe the data.You will be using the dataset mtcars available in R to make some numerical and graphical summaries. Original data was taken from 1974 Motor Trend US magazine. This dataset include fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+##### (a) Use below code lines to access the help file for mtcars dataset and to print the first few observations of the dataset. Your code and the output need to be appear in your answer.
+```{r}
+?help(mtcars)
+# help(mtcars)
+head(mtcars)
+```
+
+##### (b) The variable am tells you the type of transformation: auto or manual. Since this is clearly a categorical variable, you can display the information in a pie chart. Use below lines to make a pie chart of the transmission type. Make sure to include your pie chart in the answer.
+```{r}
+ttype = table(mtcars$am) # To get the levels of the variable
+ttype_lbls = c("Auto", "Manual")
+pie(ttype, labels = ttype_lbls, col = rainbow(length(ttype_lbls)), main = "Pie Chart of the Transmission Type")
+```
+
+##### (c) Suppose I want to compare mileage of the vehicle for Auto and Manual transmission vehicles. You can make the comparison by making a side-by-side boxplot as below.Use the below provided code to crate the plot and comment on what you can observe from the plots (make sure to include the plot).
+```{r}
+boxplot(mpg~am, data = mtcars, xlab = "Transmission", ylab = "mpg", col = c("deepskyblue4", "deepskyblue"))
+legend("topright", legend = c("0 - Auto", "1 - Manual"))
+```
+
+##### (d) In the R tutorial we did in the class, we talked about accessing a certain column of a dataframe. Use the R functions; mean() and sd() to find the mean and the standard deviation of the variable mpg.
+```{r}
+mean(mtcars$mpg) # mean of variable mpg
+sd(mtcars$mpg) # standard deviation of variable mpg
+```
+
+#### (2). Records maintained by the office on budget in a certain state indicate that amount of time elapsed between the submission of travel vouchers and the final reimbursement of funds has approximately a normal distribution with a mean of 39 days and a standard deviation of 6 days. If you had a travel voucher submitted more than 55 days ago, what might you conclude?
+
+we need to find $$P(X>55)$$, to calculate that we use $$1-P(X<55)$$
+```{r}
+1 - pnorm(55, mean = 39, sd = 6)
+```
+With this really low probability, I would conclude that I won't receive any reimbursement.
+
+#### (3). Download the kc_house_data.csv file from Canvas and save it in your working directory. This dataset includes information on homes sold between May 2014 and May 2015 in King County in Washington State.
+
+##### (a) Read the dataset into R and print the first couple of observations. Use read.csv()function to read the data.
+```{r}
+house = read.csv("kc_house_data.csv")
+house
+```
+
+##### (b) Variable “price” is the selling price of the house. Use a suitable graph to display the house prices in King County. Comment on your observation such as shape, any outliers, etc.
+```{r}
+hist(house$price, main = "", xlab = "House Price")
+# Based on the observation, the graph of prices is right skewed.
+# No outlier.
+```
+
+##### (c) Suppose a buyer would like to see variations/any difference in house price based on the number of bedrooms. Use a suitable graphical technique to display this information. Comment on your observations.
+```{r}
+
+boxplot(price~bedrooms, data = house, xlab = "Number of bedrooms", ylab = "House price")
+# Based on the observation, houses with 1 to 6 bedrooms have not only the number of bedrooms as main factor with affect the price of the house, since there are plenty of outliers. 
+# Also, the mean of house prices increases as the number of bedrooms ascending. 
+```
+
+#### (4). Using R functions pnorm() and qnorm()you can find the cumulative probabilities and normal quantiles, for any normal distribution. For instance;
+```{r}
+pnorm(1.96,mean=0,sd=1)
+qnorm(0.025,mean=0,sd=1)
+```
+
+Please note that in the abbreviation $X\sim N(\theta_1,\theta_2)$ $\theta_1$ represent the mean and $\theta_2$ represent the variance of the distribution.
+
+##### (a) Use R to find each of below probabilities.
+
+##### (i) If $X\sim N(5,2)$, then find $P(X\le4)$.
+```{r}
+# sicnce is RV, P(X<=4)=P(X<4)
+pnorm(4, mean = 5, sd = 2)
+```
+
+##### (ii) If $X\sim N(5,2)$, then find $P(X>6)$.
+```{r}
+# like question 2, find 1-P(X<6)
+1 - pnorm(6, mean = 5, sd = 2)
+```
+
+##### (iii) If $X\sim N(10, 1)$, then find $P(X<6)$.
+```{r}
+pnorm(9, mean = 10, sd = 1)
+```
+
+##### (b) Use R to find each of below normal quantiles
+
+##### (i) If $X\sim N(5,2)$, then find the value $a$ such that $P(X < a) = 0.025$
+```{r}
+qnorm(0.025, mean = 5, sd = 2)
+```
+
+##### (ii) If $X\sim N(5,2)$, then find the value $a$ such that $P(X > a) = 0.025$
+```{r}
+qnorm(1-0.025, mean = 5, sd = 2)
+```
+
+##### (iii) If $X\sim N(10,1)$, then find the value $a$ such that $P(X > a) = 0.55$
+```{r}
+qnorm(1-0.55, mean = 10, sd = 1)
+```
+
+#### (5). Similar to the nromal distribution, you can find cumulative probabilities and quartiles using pt() and qt()functions in R. Use R to answer below questions.
+
+##### (a) If $T\sim t(2)$ then find the $P(T\le5)$
+```{r}
+pt(5, df = 2)
+```
+
+##### (b) If $T\sim t(5)$ then find the $P(T>2)$
+```{r}
+1 - pt(2, df = 5)
+```
+
+##### (c) If $T\sim t(10)$ find the value $a$ such that $P(T>a)=0.75$
+```{r}
+qt(1-0.75, df = 10)
+```
+
+##### (d) If $T\sim t(1)$ find the value $a$ such that $P(T<a)=0.75$
+```{r}
+qt(0.75, df = 1)
+```
+
+##### (e) If $T\sim t(1)$ find the value $a$ such that $P(T>a)=0.75$
+```{r}
+qt(1-0.75, df = 1)
+```

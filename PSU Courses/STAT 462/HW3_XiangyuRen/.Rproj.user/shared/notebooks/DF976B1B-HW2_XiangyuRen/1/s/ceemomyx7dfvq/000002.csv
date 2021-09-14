@@ -1,0 +1,4 @@
+"0","```r
+irisPetals = read.csv(\"irisPetals.csv\")
+colnames(irisPetals) = c(\"petallength\",\"petalwidth\")
+```"

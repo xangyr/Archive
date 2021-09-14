@@ -1,0 +1,5 @@
+"0","```r
+cor(TextPrices$Pages, TextPrices$Price)
+```"
+"1","[1] 0.8225404
+"

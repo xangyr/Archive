@@ -1,0 +1,1 @@
+"0","plot(x = aphid$x2, y = stud.res, xlab = ""x2"", ylab = ""Studentized Residuals"", pch = 20)"

@@ -1,0 +1,2 @@
+"0","model.sqr = aov(SqrLife ~ type, data = batt)"
+"0","plot(model.sqr, which = c(1, 2))"

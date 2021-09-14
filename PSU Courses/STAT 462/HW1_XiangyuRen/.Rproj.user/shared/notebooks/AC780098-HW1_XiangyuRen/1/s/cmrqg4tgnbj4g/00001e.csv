@@ -1,0 +1,1 @@
+"0","boxplot(mpg~am, data = mtcars, xlab = ""Transmission"", ylab = ""mpg"", col = c(""deepskyblue4"", ""deepskyblue""))"

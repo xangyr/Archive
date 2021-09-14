@@ -1,0 +1,2 @@
+"0","data=data.frame(type=as.factor(type),Cal=Cal)"
+"0","head(data)"

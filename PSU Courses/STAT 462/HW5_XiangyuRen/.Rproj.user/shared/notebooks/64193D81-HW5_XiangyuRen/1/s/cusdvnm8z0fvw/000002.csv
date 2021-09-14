@@ -1,0 +1,1 @@
+"0","plot(soapsuds$DetAmount, soapsuds$HeightofSuds, main = """", xlab = ""amount of detergent"", ylab = ""height of suds"", pch = 16)"

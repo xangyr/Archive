@@ -1,0 +1,1 @@
+"0","model4 = lmer(log(rating) ~ + soaktime + (1 | crock:soaktime) + recipe + soaktime:recipe, data = df)"

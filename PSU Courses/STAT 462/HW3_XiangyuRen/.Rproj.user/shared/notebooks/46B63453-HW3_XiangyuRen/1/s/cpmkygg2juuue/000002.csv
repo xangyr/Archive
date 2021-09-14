@@ -1,0 +1,1 @@
+"0","plot(sat$GDP, sat$Satisfaction, main = """", xlab = ""GDP"", ylab = ""Satisfaction"", pch = 16)"

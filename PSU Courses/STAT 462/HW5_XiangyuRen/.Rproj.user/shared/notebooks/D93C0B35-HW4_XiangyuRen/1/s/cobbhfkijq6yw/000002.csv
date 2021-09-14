@@ -1,0 +1,7 @@
+"0","```r
+new.InkjetPrinters = data.frame(PPM = 3)
+predict(model3, new.InkjetPrinters, interval = \"predict\", level = 0.95)
+```"
+"1","       fit     lwr      upr
+1 178.4124 52.1476 304.6773
+"

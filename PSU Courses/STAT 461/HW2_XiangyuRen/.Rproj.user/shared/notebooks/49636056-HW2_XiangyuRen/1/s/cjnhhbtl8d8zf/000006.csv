@@ -1,0 +1,6 @@
+"0","set.seed(01109)"
+"0","exp.unit = 1:20"
+"0","treat.nr = c(rep('none',5), rep('low',5), rep('medium',5), rep('high',5))"
+"0","treat = sample(treat.nr, replace = FALSE)"
+"0","CRD.table = data.frame(exp.unit, treat)"
+"0","print(CRD.table)"

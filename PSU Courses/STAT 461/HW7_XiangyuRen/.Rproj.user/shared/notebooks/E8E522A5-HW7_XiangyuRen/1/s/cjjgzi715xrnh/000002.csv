@@ -1,0 +1,3 @@
+"0","batt$SqrtLife = sqrt(life)"
+"0","batt$LogLife = log(life)"
+"0","batt$SqrLife = (life)^2"

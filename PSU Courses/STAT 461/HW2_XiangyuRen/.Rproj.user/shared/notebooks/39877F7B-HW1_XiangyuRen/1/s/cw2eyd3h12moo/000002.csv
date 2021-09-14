@@ -1,0 +1,4 @@
+"0","```r
+
+boxplot(price~bedrooms, data = house, xlab = \"Number of bedrooms\", ylab = \"House price\")
+```"

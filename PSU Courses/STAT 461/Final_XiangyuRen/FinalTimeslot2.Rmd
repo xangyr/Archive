@@ -1,0 +1,199 @@
+---
+title: "Final Exam - Timeslot 2"
+author: "Xiangyu Ren"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+
+This is a take-home exam.  You are allowed to use any non-human sources (internet, books, notes, etc), but you are NOT allowed to receive help from or work with any other person.  If the instructor feels that cheating may have happened, an oral component will be added to the exam, with students each individually explaining their work.  Any cheating will be addressed in accordance with Penn State's Academic Integrity policies.
+
+For each experiment below, conduct a full analysis of the experimental data, and answer any additional questions as stated in each problem. \textbf{In all cases, you should check model assumptions and make transformations to the response variable as needed.} You must present your answers in a clear manner. That is, only show R code for your final model selection (that is you do not need to show all transformations you try). The answers to the question should be cleanly typed up and easy to read. Your answer should contain all R code used, and you should describe the results of all important hypothesis tests you conduct. You must provide your raw .Rmd code otherwise your exam will not be graded! You must submit the output as a HTML, PDF (preferred) or Word Document file.
+
+
+## Question 1 (10 Points)
+
+Explain whether or not the following experiment was conducted using completely randomized design.
+
+A researcher wants to determine if greenhouse humidity can affect the height  of tomato plants within the greenhouse. With the funding available, she was able to procure 4 different greeenhouses. Of furhter interest, the researcher would like to know if differeneces in soil pH affects the height of a tomato plant. The researcher randomly chooses two of the greenhouses and sets them at a 'tropical' humidity level and the remaining two greenhouses are set to a 'tundra' humidity level. Each greenhouse houses 20 planters. Within each greenhouse, the scientist selects 10 planters and uses 'high-acidity' soil and the remaining 10 planters are given 'low-acidity soil'. She measures the height of the plants 1 month after planting.
+
+The experiment displayed is not conducted using completely randomized design, because the scientist was picking 4 different greenhouses instead of randomly select from a stack of greenhouses. Also, in the description, it doesn't say whether the scientist selects 10 planters from 20 planters randomly or not. 
+
+
+## Question 2 (16 Points)
+
+
+An experiment is conducted to test whether different fungi will affect the amount of time it takes for milk to spoil.  There were 3 litres of milk with fungi A, 3 litres of mlik with fungi B, and 3 litres of mlik with fungi C.  500 mL of milk from each litre was scooped into a bowl and left at room temperature.  The time in hours until each bowl spoils is recorded. Conduct a full analysis.
+
+```{r,echo=FALSE}
+set.seed(103)
+fungi=rep(c("A","B","C"),each=3)
+litre=c(2,1,3,2,1,3,1,2,3)
+spoiling.time=rpois(9,24)+1
+df=data.frame(fungi,litre,spoiling.time)
+df
+```
+We first give the formula:
+$$Y_{ijt} = \mu+\alpha_i+\beta_j+(\alpha\beta)_{ij} + \epsilon_{ijt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+$$\text{where }i=A,B,C\quad j=1,2,3\quad t=1$$
+```{r}
+model1 = aov(spoiling.time ~ fungi + litre + fungi : litre, data = df)
+plot(model1, which = c(1,2))
+anova(model1)
+```
+By the two plot, Residual vs. Fitted and QQ-plot, we can see that the residuals seems not to be normal since it has 3 outliers in the QQ-plot. Also, the assumption of constant error variance is been violated, since the residuals are not in squared. 
+
+Pick the un-transformed model, since all transformations seems have no improvement on satisfying assumptions of the model.
+
+```{r}
+library(lsmeans)
+library(multcompView)
+library(multcomp)
+library(emmeans)
+```
+
+Give a hypothesis test with $alpha=0.05$
+$$H_0:(\alpha\beta)_{ij}=0\text{ for all } i,j\quad vs. \quad H_a:\text{at least one treatment is different}$$
+```{r}
+contrast(lsmeans(model1, ~fungi), method = "pairwise")
+cld(lsmeans(model1, ~fungi : litre), alpha = 0.05)
+interaction.plot(x.factor = df$fungi, trace.factor = df$litre,response = df$spoiling.time, type = "b",col = c("red","blue"), xlab ="fungi", ylab = "Mean", trace.label = "litre")
+```
+
+We can see that all p-values are larger than 0.05 so we can conclude that no data is significantly different. By the grouping table, we can see that each group is not significantly different from others. Also from the interaction plot, we can see interactions among 3 lines, so there's a huge chance there's no significant difference. Therefore, We fail to reject null, and conclude that different fungi will affect the same amount of time it takes for milk to spoil.
+
+## Question 3 (10 Points)
+
+Below is code from a 1-Way ANOVA data analysis.  What do these residuals tell us about the assumptions in the ANOVA model?  What, if any, changes would you consider? If there needs to be a transformation, you do not need to state the specific transformation, simply that one is needed or not.
+
+```{r,echo=FALSE}
+set.seed(10384)
+x=rchisq(25,2)+3
+xbar=mean(x)
+fitted=rep(rt(5,9),each=5)
+resid=x-xbar
+par(mfrow=c(1,2))
+plot(fitted,resid,main="Fitted vs. Residuals")
+qqnorm(resid)
+qqline(resid)
+```
+The residual plot tells that the assumption of constant error variance for the model is been violated, since the residuals plots are not in squared. The QQ-plot tells that it seems not to be normal since the residuals are not in a straight line. 
+
+By far, I would recommend to use transformation for the model because with un-transformed model, we can't get strong enough evidence to show the reliability by these graphs.
+
+## Question 4 (16 Points)
+
+An experiment was conducted to determine whether if front-wheel drive cars or real-wheel drive cars had a better braking time.  Braking time will be measured by timing how long it takes each car to break after reaching 100 mph.  10 cars were selected at random from the test cars from the research and development department.  Five cars were chosen at random to be modified to be rear-wheel drive, and the remaining 5 cars were modified to be front-wheel drive.  It is assumed that a cars weight might be related to how fast they can stop, so each car's weight in pounds is taken before driving. Conduct a full analysis.
+
+```{r,echo=FALSE}
+car=1:10
+car.weight=rpois(10,2850)
+type=rep(c("front","rear"),each=5)
+time.100mph=c(21.4,23.1,19.4,18.5,23.1,13.3,22.9,28.4,12.5,27.9)
+df=data.frame(car,car.weight,type,time.100mph)
+df
+```
+We get the formula
+$$Y_{ijt} = \mu+\alpha_i+\beta*x_j+(\alpha\beta)_{i}*x_{it} + \epsilon_{ijt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+$$\text{where }i=front,rear\quad t=1,2,3,4,5$$
+```{r}
+model2 = aov(time.100mph ~ type + car.weight + type : car.weight, data = df)
+anova(model2)
+plot(model2)
+```
+By these graphs, we can see that the assumption of constant error variance is been violated, since not in squared, in QQ-plot residuals not in a straight line show it seems not to be normal distributed. Use un-transformed model since no transformation has improvement on satisfying model assumptions. 
+
+Giving hypothesis tests with $\alpha=0.05$
+$$H_0:(\alpha\beta)_i=0,\text{ for all }i\quad vs.\quad H_a:\text{the alternative hypothesis at least one of the intercept terms is not zero}$$
+$$H_0:\beta=0\quad vs.\quad H_a:\text{the alternative hypothesis that }beta\ne0$$
+```{r}
+anova(model2)
+```
+By the anova table, we can see that the p-value for interaction of type and car.weight is larger than 0.05, so we fail to reject the null and conclude that the interaction of type and car.weight is not significant.
+
+
+
+## Question 5 (16 Points)
+
+An experiment was conducted to examine differences in migration rates of different bird species in the spring and in the fall.  Six hawks and six robins were watched for one day in the spring, and six different hawks and six different robins were watched for one day in the fall.  The response variable is the distance traveled in one day of observation. This experiment was conducted over 2 years.
+
+A 2-way crossed ANOVA model was fit to the data, with both season (spring/fall) and species (robin/hawk) as fixed effects.  See the R code and output on the next pages. 
+
+Using the R output, analyze the results of this experiment.  You do NOT need to state any test statistics or p-values, and do NOT need to consider residuals, but you SHOULD clearly describe the results of important hypothesis tests for this analysis, and interpret the results in the context of the experiment.  Do NOT interpret any pieces of the output that should not be examined.  There may be code run that should not be run.  
+
+\pagebreak
+R code and output for question 5
+
+```{r,echo=FALSE}
+library(lsmeans)
+df=read.table("birds.txt")
+colnames(df) <- c("season","species","distance")
+
+df
+
+fit=aov(distance~season+species+season:species,data=df)
+anova(fit)
+
+lsm.season=lsmeans(fit,~season)
+contrast(lsm.season,method="pairwise")
+
+lsm.species=lsmeans(fit,~species)
+contrast(lsm.species,method="pairwise")
+
+lsm.both=lsmeans(fit,~season:species)
+contrast(lsm.both,method="pairwise")
+```
+By looking at the outputs from R, I think we fail to reject the null, since p-value for some data is larger than 0.05, which implies that these are not significant. 1
+
+## Question 6 (16 Points)
+
+The fishing line experiment was run by C. Reynolds, B. Grunden, and K. Taylor in 1996 in order to
+compare the strengths (the amount of weight needed for a line to break) of two brands (B) of fishing line exposed to two different levels of stress. Two
+different reels (R) of fishing line were selected at random from all reels of each brand.  From each reel, 4 sections (S) of line were
+cut from each reel, making 16 sections total.  The 4 sections from each reel were randomly assigned to two different stress levels (stressed, "1"; nonstressed, "2") so that each stress level was assigned to two of the 4 sections from each reel.  The strength of each section was measured by hanging weights (W) on the section of line until it broke. Conduct a full analysis.
+
+
+```{r, warning=F, message=F, tidy=TRUE,echo=FALSE}
+
+df<-read.table("fishing.txt", header=TRUE)
+df
+```
+```{r}
+library(lme4)
+library(lmerTest)
+model3 = lmer(W ~ R + B + (1 | R : B) + S + S : B, data = df)
+anova(model3)
+rand(model3)
+```
+According to the results, by rand(), we can reject the null since the p-value is less than 0.05, so R is significant. Also, we fail to reject the rest, since all other p-values are larger than 0.05. 
+
+
+## Question 7 (16 Points)
+
+
+Write out an appropriate statistical model for the following experiment.  Clearly define the response variable, identify all factors, and state the levels of each factor. Conduct a full analysis.
+ 
+Consider the cigarette experiment run by J. Edwards, H. Hwang, S. Jamison, J. Kindelberger, and
+J. Steinbugl in 1996.  The goal of this experiment is to determine the factors that affect the length of time that a cigarette will burn. There were three factors of interest:
+
+* "Tar" at two levels, "1=regular" and "2=ultra-light,"
+* "Brand" at two levels, "1=name brand" and "2=generic brand",
+* "Age" at three levels, "1=fresh," "2=24 hour air exposure," "3=48 hour air exposure."
+
+12 cigarettes were burned.  6 of the cigarettes were "regular" and 6 were "ultra-light", and these were selected so that 6 were name brand and 6 were generic brand, and so that 4 of the cigarettes came from each age level.  The cigarettes were chosen so that each of the 12 possible combinations of the three factors was found in 1 cigarette.  The data are shown below
+
+```{r, warning=F, message=F, tidy=TRUE,echo=FALSE}
+
+df<-read.table("cigarette.txt", header=TRUE)
+df=df[1:12,-c(1,2)]
+df
+```
+```{r}
+model4 = aov(time ~ tar + brand + age + tar : brand + tar : age + brand : age, data = df)
+anova(model4)
+plot(model4, which = c(1,2))
+```
+By these 2 graphs, we can say that it violates the assumptions for the model with non-constant variance and non-normality, since in Residuals vs. Fitted graph, it's not in squared, and in QQ-plot is seems to not on a straight line with some outliers. Also, transformation doesn't help with this violation of the assumptions, so still using the original response. 
+
+By the anova table, we can see that all p-value interactions are larger than 0.05, so we fail to reject the null and conclude that all interactions are not significant. Therefore, we can conclude that these factors do not affect the length of time a cigarette will burn.

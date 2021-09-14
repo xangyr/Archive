@@ -1,0 +1,5 @@
+"0","```r
+library(corrplot)
+aphid.cor = cor(aphid)
+corrplot(aphid.cor, method = \"number\")
+```"

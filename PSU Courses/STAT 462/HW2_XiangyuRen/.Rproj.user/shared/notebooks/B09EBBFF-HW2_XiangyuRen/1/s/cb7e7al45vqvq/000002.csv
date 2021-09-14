@@ -1,0 +1,3 @@
+"0","library(Stat2Data) # load the package"
+"0","data(""TextPrices"") # load the dataset so that you can access it"
+"0","head(TextPrices)   # You can print the first few observations"

@@ -1,0 +1,27 @@
+"0","```r
+model2 = lm(Satisfaction ~ GDP, data = sat)
+summary(model2)
+```"
+"1","
+Call:
+lm(formula = Satisfaction ~ GDP, data = sat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.27162 -0.43155 -0.00337  0.49707  0.77179 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.719e+00  1.854e-01  30.838  < 2e-16 ***
+GDP         2.405e-05  4.423e-06   5.437 5.08e-06 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 0.5495 on 33 degrees of freedom
+Multiple R-squared:  0.4725,	Adjusted R-squared:  0.4565 
+F-statistic: 29.56 on 1 and 33 DF,  p-value: 5.083e-06
+"
+"0","```r
+plot(sat$GDP, sat$Satisfaction, main = \"\", xlab = \"GDP\", ylab = \"Satisfaction\", pch = 16)
+abline(model2, col = 'coral')
+```"

@@ -1,0 +1,2 @@
+"0","model1 = aov(spoiling.time ~ fungi + litre + fungi : litre, data = df)"
+"0","plot(model1, which = c(1,2))"

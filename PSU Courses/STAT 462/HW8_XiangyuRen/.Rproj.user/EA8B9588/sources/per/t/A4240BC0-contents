@@ -1,0 +1,60 @@
+---
+title: "STAT462 HW8"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### Problem (1). Read the data into R and fit the full first order regression model. Write down the estimated regression line. This model will be referred to as model 1 hereafter. Provide any R outputs you might have used.
+```{r}
+hollywoodData = read.table("HollywoodMovies2011.csv", header = T, sep=",")
+FullModel = lm(Profitability ~ RottenTomatoes + AudienceScore + TheatersOpenWeek + BOAverageOpenWeek + DomesticGross, data = hollywoodData)
+summary(FullModel)
+```
+
+Let's say y is Profitability, $x_1$ is RottenTomatoes, $x_2$ is AudienceScore, $x_3$ is TheatersOpenWeek, $x_4$ is BOAverageOpenWeek, $x_5$ is DomesticGross, and we get the estimated full first order regression model, 
+$$\hat y=5.42+0.076x_1-0.096x_2-0.0006x_3-0.00004x_4+0.028x_5$$
+
+#### Problem (2). By looking at the test results for the partial slopes (at 10% level), identify any variables you would like to drop from model 1. Provide reasons for your choice(s). You do not have to write down any steps for hypothesis testing here.
+
+At 10% level, we can drop $x_2$, $x_3$, and $x_4$ from the model, because the p-value of testing for partial slope for
+each of these variables are greater than 0.1 which indicates that these variables don't have predictive value after adjusting
+for other variables.
+
+#### Problem (3). Re-ft the model by eliminating the variables you decided to drop in part (2). Write down the estimated regression line. This model will be referred to as model 2 hereafter. Provide any R outputs you might have used.
+```{r}
+ReModel = lm(Profitability ~ RottenTomatoes + DomesticGross, data = hollywoodData)
+summary(ReModel)
+```
+
+Thus the estimated full first order regression model is:
+$$\hat y=0.84+0.031x_1+0.016x_5$$,
+where y is Profitability, $x_1$ is RottenTomatoes, $x_5$ is DomesticGross.
+
+#### Problem (4). Use adjusted $R^2$ and forward model selection approach to fit the best first order model for this data. Summarize your R outputs in a table as below. your table should clearly illustrates the step-by-step approach for forward model selection. Once you identify the best model using adjusted $R_2$, fit the model and write down the estimated regression line.
+
+| Variable(s)                                                     | $R^2$    | Adj. $R^2$ |
+|-----------------------------------------------------------------|-------|---------|
+| RottenTomatoes                                                  | 0.024 | 0.015   |
+| AudienceScore                                                   | 0.01  | 0.001   |
+| TheatersOpenWeek                                                | 0.006 | -0.002  |
+| BOAverageOpenWeek                                               | 0.008 | -0.001  |
+| DomesticGross                                                   | 0.036 | 0.028   |
+| DomesticGross, RottenTomatoes                                   | 0.049 | 0.033   |
+| DomesticGross, AudienceScore                                    | 0.037 | 0.021   |
+| DomesticGross, TheatersOpenWeek                                 | 0.038 | 0.021   |
+| DomesticGross, BOAverageOpenWeek                                | 0.036 | 0.021   |
+| DomesticGross, RottenTomatoes, AudienceScore                    | 0.061 | 0.037   |
+| DomesticGross, RottenTomatoes, TheatersOpenWeek                 | 0.05  | 0.025   |
+| DomesticGross, RottenTomatoes, BOAverageOpenWeek                | 0.05  | 0.025   |
+| DomesticGross, RottenTomatoes, AudienceScore, TheatersOpenWeek  | 0.063 | 0.029   |
+| DomesticGross, RottenTomatoes, AudienceScore, BOAverageOpenWeek | 0.062 | 0.028   |
+
+Using the adjusted $R^2$, we choose the model with $x_1$, $x_2$, $x_5$ as predictors
+```{r}
+bestModel = lm(Profitability ~ RottenTomatoes + DomesticGross + AudienceScore, data = hollywoodData)
+summary(bestModel)
+```
+
+Thus the estimated regression line for the best model that we chose is:
+$$\hat y=3.53+0.072x_1-0.084x_2+0.02x_5$$
+where y is Profitability, $x_1$ is RottenTomatoes, $x_2$ is AudienceScore, $x_5$ is DomesticGross.

@@ -1,0 +1,8 @@
+"0","N = 500"
+"0","X = rnorm(N, mean = 2, sd = sqrt(6))"
+"0","Y = rnorm(N, mean = -3, sd = sqrt(2))"
+"0","Z = rnorm(N, mean = 0, sd = 1)"
+"0",""
+"0","W = X+Y+Z"
+"0","alldata = data.frame(X,Y,Z,W)"
+"0","hist(W)"

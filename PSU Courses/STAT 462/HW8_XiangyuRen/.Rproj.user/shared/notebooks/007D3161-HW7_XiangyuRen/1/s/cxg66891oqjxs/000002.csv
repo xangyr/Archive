@@ -1,0 +1,11 @@
+"0","```r
+anova(model2, model1)
+```"
+"1","Analysis of Variance Table
+
+Model 1: y ~ x2
+Model 2: y ~ x1 + x2
+  Res.Df   RSS Df Sum of Sq      F Pr(>F)
+1     33 17118                           
+2     32 17095  1    22.756 0.0426 0.8378
+"

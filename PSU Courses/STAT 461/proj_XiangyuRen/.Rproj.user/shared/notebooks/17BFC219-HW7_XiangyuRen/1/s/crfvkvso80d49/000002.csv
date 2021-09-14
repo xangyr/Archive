@@ -1,0 +1,7 @@
+"0","```r
+pre.aphid = data.frame(x2 = 65)
+predict(model2, pre.aphid, interval = \"confidence\", level = 0.95)
+```"
+"1","      fit      lwr      upr
+1 105.041 88.79078 121.2912
+"

@@ -1,0 +1,2 @@
+"0","fit.ancova = aov(math ~ ses + schtyp + write + write : ses + write : schtyp + ses : schtyp, data = hsb2)"
+"0","plot(fit.ancova)"

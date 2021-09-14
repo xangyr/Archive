@@ -1,0 +1,4 @@
+"0","# install.packages(""Lock5Data"")"
+"0","library(Lock5Data)"
+"0","data(InkjetPrinters)"
+"0","InkjetPrinters"

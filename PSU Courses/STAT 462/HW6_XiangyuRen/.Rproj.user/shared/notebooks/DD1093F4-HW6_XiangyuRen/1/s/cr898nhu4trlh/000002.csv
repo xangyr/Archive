@@ -1,0 +1,2 @@
+"0","cooksdistance = cooks.distance(model1)"
+"0","shortleaf[cooksdistance == max(cooksdistance),]"

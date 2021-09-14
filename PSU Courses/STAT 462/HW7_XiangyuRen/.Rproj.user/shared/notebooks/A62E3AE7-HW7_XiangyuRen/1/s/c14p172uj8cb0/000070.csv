@@ -1,0 +1,34 @@
+"0","library(nortest)"
+"0","ad.test(stud.res)"
+"1","
+"
+"1","	Anderson-Darling normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","stud.res"
+"1",""
+"1","
+"
+"1","A = 0.29295, p-value = 0.5832"
+"1","
+"
+"1","
+"
+"0","library(lmtest)"
+"2","package ‘lmtest’ was built under R version 4.0.3"
+"2","Loading required package: zoo
+"
+"2","package ‘zoo’ was built under R version 4.0.3"
+"2","
+Attaching package: ‘zoo’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+"

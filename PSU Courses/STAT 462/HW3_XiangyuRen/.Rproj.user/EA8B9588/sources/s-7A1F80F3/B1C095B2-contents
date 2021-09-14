@@ -1,0 +1,113 @@
+---
+title: "Homework 2"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### (1). A sample 36 obese adults was put on a special low carbohydrate diet for a year. The average weight losswas 11 lb and the standard deviation was 19 lb (note that, positive weight loss imply reduced weight over the time).
+
+##### (a) Calculate the 99% confidence interval for the true mean weight reduction. Do the calculations by hand (that is type up your work).
+
+
+The Confidence Interval is calculated as, 
+$$\bar x\pm t_{\alpha/2,(n-1)}\frac{s}{\sqrt n}$$
+And in this problem $\bar x=11$, $\alpha=0.01$, $n=36$ and $s=19$. Thus, 
+$$11\pm t_{0.01/2,(36-1)}\frac{19}{\sqrt{36}}$$
+$$=11\pm 2.724*\frac{19}{6}=2.37\;or\;19.63$$
+$$C.I=[2.37, 19.63]$$
+
+##### (b) Based on the interval you calculate above, do you have sufficient evidence to believe that this diet program in fact helps reduce weight?
+
+Based on the interval, we are 99% confident that the true weight reduction is between [2.37, 19.63], so since the interval is all greater than 0, we can say that this diet program helps reduce weight in fact.
+
+#### (2). In a standard dissolution test for tablets for a particular drug product, the manufacturer must obtain the dissolution rate for a batch of tablets prior to release of the batch. Suppose that the dissolution test consists of assays for 24 randomly selected individual 25 mg tablets. For each test, the tablet is suspended in an acid bath and then assayed after 30 minutes. The results of the 24 assays are given in drug.csvfile.
+```{r}
+drug = read.csv("drug.csv")
+colnames(drug) = "Dissolution" # add colnames to avoid error
+```
+
+##### (a) Check if the data appear to be a random sample from a normal distribution. Attach plots and comment on them (Use read.csv() function to read the data into R).
+```{r}
+hist(drug$Dissolution, xlab = "Dissolution", main = "")
+```
+Based on the histogram, we can see the graph is right-skewed so doesn't appear to be a random sample from a normal distribution. But we have only 24 observations, so since the sample size is small, we can say that for sure.
+
+##### (b) Provide an interval estimate for the mean dissolution rate for the batch of tablets. Use 99% confidence level (Use R to calculate the CI). Hint: look for t.test() function
+```{r}
+t.test(drug$Dissolution, conf.level = 0.99)
+```
+
+##### (c) Based on the above interval, is there significant evidence that the batch of pills has a mean dissolution rate less than 20 mg
+
+The 99% confidence interval is [19.58169, 20.07664], since 20 is within this interval thus we don't have significant evidence that the batch of pills has a mean dissolution rate less than 20 mg. 
+
+#### (3). A consumer-testing agency wants to evaluate the claim made by a manufacturer of discount tires. The manufacturer claims that its tires can be driven at least 35,000 miles before wearing out. To determine the average number of miles that can be obtained from the manufacturer’s tires, the agency randomly selects 60 tires from the manufacturer’s warehouse and places the tires on 15 cars driven by test drivers on a 2-mile oval track. The number of miles driven (in thousands of miles) until the tires are determined to be worn out is given in the tires.csv file. Agency would like to know if the manufacturer’s claim is false.
+```{r}
+tires = read.csv("tires.csv")
+mean(tires$MilesDriven)
+```
+
+##### (a) Carryout a appropriate hypothesis test (use 1% significance level). Show the 6-steps as we did in the class and use the P value approach.
+
+1. $$H_0:\mu\ge35\;\;vs.\;\;H_a:\mu<35$$
+2. Significance level: $\alpha=0.01$
+3. t statistic
+$$s=\sqrt{\sum_{i=1}^{15}\frac{(X_i-\bar X)^2}{n-1}}=5.04$$
+$$t = \frac{\bar x-\mu}{\frac{s}{\sqrt n}}=\frac{31.467-35}{\frac{5.04}{\sqrt{15}}}=-2.71$$
+4. P-value approach: The area to the left of the t statistic for t distribution with 14 df is 0.0085. 
+
+5. P-value approach: Since the P-value is less than the significance level, where $\alpha=0.01$, we reject $H_0$.
+
+6. At 1% significance level, we have significant evidence to reject the manufacturer's claim. And we are 99% confident that the true mean distance their tires can be driven is less than 35000 miles.
+
+##### (b) Re-do the test using R. See if your hand-calculations are consistant with what you obtained from R. Use read.csv() function to read the file into R andt.test()function to carryout the test.
+```{r}
+t.test(tires$MilesDriven, alternative = "less", mu = 35, conf.level = 0.99)
+```
+We can see the results obtained from R code are consistent with hand-calculations.
+
+#### (4). Two college students took a random sample of 30 textbooks from their bookstore and recorded the price and the number of pages in each book in order to investigate if the number of pages can be used to predict the price. Relevent data is already availabe within R and you are going to use below instuctions to access this dataset.
+```{r}
+library(Stat2Data) # load the package
+data("TextPrices") # load the dataset so that you can access it
+head(TextPrices)   # You can print the first few observations
+```
+
+##### (a) What is the response and the explanatory variable in this scenario?
+
+In this scenario, Price is the response variable and Paces is the explanatory variable. 
+
+##### (b) Make a relevant scatter plot to investigate the student’s question. Comment on what you see.
+```{r}
+plot(TextPrices$Pages, TextPrices$Price, xlab = "Pages", ylab = "Price", main = "")
+```
+Bases on the scatter plot, we can see that there is a positive association between Price and Pages. 
+
+##### (c) Calculate the correlation between number of pages and the price.
+```{r}
+cor(TextPrices$Pages, TextPrices$Price)
+```
+
+#### (5). In biology, studying the relationship between size of an organism to the size of the any part of its body is called Allometry. Data inirisPetals.csvfile contains the petal length and the width (in cm) for the 150 observations of Iris flowers.
+```{r}
+irisPetals = read.csv("irisPetals.csv")
+colnames(irisPetals) = c("petallength","petalwidth")
+```
+
+##### (a) Make a scatter plot to see if there is positive or negative association between petal width and petal length? Explain what you can observe about the petals.
+```{r}
+plot(irisPetals$petallength,irisPetals$petalwidth,xlab = "Petal Length", ylab = "Petal Width", main = "")
+```
+Based on the scatter plot, we can see a positive association between petal length and petal width. Also, we can see that there are two bunches of plots.
+
+##### (b) How would you describe the strength of the linear relationship between these two variables by looking at the scatterplot?
+By looking at the scatter plot, I can say that it seems there is a positive linear relationship between petal length and petal width.
+
+##### (c) Calculate the sample correlation? Does this agree with what you observe in the plot?
+```{r}
+cor(irisPetals$petallength, irisPetals$petalwidth)
+```
+With R code, we get a positive correlation and it agrees with what I observe in the plot.
+
+##### (d) Are there any outliers in the data?
+No, there is no outlier in the data.

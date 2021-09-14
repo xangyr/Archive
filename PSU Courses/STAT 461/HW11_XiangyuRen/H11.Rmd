@@ -1,0 +1,79 @@
+---
+title: "Homework 11"
+author: "Xiangyu Ren"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+1. Consider an experiment to determine whether or not having an automatic transmission affects gas mileage in cars.  It is also known that the horsepower of a car affects gas mileage, so the horsepower of each car used is also recorded.  The following R code will read in the data to R
+```{r, warning=F, message=F}
+library(lsmeans)
+library(car)
+library(multcompView)
+library(lme4)
+library(lmerTest)
+library(jtools)
+library(interactions)
+```
+
+```{r}
+cars <- mtcars[,c("am","mpg","hp")]
+head(cars)
+## type "cars" into R to see the full data
+cars$am = as.factor(cars$am)
+cars
+```
+
+Fit an appropriate model to this data, and interpret the results.
+
+$$Y_{it}=\mu+\alpha_i+\beta* x_j+(\alpha\beta)_i* x_{it}+\epsilon_{ijt},\quad \epsilon_{it} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+```{r}
+fit.ancova = aov(mpg ~ am + hp + am : hp, data = cars)
+plot(fit.ancova)
+anova(fit.ancova)
+```
+Hypothesis test with $\alpha=0.05$
+
+'am:hp' line tests with
+
+$$H_0:\;\;(\alpha\beta)_i=0\text{ for all }i\;\;vs.\;\;H_a:\;\;\text{at least one of the intercept terms }(\alpha\beta)_i\ne0$$
+
+'hp' line tests with
+
+$$H_0:\;\;\beta=0\;\;vs.\;\;H_a:\;\;\beta\ne0$$
+
+By the table, we can see that the p-value of am:hp is greater than $\alpha$, so we fail to reject the null, and conclude that the interaction between am and hp is not significant; the p-values of either am or hp are less than $\alpha$, so these two variables are significant.
+
+```{r}
+interact_plot(fit.ancova, pred ="hp", modx="am")
+lsmeans(fit.ancova, ~ hp)
+```
+$\beta=20.6$ If cars have same hp, then cars with $am=1$ have higher mpg than cars with $am=0$. If cars have same am, then mpg decreases as hp decreases.
+
+2. The "high school and beyond" survey looked at differences in socioeconomic status, race, gender, and types of schools and students' SAT scores.  The data can be read into R using the following code:
+
+The goal of this study is to see if socio-economic status (ses) and school type (schtyp) affect students math scores, after accounting for how well they do on their writing score.  Student's writing score should be treated as a continuous covariate.  Conduct a full analysis of this data.  Fit an appropriate model, and interpret the results.
+
+```{r}
+hsb2= read.table("hsb2.csv")## from https://stats.idre.ucla.edu/stat/data/hsb2.csv
+head(hsb2)
+## type "hsb2" into R to see the full data
+hsb2$ses = as.factor(hsb2$ses); hsb2$schtyp = as.factor(hsb2$schtyp)
+hsb2
+```
+$$Y_{ijkt} = \mu+\alpha_i+\gamma_k+(\alpha\gamma)_{ik}+\beta*x_j+(\alpha\beta)_{i}*x_{it}+(\gamma\beta)_k*x_{kt}+\epsilon_{ijkt},\quad \epsilon_{ijt} \stackrel{iid}{\sim} N(0,\sigma^2)$$
+```{r}
+fit.ancova = aov(math ~ ses + schtyp + write + write : ses + write : schtyp + ses : schtyp, data = hsb2)
+plot(fit.ancova)
+```
+By the graphs, it appears to be both non-constant variance and non-normality in the residuals under the untransformed data, doesn't satisfy the assumption of ANCOVA. 
+```{r}
+anova(fit.ancova)
+```
+By the table, p-values of interactions of ses and write, and schtyp and write are larger than $\alpha$, so fail to reject the null and conclude that they are not significant, p-values for the rest:ses, schtyp, write, interaction between ses adn schtyp are smaller than $\alpha$, thus, they are significant.
+```{r}
+interact_plot(fit.ancova, pred = "write",modx = "ses")
+lsmeans(fit.ancova, ~ write)
+```
+$\beta=3.94$ If students have same write, then math of students with $ses=3>ses=2>ses=1$. If students have same ses, then math increases as write increases.

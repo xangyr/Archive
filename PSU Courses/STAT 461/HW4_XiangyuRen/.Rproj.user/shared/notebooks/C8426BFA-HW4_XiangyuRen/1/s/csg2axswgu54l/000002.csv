@@ -1,0 +1,7 @@
+"0","# Yit=mu+ti+eit"
+"0","# i=regular,deodorant,moisturizing"
+"0","# t=1,2,3,4"
+"0","# eit~N(0,s^2)"
+"0","# Yit->observation corresponding to i_th soap_type and t_th cube"
+"0","# mu->general effect"
+"0","# ti-> additional effect due to i_th soap_type"

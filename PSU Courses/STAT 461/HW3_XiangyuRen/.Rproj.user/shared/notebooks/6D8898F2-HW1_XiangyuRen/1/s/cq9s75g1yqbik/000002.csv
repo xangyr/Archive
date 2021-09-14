@@ -1,0 +1,10 @@
+"0","```r
+mean(mtcars$mpg) # mean of variable mpg
+```"
+"1","[1] 20.09062
+"
+"0","```r
+sd(mtcars$mpg) # standard deviation of variable mpg
+```"
+"1","[1] 6.026948
+"

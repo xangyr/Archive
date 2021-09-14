@@ -1,0 +1,116 @@
+---
+title: "Homework 3"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+#### (1). Prove that least squares regression line goes through $(\bar x,\bar y)$ point, in which $\bar x$ is the sample average of the predictor variable and $\bar y$ is the sample average of the response variable.
+
+Proof:
+
+The minimize sum of squared residual:$$Q = \sum_{i=1}^{n}(y_i-\hat{y_i})^2$$
+To find a solution for $\beta_0$ and $\beta_1$, we replace $\hat y_i$ with $\beta_0+\beta_1x_i$ and take partial derivative of Q, we get
+$$\sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_i)=0$$
+$$\sum_{i=1}^{n}y_i-\beta_0-\beta_1\sum_{i=1}^{n}x_i=0$$
+$$n\beta_0=\sum_{i=1}^{n}y_i-\beta_1\sum_{i=1}^{n}x_i$$
+$$\beta_0=\bar y-\beta_1\bar x\Rightarrow\bar y=\beta_0+\beta_1\bar x$$
+Therefore, with the equation fo the regression line that we get, we can say that the Least Squares Regression Line will always go through point $(\bar x,\bar y)$.
+
+#### (2). The data playbill.csv provides weekly reports on the box office ticket sales for plays on Broadway in New York. Provided data is for the week October 11–17, 2004 (referred to below as the current week). The data are in the form of the gross box office results for the current week and the gross box office results for the previous week (i.e., October 3–10, 2004).
+```{r}
+playbill = read.csv("playbill.csv")
+head(playbill)
+```
+
+##### (a) What would be the response and the predictor variable in this data?
+The response variable is "CurrentWeek", the predictor variable is "LastWeek".
+
+##### (b) Make a scatter plot of the data to display the relationship between the two variables. Attach a screenshot of the plot and comment on what you can see.
+```{r}
+plot(playbill$LastWeek, playbill$CurrentWeek, main = "", xlab = "Last Week", ylab = "Current Week", pch = 16)
+```
+The relation of these two variable seems almost linear, and there is a positive association of the regression. Also, it makes sense: did well in last week, will also do well in weeks later.
+
+##### (c) Use R to obtain the least squares regression line for predicting this weeks’ gross box office results from the previous week. Attach any R outputs.
+```{r}
+model1 = lm(CurrentWeek ~ LastWeek, data = playbill)
+summary(model1)
+```
+##### (d) Write the equation of the least squares regression line.
+$$CurrentWeek = 6805+0.9821*LastWeek$$
+##### (e) Make another scatterplot of the data and overlay the fitted regression line on the scatterplot. Use your favorite colour for the fitted line. Attach a screenshot of the R code line/lines and the plot here. Here is a link to the R colour palette.
+```{r}
+plot(playbill$LastWeek, playbill$CurrentWeek, main = "", xlab = "Last Week", ylab = "Current Week", pch = 16)
+abline(model1, col = 'coral')
+```
+#### (3). The table compares GDP (Gross Domestic Products) per Capita to Life Satisfaction; definitions of both are below. The goal is to explore the relationship between money and happiness Life Satisfaction scaled from 0 to 10 with zero being the least and 10 being best satisfied. GDP per Capita for 2015 Provided by International Monetary Fund. The gross domestic product of a nation divided by population of that nation.
+```{r}
+sat = read.csv("GDP_vs_Satisfaction.csv")
+head(sat)
+```
+##### (a) What is the response and the explanatory variable in this setting?
+The response variable is "Satisfaction" and the predictor variable is "GDP".
+
+##### (b) Make a scatter plot of the data and comment on the relationship.
+```{r}
+plot(sat$GDP, sat$Satisfaction, main = "", xlab = "GDP", ylab = "Satisfaction", pch = 16)
+```
+There is an obvious outlier in the graph. If despite the outlier, it seems to be a linear relation and positive association between GDP and Satisfaction. 
+
+##### (c) Calculate the sample correlation between the two variables?
+```{r}
+cor(sat$GDP, sat$Satisfaction)
+```
+##### (d) Regardless your opinion in part (b) fit a simple linear regression model to this data. Show the R output of the SLR fit and the scatterplot with fitted line overlaid.
+```{r}
+model2 = lm(Satisfaction ~ GDP, data = sat)
+summary(model2)
+plot(sat$GDP, sat$Satisfaction, main = "", xlab = "GDP", ylab = "Satisfaction", pch = 16)
+abline(model2, col = 'coral')
+```
+##### (e) What is the coefficient of determination for the model. Interpret this value in the context ofthe problem.
+
+The coefficient of determination can be found in the model output as 'Multiple R-squared' from problem (d), which is 0.4725, means that the model explains 47.25% of the variations in the data.
+
+##### (f) In the original data, observation number 21 (“Luxembourg”) seems to be an outlier. Use the below code line to remove that observation from the dataset. Then re-fit the regression model to the reduced dataset. Attach the R output and the scatterplot of the reduced data with fitted model overlaid.
+```{r}
+# I named the original dataset "happy" and
+# below line removed the ovservation number 21 and save it as a new data frame named "newhappy"
+happynew = sat[-21,]
+model3 = lm(Satisfaction ~ GDP, data = happynew)
+summary(model3)
+plot(happynew$GDP, happynew$Satisfaction, main = "", xlab = "GDP", ylab = "Satisfaction", pch = 16)
+abline(model3, col = 'coral')
+```
+##### (g) What is the new coefficient of determination?
+The new coefficient of determination is $R^2=0.5942$.
+
+##### (h) Does it seems like model fit has improved once the “Luxembourg” was removed from the dataset. Explain.
+It seems like model fit has been improved once we remove the "Luxembourg" from our dataset, because, our coefficient of determination $R^2$ increased by 12%.
+
+#### (4). A company manager is interested analyzing the relationship between years of working experience and the salary of their employees. He has collected the data from 30 employees of their years of experience and the salary. Below provided is partial regression output from R. Use the provided information to answer below questions
+```{r}
+salarydata = read.csv("Salary_Data.csv")
+model4 = lm(Salary ~ YearsExperience, data = salarydata)
+summary(model4)
+```
+
+##### (a) Write the equation of the least squares regression line of salary on years of experience.
+$$Salary=25792.2+9450*YearsExperience$$
+
+##### (b) Interpret the slope and the intercept in the context of the problem.
+
+Interpretation of slope: For each additional year of working experience, the salary is expected to increase by $9450
+
+Interpretation of intercept: People with no working experience, which is "YearsExperience" = 0, is expected to have a salary of $25792.2
+
+##### (c) What is the coefficient of determination and interpret this number for this problem?
+
+The coefficient of determination is $$R^2=1-\frac{SSE}{SSY}=1-\frac{9.3813}{208.57+9.3813}=0.957$$
+With 0.957 as the coefficient of determination, it means that the variable "YearsExperience" explains 95.7% of the variation in the data.
+
+##### (d) What is the sample correlation between salary and the years of working experience.
+
+The formula for the sample correlation is $$r=\pm \sqrt{R^2}$$
+positive is the slope is positive, negative is the slope is negative. So, to this problem, the slope is positive, the sample correlation between salary and the years of working experience is $r = \sqrt{R^2} = \sqrt{0.957} = 0.978$
+

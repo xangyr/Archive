@@ -1,0 +1,23 @@
+"0","```r
+model1 = lm(CurrentWeek ~ LastWeek, data = playbill)
+summary(model1)
+```"
+"1","
+Call:
+lm(formula = CurrentWeek ~ LastWeek, data = playbill)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-36926  -7525  -2581   7782  35443 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 6.805e+03  9.929e+03   0.685    0.503    
+LastWeek    9.821e-01  1.443e-02  68.071   <2e-16 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 18010 on 16 degrees of freedom
+Multiple R-squared:  0.9966,	Adjusted R-squared:  0.9963 
+F-statistic:  4634 on 1 and 16 DF,  p-value: < 2.2e-16
+"

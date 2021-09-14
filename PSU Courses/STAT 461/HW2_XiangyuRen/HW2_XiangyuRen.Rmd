@@ -1,0 +1,142 @@
+---
+title: "STAT461 HW2"
+author: "Xiangyu Ren"
+date: "9/11/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.Suppose that you are planning to run an experiment with one treatment factor having four levels: “none”, “low”, “medium”, and “high”, and you have the resources to conduct the experiment on 20 experimental units. Assign at random 20 experimental units to the 4 levels of the treatment, so that each treatment is assigned 5 units. Your answer should include your R code used.
+
+```{r}
+set.seed(01109)
+
+exp.unit = 1:20
+treat.nr = c(rep('none',5), rep('low',5), rep('medium',5), rep('high',5))
+treat = sample(treat.nr, replace = FALSE)
+CRD.table = data.frame(exp.unit, treat)
+print(CRD.table)
+```
+
+## 2.Repeat question 1 to obtain a second experimental design assigning the 20 units to the 4 levels of the treatment.
+
+```{r}
+set.seed(01109)
+exp.unit = 1:20
+treat.nr = c(rep('none',5), rep('low',5), rep('medium',5), rep('high',5))
+treat = sample(treat.nr, replace = FALSE)
+CRD.table = data.frame(exp.unit, treat)
+print(CRD.table)
+```
+
+## 3.Suppose that you are planning to run an experiment with one treatment factor having three levels. It has been determined that $r1= 3,r2=r3= 5$. Assign at random 13 experimental units to the 3 treatments so that the first treatment is assigned 3 units and the other two treatments are each assigned 5 units.
+
+```{r}
+r_exp.unit = 1:13
+r_treat.nr = c(rep('r1',3), rep('r2',5), rep('r3',5))
+r_treat = sample(r_treat.nr, replace = FALSE)
+r_CRD.table = data.frame(r_exp.unit, r_treat)
+print(r_CRD.table)
+```
+
+## 4.Visit http://www.tylervigen.com/spurious-correlations (or some other website of your choosing) and find an example of two observed quantities that are correlated, but you think are not causally related. Clearly show the data (you could download an image), and describe why you think the two quantities are not causally related. Give an example of another factor (not measured) which you think could have a causative link with one or both of the quantities shown. Give some explanation for why this not measured factor could be causally linked to one or both of the quantities.
+
+I picked this one, US spending on science, space, and technology correlates with Suicides by hanging, strangulation and suffocation.
+
+![Weird Correlation]("chart.png")
+
+I think these two quantities are not causally related because I think the amount of suicide cases is not a response variable nor an explanatory variable to the amount of money US spent on science. People might suicide because of working stresses or other reasons, but I can't see any direct relations to do with science, space, or technology, it's too far. 
+
+An example of another factor which I think could have a causative link with US spending on science, space, and technology is populations living on Earth. I think there is a link because with increasing populations, we might run into short of food, water, or even living spaces, therefore when we have more people, we would spend more on technology, science and space to handle these problems or find a new planet to live.
+
+## 5.Let X∼N(2,6)and Y∼N(−3,2)and Z∼N(0,1). All three random variables are independent of each other. Do the following. Show all work.
+### (a) What is the distribution of W=X+Y+Z? What are E(W) and Var(W)?
+Since X,Y,Z are all R.V, and they are all independent, so W is normal and E(W) = mean(X)+mean(Y)+mean(Z)=-1, Var(W)=var(X)+var(Y)+var(Z)=9
+
+```{r}
+N = 500
+X = rnorm(N, mean = 2, sd = sqrt(6))
+Y = rnorm(N, mean = -3, sd = sqrt(2))
+Z = rnorm(N, mean = 0, sd = 1)
+
+W = X+Y+Z
+alldata = data.frame(X,Y,Z,W)
+hist(W)
+print(mean(W))
+print(var(W))
+print(sd(W))
+```
+### (b) What is the distribution of Q=2Y?
+Q is also normal distribution.
+```{r}
+Q = 2*Y
+y_data = data.frame(Y,Q)
+hist(Q)
+print(mean(Q))
+print(var(Q))
+print(sd(Q))
+```
+### (c) What is the distribution of P=−2X+4?
+P is also normal distribution.
+```{r}
+P = -2*X+4
+x_data = data.frame(X,P)
+hist(P)
+print(mean(P))
+print(var(P))
+print(sd(P))
+```
+
+### (d) Find a and b so that M=a+bX is distributed as a standard Normal distribution.
+To get a standard Normal distribution, we need E(X)=mean(X)=0, and var(X)=1.
+With scaling, $6*b^2=1$
+```{r}
+b = sqrt(1/6)
+b
+```
+By shifting, $2*b+a=0$
+```{r}
+a = -2*b
+a
+```
+Testing:
+```{r}
+W = a+b*X
+print(mean(W))
+print(var(W))
+```
+So, we get a = -0.8164966, b = 0.4082483.
+
+## 6. Do the following
+### (a) Use R to simulate 1000 iid random variables {Xi} with Xi∼N(−2,3). Plot a histogram of your simulated values.
+```{r}
+Xi = rnorm(1000, mean = -2, sd = sqrt(3))
+hist(Xi)
+```
+### (b) Also simulate 1000 iid random variables {Yi} with Yi∼(3,1). Plot a histogram of your simulated values.
+```{r}
+Yi = rnorm(1000, mean = 3, sd = 1)
+hist(Yi)
+```
+## (c) Finally, plot a histogram of{Zi}, where Zi=Xi+Yi.
+```{r}
+Zi = Xi + Yi
+hist(Zi)
+```
+## (d) Is Zi independent of Xi? Explain your answer.
+
+Zi is not independent of Xi, because when Xi changes, Zi would also change since it's Xi+Yi.
+
+## (e) Find the sample mean and variance of the Zis you simulated, and compare them with the true, theoretical mean and variance.
+Theoretical mean should be -2+3 = 1, and var should be 3+1 = 4
+```{r}
+print(mean(Zi))
+print(var(Zi))
+```
+Comparing the sample mean and variance with the theoretical ones, they are really close to each other with little difference. 
+

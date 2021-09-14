@@ -1,0 +1,4 @@
+"0","treatment = c(rep(""A"",5), rep(""B"",5), rep(""C"",5))"
+"0","values = c(6,4,3,7,2,10,11,15,14,13,1,4,3,5,70)"
+"0","data = as.data.frame(cbind(treatment, as.numeric(values)))"
+"0","data"

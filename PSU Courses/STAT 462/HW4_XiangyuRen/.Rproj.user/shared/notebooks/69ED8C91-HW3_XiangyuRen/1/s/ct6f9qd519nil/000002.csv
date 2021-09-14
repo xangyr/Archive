@@ -1,0 +1,24 @@
+"0","```r
+salarydata = read.csv(\"Salary_Data.csv\")
+model4 = lm(Salary ~ YearsExperience, data = salarydata)
+summary(model4)
+```"
+"1","
+Call:
+lm(formula = Salary ~ YearsExperience, data = salarydata)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7958.0 -4088.5  -459.9  3372.6 11448.0 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      25792.2     2273.1   11.35 5.51e-12 ***
+YearsExperience   9450.0      378.8   24.95  < 2e-16 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 5788 on 28 degrees of freedom
+Multiple R-squared:  0.957,	Adjusted R-squared:  0.9554 
+F-statistic: 622.5 on 1 and 28 DF,  p-value: < 2.2e-16
+"

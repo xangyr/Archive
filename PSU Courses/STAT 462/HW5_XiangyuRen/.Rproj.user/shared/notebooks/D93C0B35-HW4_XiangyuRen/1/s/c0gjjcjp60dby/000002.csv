@@ -1,0 +1,5 @@
+"0","```r
+expenditure = read.csv(\"expenditure.csv\")
+colnames(expenditure) = c(\"TownPop\", \"Expend\")
+expenditure
+```"

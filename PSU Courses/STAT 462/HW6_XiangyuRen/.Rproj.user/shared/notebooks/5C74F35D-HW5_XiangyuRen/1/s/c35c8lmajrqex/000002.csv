@@ -1,0 +1,22 @@
+"0","```r
+summary(model2)
+```"
+"1","
+Call:
+lm(formula = HeightofSuds ~ DetAmount, data = soapsuds)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.7550 -0.8063 -0.3400  0.4412  2.7800 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   3.3700     2.5387   1.327    0.221    
+DetAmount     4.0650     0.3125  13.008 1.16e-06 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 1.398 on 8 degrees of freedom
+Multiple R-squared:  0.9549,	Adjusted R-squared:  0.9492 
+F-statistic: 169.2 on 1 and 8 DF,  p-value: 1.157e-06
+"

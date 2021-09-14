@@ -1,0 +1,104 @@
+---
+title: "STAT462 HW10"
+author: "Xiangyu Ren"
+output: html_notebook
+---
+
+## (1). With the objective of understanding more about spiders, a researcher has collected data on sand grain size on 28 beaches in Japan and observed the presence or absence of the burrowing wolf spider on each beach. Resulting data is in spider.csv file.
+
+```{r}
+spider = read.csv("Spiders.csv", stringsAsFactors = T)
+colnames(spider) = c("GrainSize", "Spiders")
+head(spider)
+```
+
+### (a). What is the response and the predictor variable here?
+
+The absence or presence state of the burrowing wolf spider is the response variable and the sand grain size is the predictor variable.
+
+### (b). Is the response ordinal or nominal categorical variable?
+
+The response is a nominal categorical variable.
+
+### (c). What is the estimated regression equation?
+
+```{r}
+model1 = glm(Spiders ~ GrainSize, family = binomial, data = spider)
+summary(model1)
+```
+Therefore,the estimated regression equation is
+$$\pi_i=\frac{e^{-1.648+5.122\times \text{GrainSize}_i}}{1+e^{-1.648+5.122\times \text{GrainSize}_i}}$$
+$$\text{where we set the categorial variable Absent to 0 and Present to 1}$$
+
+### (d). Is the sand grain size a significant predictor in determining the presence of wolf spiders in the beaches of Japan? Show all your work answering this research question.
+
+Giving a hypothesis test with $\alpha=0.05$
+$$H_0:\beta_1=0\;\;vs.\;\;H_a:\beta_1\ne0$$
+We can get the test statistic by
+$$z=\frac{\hat {\beta_1}-\beta_1}{\hat{\text{SE}}(\hat{\beta_1})}=\frac{5.122-0}{3.006}=1.704$$
+Under the null this follows a standard normal distribution. Thus, the p-value is
+```{r}
+2*pnorm(-1.704, mean = 0, sd = 1)
+```
+The p-value is greater than the commonly chosen significance level $\alpha=0.05$. So based on this significance level we would fail to reject the null and conclude that GrainSize is not a significant predictor.
+
+### (e). Interpret the regression coefficients in the context of the problem.
+
+The estimated odds ratio for GrainSize, that is the exponentiated coefficient for GrainSize, in this model is $e^{5.122}=167.670$, Since the units for GrainSize are rather small, it is more convenient to interpret the regression coefficient on a 0.1 unit scale instead of an one unit scale: $e^{5.122\times0.1}=1.669$ The interpreation is then the following: for each 0.1 unit increase in GrainSize the odds of a present burrowing wolf spider increases by 66.9%.
+
+
+### (f). Calculate the odds of a certain beach that has sand grain size 0.35 being a wolf spider habitant?
+
+Based on our model in c) the odds for a beach that has sand grain size 0.35 are $e^{-1.648+5.12\times0.35}=1.156$.
+
+### (g). Obtain a 95% confidence interval for the odds ratio. Is your observation consistent with your conclusion from the test you did in part (d). Clearly explain the relationship between two approaches in your answer rather than simply giving a “yes” or “no” answer.
+```{r}
+library(MASS)
+exp(confint.default(model1))
+```
+Yes, the results are consistent with our conclusion in d). The 95% confidence interval for GrainSize includes the value 1, meaning that with 95% confidence we can’t say whether with increasing GrainSize the odds increase or decrease. Hence, also based on the confidence intervals alone we would conclude that GrainSize is not a significant predictor.
+
+## (2). In 1846, the Donner party (Donner and Reed families) left Springfield, Illinois for California in covered wagons. After reaching Fort Bridger, Wyoming, the leaders decided to find a new route to Sacramento. They became stranded in the eastern Sierra Nevada mountains at a place now called Donner Pass (right) when the region was hit by heavy snows in late October. By the time the survivors were rescued on April 21, 1847, 40 out of 87 had died. Data is provided in Donner.csv file. Columns of the dataset indicate the age of the person, gender (male=1, female=0) and the survival status (survived=1, dead=0)
+```{r}
+donner = read.csv("Donner.csv")
+colnames(donner) = c("Age", "Gender", "Survival")
+head(donner)
+```
+
+### (a). Obtain a regression model that would estimate the probability of survival as a function of age and gender. Write the equation of the fitted regression model.
+
+```{r}
+model2 = glm(Survival ~ Age + Gender, family = binomial, data = donner)
+summary(model2)
+```
+Thus, the estimated regression equation is
+$$\pi_i=\frac{e^{3.23-0.078\times\text{Age}_i-1.597\times\text{Gender}_i}}{1+e^{3.23-0.078\times\text{Age}_i-1.597\times\text{Gender}_i}}$$
+
+### (b). Check the overall goodness of fit of the model.
+
+```{r}
+library(ResourceSelection)
+hoslem.test(donner$Survival, fitted(model2), g=10)
+```
+The Hosmer-Lemeshow goodness-of-fit test yields a p-value of 0.1919. The value is small enough to conclude a good fit to the data.
+
+### (c). Interpret the regression coefficients in the context of the problem.
+
+The estimated odds ratio for Age is $e^{-0.078}=0.925$ meaning that with every additional year once odds of survival decreased by 7.5% while Gender remains the same.
+
+The estimated odds ratio for Gender is $e^{-1.597}=0.203$ meaning that the odds of survival for men were 79.7% less than for women while Age remains constant.
+
+### (d). After taking age into account, are women more likely to survive harsh conditions than men? Do an appropriate test to answer this research problem. Show all your work including the null and alternative hypothesis to answer this question.
+
+Giving a hypothesis test with $\alpha=0.05$
+$$H_0:\beta_2=0\;\;vs.\;\;\beta_2<0$$
+```{r}
+model3 = glm(Survival ~ Age , family = binomial, data = donner)
+summary(model3)
+```
+We can get that the test statistic = -2.063 and the p-value is $\frac{0.0391}2=0.0195$. Since the p-value is less than 0.05, we conclude that women are more likely to survive harsh condition.
+
+### (e) Calculate the odds ratio of survival for men compared to the women for a given age.
+
+The odds ratio of survival of men compared to women is
+$$\frac{e^{3.23-1.597}}{e^{3.23}}=0.202$$

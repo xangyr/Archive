@@ -1,0 +1,1 @@
+"0","interaction.plot(x.factor = df$situation, trace.factor = df$resolution,response = df$time, type =""b"",col =c(""coral"", ""blue""),xlab =""Situation"", ylab =""Mean"", trace.label =""Resolution"")"

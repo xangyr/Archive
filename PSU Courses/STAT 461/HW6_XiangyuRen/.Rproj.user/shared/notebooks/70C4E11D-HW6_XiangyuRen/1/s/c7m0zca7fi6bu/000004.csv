@@ -1,0 +1,1 @@
+"0","boxplot(Yield ~ Type, data = data2, main = """")"

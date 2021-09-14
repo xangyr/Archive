@@ -1,0 +1,27 @@
+"0","```r
+bptest(model1)
+```"
+"1","
+	studentized Breusch-Pagan test
+
+data:  model1
+BP = 0.37287, df = 2, p-value = 0.8299
+"
+"0","```r
+library(car)
+```"
+"1","package ‘car’ was built under R version 4.0.3Loading required package: carData
+package ‘carData’ was built under R version 4.0.3Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"0","```r
+vif(model1)
+```"
+"1","      x1       x2 
+3.076691 3.076691 
+"
+"0","```r
+plot(fitted.values, aphid$y, xlab = \"Fitted Response\", ylab = \"Observed Response\")
+abline(a = 0, b = 1, col = 2)
+```"

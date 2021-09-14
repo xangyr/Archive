@@ -1,0 +1,2 @@
+"0","interaction.plot(x.factor= df$A, trace.factor = df$B, response = df$sqresp,"
+"0","                 type = ""b"", col = 2:3, xlab = ""A"", ylab = ""B"", trace.label = ""Resp"" )"

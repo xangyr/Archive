@@ -1,0 +1,2 @@
+"0","model.log = aov(LogLife ~ type,data = batt)"
+"0","plot(model.log, which = c(1,2))"

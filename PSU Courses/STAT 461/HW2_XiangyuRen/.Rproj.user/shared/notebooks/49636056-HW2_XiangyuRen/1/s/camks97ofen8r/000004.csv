@@ -1,0 +1,5 @@
+"0","r_exp.unit = 1:13"
+"0","r_treat.nr = c(rep('r1',3), rep('r2',5), rep('r3',5))"
+"0","r_treat = sample(r_treat.nr, replace = FALSE)"
+"0","r_CRD.table = data.frame(r_exp.unit, r_treat)"
+"0","print(r_CRD.table)"

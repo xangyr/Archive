@@ -1,0 +1,2 @@
+"0","aphid = read.csv(""aphideData.csv"")"
+"0","colnames(aphid) = c(""y"", ""x1"", ""x2"")"

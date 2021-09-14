@@ -1,0 +1,1 @@
+"0","plot(cooks.distance(model1), ylab = ""Cooks distance"", type = ""h"")"

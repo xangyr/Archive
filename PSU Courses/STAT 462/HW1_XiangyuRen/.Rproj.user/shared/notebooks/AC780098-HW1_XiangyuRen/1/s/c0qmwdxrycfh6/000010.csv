@@ -1,0 +1,3 @@
+"0","ttype = table(mtcars$am) # To get the levels of the variable"
+"0","ttype_lbls = c(""Auto"", ""Manual"")"
+"0","pie(ttype, labels = ttype_lbls, col = rainbow(length(ttype_lbls)), main = ""Pie Chart of the Transmission Type"")"

@@ -1,0 +1,2 @@
+"0","df=data.frame(bact=as.factor(bact),dose=as.factor(dose),glucose.level)"
+"0","df"

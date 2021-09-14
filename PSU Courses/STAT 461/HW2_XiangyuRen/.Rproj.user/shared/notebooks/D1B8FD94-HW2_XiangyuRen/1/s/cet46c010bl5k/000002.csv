@@ -1,0 +1,15 @@
+"0","```r
+t.test(tires$MilesDriven, alternative = \"less\", mu = 35, conf.level = 0.99)
+```"
+"1","
+	One Sample t-test
+
+data:  tires$MilesDriven
+t = -2.7148, df = 14, p-value = 0.008382
+alternative hypothesis: true mean is less than 35
+99 percent confidence interval:
+     -Inf 34.88251
+sample estimates:
+mean of x 
+ 31.46667 
+"

@@ -1,0 +1,2 @@
+"0","lsm.model2 = lsmeans(model2, ""poly"")"
+"0","kable(summary(contrast(lsm.model2, method = ""pairwise"", adjust = ""tukey""), infer = c(T, T), level = 0.95, side = ""two-sided""))"

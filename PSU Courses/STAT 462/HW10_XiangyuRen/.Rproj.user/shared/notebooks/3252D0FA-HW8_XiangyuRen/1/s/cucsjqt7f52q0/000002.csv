@@ -1,0 +1,25 @@
+"0","```r
+ReModel = lm(Profitability ~ RottenTomatoes + DomesticGross, data = hollywoodData)
+summary(ReModel)
+```"
+"1","
+Call:
+lm(formula = Profitability ~ RottenTomatoes + DomesticGross, 
+    data = hollywoodData)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-3.752 -1.938 -1.029  0.264 60.883 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)  
+(Intercept)    0.836652   1.445788   0.579   0.5639  
+RottenTomatoes 0.030925   0.024465   1.264   0.2088  
+DomesticGross  0.016305   0.009245   1.764   0.0805 .
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 6.853 on 115 degrees of freedom
+Multiple R-squared:  0.04946,	Adjusted R-squared:  0.03293 
+F-statistic: 2.992 on 2 and 115 DF,  p-value: 0.0541
+"

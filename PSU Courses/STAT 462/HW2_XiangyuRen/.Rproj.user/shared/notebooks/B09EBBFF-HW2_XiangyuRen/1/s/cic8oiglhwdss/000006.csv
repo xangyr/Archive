@@ -1,0 +1,2 @@
+"0","drug = read.csv(""drug.csv"")"
+"0","colnames(drug) = ""Dissolution"""

@@ -1,0 +1,3 @@
+"0","Q = 2*Y"
+"0","y_data = data.frame(Y,Q)"
+"0","hist(Q)"

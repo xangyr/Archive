@@ -1,0 +1,23 @@
+{
+    "id": "BD2F1CA7",
+    "path": "D:/code/STAT 462/r_tutorial/L0Code.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "673962182",
+    "contents": "",
+    "dirty": false,
+    "created": 1599257566621.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "chunk_output_type": "inline"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1599188870,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1599188870,
+    "read_only": false,
+    "read_only_alternatives": []
+}

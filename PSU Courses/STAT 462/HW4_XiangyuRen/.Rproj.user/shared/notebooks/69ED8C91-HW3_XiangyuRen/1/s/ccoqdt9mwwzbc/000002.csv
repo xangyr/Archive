@@ -1,0 +1,4 @@
+"0","```r
+plot(playbill$LastWeek, playbill$CurrentWeek, main = \"\", xlab = \"Last Week\", ylab = \"Current Week\", pch = 16)
+abline(model1, col = 'coral')
+```"

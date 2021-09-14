@@ -1,0 +1,4 @@
+"0","```r
+plot(shortleaf$Diam, shortleaf$Vol, main = \"\", xlab = \"diameter\", ylab = \"volume\", pch = 16)
+abline(model1, col = \"coral\", lwd = 2)
+```"

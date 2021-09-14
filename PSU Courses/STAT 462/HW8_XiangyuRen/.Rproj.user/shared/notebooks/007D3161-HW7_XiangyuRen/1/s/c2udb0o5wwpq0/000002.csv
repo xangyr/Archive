@@ -1,0 +1,4 @@
+"0","```r
+aphid = read.csv(\"aphideData.csv\")
+colnames(aphid) = c(\"y\", \"x1\", \"x2\")
+```"

@@ -1,0 +1,48 @@
+---
+title: "STAT461 HW1"
+author: "Xiangyu Ren"
+date: "9/4/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Type the soap experiment data into R. Format the data when you enter it as a data frame with twocolumns, one for the type of soap and another for the weight lost in the experiment. Each row of yourdata object should correspond to a single bar of soap (a single experimental unit), so you should endup with 12 rows.
+
+```{r}
+soapData = data.frame("TypeofSoap" = c("Regular", "Regular", "Regular", "Regular", "Deodorant", "Deodorant","Deodorant","Deodorant", "Moisturizing", "Moisturizing", "Moisturizing", "Moisturizing"), "WeightLost" = c(-0.3,-0.1,-0.14,0.4,2.63,2.61,2.41,3.15,1.86,2.03,2.26,1.82))
+soapData
+
+```
+
+## 2. Convert the measurements of weight lost to kilograms.
+
+```{r}
+soapData$WeightLost = soapData$WeightLost/1000
+soapData
+
+```
+
+## 3.Use R to compute the mean and standard deviation of the observed weight lost (in kilograms). Do this first for all 12 data points, and then compute the mean and standard deviation for each of the 3 typesof soap.
+
+```{r}
+# mean of all 12
+mean(soapData$WeightLost)
+# standard deviation of all 12
+sd(soapData$WeightLost)
+# mean of Regular
+mean(soapData$WeightLost[1:4])
+# standard deviation of Regular
+sd(soapData$WeightLost[1:4])
+# mean of Deodorant
+mean(soapData$WeightLost[5:8])
+# standard deviation of Deodorant
+sd(soapData$WeightLost[5:8])
+# mean of Moisturizing
+mean(soapData$WeightLost[9:12])
+# standard deviation of Moisturizing
+sd(soapData$WeightLost[9:12])
+```
+

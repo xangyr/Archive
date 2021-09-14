@@ -1,0 +1,160 @@
+---
+title: "STAT461 HW8"
+author: "Xiangyu Ren"
+date: "10/30/2020"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1. Greenhouse. Consider an experiment to study the effect of three types of fertilizer (F1, F2, and F3) on the growth of two species of plant (SppA and SppB). The data are as follows:
+
+```{r}
+Fert<-c(rep("control", 12), rep("f1", 12), rep("f2", 12), rep("f3", 12))
+Species<-c(rep(c(rep("SppA", 6), rep("SppB", 6)),4))
+Height<-c(21.0, 19.5, 22.5, 21.5, 20.5, 21.0, 23.7, 23.8, 23.8, 23.7, 22.8, 24.4, 32.0,
+          30.5, 25.0, 27.5, 28.0, 28.6, 30.1, 28.9, 30.9, 34.4, 32.7, 32.7, 22.5, 26.0,
+          28.0, 27.0, 26.5, 25.2, 30.6, 31.1, 28.1, 34.9, 30.1, 25.5, 28.0, 27.5, 31.0,
+          29.5, 30.0, 29.2, 36.1, 36.6, 38.7, 37.1, 36.8, 37.1)
+df<-data.frame(Fert=Fert, Species=Species, Height=Height)
+```
+
+### (a) Write out the 2-way complete model for this experiment.
+
+The 2-way complete model is:
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_i+(\alpha\beta)_{ij}+\epsilon_{ijt}\;\;where\;\epsilon_{ijt}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+and $i=control,f_1,f_2,f_3$, $j=Spp_A,Spp_B$, $t_i=1,2...,12$, $t_j=1,2,...,6$
+
+### (b) Fit the model using R and examine the residuals. Transform the response if needed to address any problems with normality or constant error variance. If you transform the response, clearly show the residuals from the un-transformed response, and your best transformation, and describe why you chose the transformation you did.
+
+```{r}
+library(car)
+model1 = aov(Height ~ Fert + Species + Fert:Species, data = df)
+Anova(model1, type = "III")
+plot(model1, which = c(1, 2))
+df$invHeight = 1 / (df$Height)
+model2 = aov(invHeight ~ Fert + Species + Fert:Species, data = df)
+Anova(model2, type = "III")
+plot(model2, which = c(1, 2))
+```
+
+All the transformation looks similar, but I think the inverse transformation is the best fit for the model. According to the QQ-plot the residuals are not approximately normal because it seems there isn't a straight line in the QQ-plot. The assumption of constant error variance among treatments is justified, since the residuals are in a square shape.
+
+### (c) Describe the effect of species and fertilizer on mean height. This description should use the results of hypothesis tests and p-values as described in class. Discuss any relevant interaction effects, main effects and pairwise differences between treatment means. Provide a plot that shows the means for all combinations of factor levels. Provide R code and output that supports your results.
+
+We first give a hypothesis test with the following $\alpha=0.05$
+
+$$H_0:(\alpha\beta)_{ij}=0,\;\;H_a:\;at\;least\;one\;(\alpha\beta)\;is\;different$$
+
+```{r}
+model3 = aov(invHeight ~ Fert + Species, data = df)
+anova(model3)
+```
+
+According to the inverse transformation table, we can see the Fert:Species has p-value larger than $\alpha$, so we fail to reject the null hypothesis, therefore we can conclude that there are no significant interactions.
+
+Also, from the ANOVA table, both variables: Fert & Species has p-value much smaller than $0.05$, hence there are significant differences between heights and their removals. 
+
+```{r}
+interaction.plot(x.factor= df$Fert, trace.factor = df$Species, response = df$invHeight,
+                 type = "b", col = 2:3, xlab = "Fert", ylab = "Height", 
+                 trace.label = "Species" )
+library(lsmeans)
+lsm.fert = lsmeans(model2, ~ Fert)
+contrast(lsm.fert, method = "pairwise")
+lsm.species = lsmeans(model2, ~ Species)
+contrast(lsm.species, method = "pairwise")
+```
+
+With the output above, we can say that all species and fert seems to be different.
+
+```{r}
+library(multcompView)
+library(multcomp)
+lsm.inter = lsmeans(model2, ~ Fert:Species)
+CLD(lsm.inter)
+```
+
+## Problem 2. Consider the following data, the result of a 2-factor factorial experiment with 5 replications for each combination of Factor A and Factor B. Treatment combinations were assigned at random to the 20 experimental units.
+
+```{r}
+A<-c(rep(1, 10), rep(2, 10))
+B<-rep(c(c(rep(1, 5), rep(2, 5))), 2)
+resp<-c(12.9, 11.3, 11.7, 12.1, 12.3, 13.7, 12.8, 13.6, 13.1, 13.5, 14.2, 14.5, 13.9,
+        13.6, 14.4, 13.5, 13.1, 13.3, 13.1, 13.4)
+df<-data.frame(A=A, B=B, resp=resp)
+```
+
+### (a) Write out the 2-way complete model for this experiment.
+
+The 2-way compelte model is: 
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_i+(\alpha\beta)_{ij}+\epsilon_{ijt}\;\;where\;\epsilon_{ijt}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+and $i=1,2$, $j=1,2$, $t_i=1,2,...,10$, $t_j=1,2,...,10$.
+
+### (b) Fit the model using R and examine the residuals. Transform the response if needed to address any problems with normality or constant error variance. If you transform the response, clearly show the residuals from the un-transformed response, and your best transformation, and describe why you chose the transformation you did.
+
+```{r}
+model4 = aov(resp ~ A + B + A:B, data = df)
+Anova(model4, type = "III")
+plot(model4, which = c(1, 2))
+df$sqresp = (df$resp)^2
+model5 = aov(sqresp ~ A + B + A:B, data = df)
+Anova(model5, type = "III")
+plot(model5, which = c(1, 2))
+```
+
+All the transformation looks similar, but I think the square transformation is the best fit for the model. According to the QQ-plot the residuals are  approximately normal because it seems there is a straight line in the QQ-plot. The assumption of constant error variance among treatments is justified, since the residuals are in a square shape.
+
+### (c) Describe the effect of Factors A and B on mean respnose. This description should use the results of hypothesis tests and p-values as described in class. Discuss any relevant interaction effects, main effects and pairwise differences between treatment means. Provide a plot that shows the means for all combinations of factor levels. Provide R code and output that supports your results.
+
+We first give a hypothesis test with the following $\alpha=0.05$
+
+$$H_0:(\alpha\beta)_{ij}=0,\;\;H_a:\;at\;least\;one\;(\alpha\beta)\;is\;different$$
+
+```{r}
+model6 = aov(sqresp ~ A + B, data = df)
+anova(model6)
+```
+
+According to the previous table, we see that the p-value of A:B is smaller than $\alpha$, thus we can reject the null hypothesis, and conclude that there are significant interactions. 
+
+Also, from the ANOVA table, A has p-value much smaller than $0.05$, hence there is significant differences between heights and its removals. 
+
+```{r}
+interaction.plot(x.factor= df$A, trace.factor = df$B, response = df$sqresp,
+                 type = "b", col = 2:3, xlab = "A", ylab = "B", trace.label = "Resp" )
+lsmA = lsmeans(model5, ~ A)
+contrast(lsmA, method = "pairwise")
+lsmB = lsmeans(model5, ~ B)
+contrast(lsmB, method = "pairwise")
+```
+
+With the output above, we can say that A seems to be different.
+```{r}
+lsm.inter = lsmeans(model5, ~ A:B)
+CLD(lsm.inter)
+```
+
+## Problem 3. Under the 2-way complete model, consider the case where Factor A takes values 1 and 2 and Factor B takes the value 1, 2, ..., b. we wish to consider testing the differences between all treatments with A = 1 and all treatments with A = 2. Show that if the interaction $(αβ)_{ij}$ is significant for all i = 1, 2 and all j = 1, 2, ..., b that $α_1 − α_2$ is not identifable.
+
+$$Y_{ijt}=\mu+\alpha_i+\beta_i+(\alpha\beta)_{ij}+\epsilon_{ijt}\;\;where\;\epsilon_{ijt}\overset{\text{iid}}{\sim}N(0,\sigma^2)$$
+and $i=1,2,...,a$, $j=1,2,...,b$, $t=1,2,...r_{ij}$.
+
+if there is a significant interaction for all $i=1,2$ and $j=1,2,...,b$ then $(\alpha\beta)_{ij}\ne0$
+
+rewrite the model,
+
+$$Y_{ijt}=\mu+\tau_{ij}+\epsilon_{ijt}$$
+
+$$b_1(\mu+\tau_{11})+...+b_n(\mu+\tau_{1b})-b_{n1}(\mu+\tau_{21})-...-b_{nn}(\mu+\tau_{2b})=a_1=a_2$$
+
+Therefore, we conclude that we can't perform the test for the 2-way complete model for this experiment, since there will always exist $(\alpha\beta)_{ij}$.
+
+

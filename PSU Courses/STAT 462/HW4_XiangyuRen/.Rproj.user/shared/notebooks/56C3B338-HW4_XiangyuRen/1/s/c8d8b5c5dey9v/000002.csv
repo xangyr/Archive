@@ -1,0 +1,3 @@
+"0","expenditure = read.csv(""expenditure.csv"")"
+"0","colnames(expenditure) = c(""TownPop"", ""Expend"")"
+"0","expenditure"

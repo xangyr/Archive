@@ -1,0 +1,5 @@
+"0","library(lsmeans)"
+"0","df=read.table(""birds.txt"")"
+"0","colnames(df) <- c(""season"",""species"",""distance"")"
+"0",""
+"0","df"

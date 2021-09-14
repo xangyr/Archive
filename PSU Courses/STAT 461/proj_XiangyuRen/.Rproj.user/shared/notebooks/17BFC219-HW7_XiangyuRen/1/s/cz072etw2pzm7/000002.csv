@@ -1,0 +1,23 @@
+"0","```r
+model3 = lm(y ~ x1, data = aphid)
+summary(model3)
+```"
+"1","
+Call:
+lm(formula = y ~ x1, data = aphid)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-44.262 -19.554  -2.183  18.081  61.228 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 178.4601    26.1704   6.819 8.85e-08 ***
+x1           -4.1962     0.9195  -4.563 6.64e-05 ***
+---
+Signif. codes:  0 â€˜***â€™ 0.001 â€˜**â€™ 0.01 â€˜*â€™ 0.05 â€˜.â€™ 0.1 â€˜ â€™ 1
+
+Residual standard error: 26.52 on 33 degrees of freedom
+Multiple R-squared:  0.3869,	Adjusted R-squared:  0.3683 
+F-statistic: 20.82 on 1 and 33 DF,  p-value: 6.638e-05
+"

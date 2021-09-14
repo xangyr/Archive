@@ -1,0 +1,3 @@
+"0","donner = read.csv(""Donner.csv"")"
+"0","colnames(donner) = c(""Age"", ""Gender"", ""Survival"")"
+"0","head(donner)"

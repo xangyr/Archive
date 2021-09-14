@@ -1,0 +1,1 @@
+"0","plot(hatvalues(model1), type = ""h"", ylab = ""leverage"")"
