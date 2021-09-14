@@ -33,8 +33,10 @@
    
    - Others  (Theoretical Courses or only including a few Projects)
    
-     - [_CMPSC 465 Spring 2020 Data Structures and Algorithms_](PSU%20Courses/CMPSC%20465)
+     - [_CMPSC 465 Data Structures and Algorithms_](PSU%20Courses/CMPSC%20465)
      
-     - [_CMPSC 461 Fall 2019 Programming Language Concepts_](PSU%20Courses/CMPSC%20461)
+     - [_CMPSC 461 Programming Language Concepts_](PSU%20Courses/CMPSC%20461)
      
-     - [_CMPSC 221 Spring 2019 Object Oriented Programming with Web-Based Applications_](PSU%20Courses/CMPSC%20221)
+     - [_CMPSC 221 Object Oriented Programming with Web-Based Applications_](PSU%20Courses/CMPSC%20221)
+
+     - [_CMPEN 270 Digital Design: Theory and Practice_](PSU%20Courses/CMPEN%20270)
