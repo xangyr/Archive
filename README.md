@@ -12,3 +12,6 @@
 
 ### All codes archive are only for viewing, please don't copy
 
+## ***Research***
+- [_Differences in performance of Surakarta Gaming AI implementing different strategies_](https://github.com/xangyr/Surakarta_Zero.git)
+- [_Performance of Surakarta Gaming AI improvement implementing Reinforcement Learning_](https://github.com/xangyr/Surakarta_Zero_py.git)
