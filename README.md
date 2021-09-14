@@ -40,3 +40,7 @@
      - [_CMPSC 221 Object Oriented Programming with Web-Based Applications_](PSU%20Courses/CMPSC%20221)
 
      - [_CMPEN 270 Digital Design: Theory and Practice_](PSU%20Courses/CMPEN%20270)
+
+     - [_STAT 461 Analysis of Variance_](PSU%20Courses/STAT%20461)
+
+     - [_STAT 462: Applied Regression Analysis_](PSU%20Courses/STAT%20462)
